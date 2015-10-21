@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		175492A21BD8425100CE428B /* UniversalLib */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 175492A31BD8425100CE428B /* Build configuration list for PBXAggregateTarget "UniversalLib" */;
+			buildPhases = (
+				175492A61BD8427100CE428B /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UniversalLib;
+			productName = UniversalLib;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		1754925C1BD6B24000CE428B /* BeanstreamAPISimulator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1754925B1BD6B24000CE428B /* BeanstreamAPISimulator.h */; };
 		1754925E1BD6B24000CE428B /* BeanstreamAPISimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1754925D1BD6B24000CE428B /* BeanstreamAPISimulator.m */; };
@@ -15,7 +29,7 @@
 		175492561BD6B24000CE428B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
+			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
 				1754925C1BD6B24000CE428B /* BeanstreamAPISimulator.h in CopyFiles */,
@@ -106,6 +120,9 @@
 					175492571BD6B24000CE428B = {
 						CreatedOnToolsVersion = 7.0.1;
 					};
+					175492A21BD8425100CE428B = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
 				};
 			};
 			buildConfigurationList = 175492531BD6B24000CE428B /* Build configuration list for PBXProject "BeanstreamAPISimulator" */;
@@ -121,9 +138,26 @@
 			projectRoot = "";
 			targets = (
 				175492571BD6B24000CE428B /* BeanstreamAPISimulator */,
+				175492A21BD8425100CE428B /* UniversalLib */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		175492A61BD8427100CE428B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Exit on error\nset -e\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/Universal/${PROJECT_NAME}\n\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\nxcodebuild -target ${PROJECT_NAME} -sdk iphonesimulator  ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include/\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		175492541BD6B24000CE428B /* Sources */ = {
@@ -243,6 +277,24 @@
 			};
 			name = Release;
 		};
+		175492A41BD8425100CE428B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s arm64 i386 x86_64";
+			};
+			name = Debug;
+		};
+		175492A51BD8425100CE428B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s arm64 i386 x86_64";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -263,6 +315,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		175492A31BD8425100CE428B /* Build configuration list for PBXAggregateTarget "UniversalLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				175492A41BD8425100CE428B /* Debug */,
+				175492A51BD8425100CE428B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
