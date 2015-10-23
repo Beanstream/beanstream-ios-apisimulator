@@ -21,8 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1754925C1BD6B24000CE428B /* BeanstreamAPISimulator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1754925B1BD6B24000CE428B /* BeanstreamAPISimulator.h */; };
-		1754925E1BD6B24000CE428B /* BeanstreamAPISimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1754925D1BD6B24000CE428B /* BeanstreamAPISimulator.m */; };
+		1754925C1BD6B24000CE428B /* BICBeanstreamAPISimulator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1754925B1BD6B24000CE428B /* BICBeanstreamAPISimulator.h */; };
+		1754925E1BD6B24000CE428B /* BICBeanstreamAPISimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1754925D1BD6B24000CE428B /* BICBeanstreamAPISimulator.m */; };
+		17ED1BBF1BDAD4A200C1CCAE /* BICCreateSessionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ED1BBD1BDAD45500C1CCAE /* BICCreateSessionSimulator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,7 +33,7 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
-				1754925C1BD6B24000CE428B /* BeanstreamAPISimulator.h in CopyFiles */,
+				1754925C1BD6B24000CE428B /* BICBeanstreamAPISimulator.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,8 +41,38 @@
 
 /* Begin PBXFileReference section */
 		175492581BD6B24000CE428B /* libBeanstreamAPISimulator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBeanstreamAPISimulator.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		1754925B1BD6B24000CE428B /* BeanstreamAPISimulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BeanstreamAPISimulator.h; sourceTree = "<group>"; };
-		1754925D1BD6B24000CE428B /* BeanstreamAPISimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BeanstreamAPISimulator.m; sourceTree = "<group>"; };
+		1754925B1BD6B24000CE428B /* BICBeanstreamAPISimulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BICBeanstreamAPISimulator.h; sourceTree = "<group>"; };
+		1754925D1BD6B24000CE428B /* BICBeanstreamAPISimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BICBeanstreamAPISimulator.m; sourceTree = "<group>"; };
+		175492B21BD9713000CE428B /* BICAbandonSessionResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICAbandonSessionResponse.h; sourceTree = "<group>"; };
+		175492B31BD9713000CE428B /* BICAttachSignatureResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICAttachSignatureResponse.h; sourceTree = "<group>"; };
+		175492B41BD9713000CE428B /* BICBeanstreamAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICBeanstreamAPI.h; sourceTree = "<group>"; };
+		175492B51BD9713000CE428B /* BICCreateSessionResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICCreateSessionResponse.h; sourceTree = "<group>"; };
+		175492B61BD9713000CE428B /* BICDownloadFileRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICDownloadFileRequest.h; sourceTree = "<group>"; };
+		175492B71BD9713000CE428B /* BICDownloadFileResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICDownloadFileResponse.h; sourceTree = "<group>"; };
+		175492B81BD9713000CE428B /* BICInitPinPadResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICInitPinPadResponse.h; sourceTree = "<group>"; };
+		175492B91BD9713000CE428B /* BICLineItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICLineItem.h; sourceTree = "<group>"; };
+		175492BA1BD9713000CE428B /* BICPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICPreferences.h; sourceTree = "<group>"; };
+		175492BB1BD9713000CE428B /* BICReceiptResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICReceiptResponse.h; sourceTree = "<group>"; };
+		175492BC1BD9713000CE428B /* BICRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICRequest.h; sourceTree = "<group>"; };
+		175492BD1BD9713000CE428B /* BICResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICResponse.h; sourceTree = "<group>"; };
+		175492BE1BD9713000CE428B /* BICSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSDKConstants.h; sourceTree = "<group>"; };
+		175492BF1BD9713000CE428B /* BICSDKError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSDKError.h; sourceTree = "<group>"; };
+		175492C01BD9713000CE428B /* BICSearchTransactionsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSearchTransactionsRequest.h; sourceTree = "<group>"; };
+		175492C11BD9713000CE428B /* BICSearchTransactionsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSearchTransactionsResponse.h; sourceTree = "<group>"; };
+		175492C21BD9713000CE428B /* BICTransactionDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICTransactionDetail.h; sourceTree = "<group>"; };
+		175492C31BD9713000CE428B /* BICTransactionRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICTransactionRequest.h; sourceTree = "<group>"; };
+		175492C41BD9713000CE428B /* BICTransactionResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICTransactionResponse.h; sourceTree = "<group>"; };
+		175492C51BD9713000CE428B /* BICUpdatePinPadResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICUpdatePinPadResponse.h; sourceTree = "<group>"; };
+		175492C61BD9713000CE428B /* BICValidateSessionResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICValidateSessionResponse.h; sourceTree = "<group>"; };
+		175492C71BD9713000CE428B /* BICXMLRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICXMLRequestSerializer.h; sourceTree = "<group>"; };
+		175492C81BD9713000CE428B /* EMVAccessoryDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMVAccessoryDelegate.h; sourceTree = "<group>"; };
+		175492C91BD9713000CE428B /* EMVAccessoryHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMVAccessoryHandler.h; sourceTree = "<group>"; };
+		175492CA1BD9713000CE428B /* EMVProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMVProcessor.h; sourceTree = "<group>"; };
+		175492CB1BD9713000CE428B /* Gateway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gateway.h; sourceTree = "<group>"; };
+		175492D01BD9713000CE428B /* TransactionKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionKeys.h; sourceTree = "<group>"; };
+		175492D11BD9713000CE428B /* XmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlParser.h; sourceTree = "<group>"; };
+		17ED1BBC1BDAD45500C1CCAE /* BICCreateSessionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICCreateSessionSimulator.h; sourceTree = "<group>"; };
+		17ED1BBD1BDAD45500C1CCAE /* BICCreateSessionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICCreateSessionSimulator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +106,9 @@
 		1754925A1BD6B24000CE428B /* BeanstreamAPISimulator */ = {
 			isa = PBXGroup;
 			children = (
-				1754925B1BD6B24000CE428B /* BeanstreamAPISimulator.h */,
-				1754925D1BD6B24000CE428B /* BeanstreamAPISimulator.m */,
+				17ED1BBB1BDAD45500C1CCAE /* Simulators */,
+				1754925B1BD6B24000CE428B /* BICBeanstreamAPISimulator.h */,
+				1754925D1BD6B24000CE428B /* BICBeanstreamAPISimulator.m */,
 			);
 			path = BeanstreamAPISimulator;
 			sourceTree = "<group>";
@@ -84,8 +116,54 @@
 		175492641BD6B35C00CE428B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				175492B11BD9713000CE428B /* Beanstream.SDK */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		175492B11BD9713000CE428B /* Beanstream.SDK */ = {
+			isa = PBXGroup;
+			children = (
+				175492B21BD9713000CE428B /* BICAbandonSessionResponse.h */,
+				175492B31BD9713000CE428B /* BICAttachSignatureResponse.h */,
+				175492B41BD9713000CE428B /* BICBeanstreamAPI.h */,
+				175492B51BD9713000CE428B /* BICCreateSessionResponse.h */,
+				175492B61BD9713000CE428B /* BICDownloadFileRequest.h */,
+				175492B71BD9713000CE428B /* BICDownloadFileResponse.h */,
+				175492B81BD9713000CE428B /* BICInitPinPadResponse.h */,
+				175492B91BD9713000CE428B /* BICLineItem.h */,
+				175492BA1BD9713000CE428B /* BICPreferences.h */,
+				175492BB1BD9713000CE428B /* BICReceiptResponse.h */,
+				175492BC1BD9713000CE428B /* BICRequest.h */,
+				175492BD1BD9713000CE428B /* BICResponse.h */,
+				175492BE1BD9713000CE428B /* BICSDKConstants.h */,
+				175492BF1BD9713000CE428B /* BICSDKError.h */,
+				175492C01BD9713000CE428B /* BICSearchTransactionsRequest.h */,
+				175492C11BD9713000CE428B /* BICSearchTransactionsResponse.h */,
+				175492C21BD9713000CE428B /* BICTransactionDetail.h */,
+				175492C31BD9713000CE428B /* BICTransactionRequest.h */,
+				175492C41BD9713000CE428B /* BICTransactionResponse.h */,
+				175492C51BD9713000CE428B /* BICUpdatePinPadResponse.h */,
+				175492C61BD9713000CE428B /* BICValidateSessionResponse.h */,
+				175492C71BD9713000CE428B /* BICXMLRequestSerializer.h */,
+				175492C81BD9713000CE428B /* EMVAccessoryDelegate.h */,
+				175492C91BD9713000CE428B /* EMVAccessoryHandler.h */,
+				175492CA1BD9713000CE428B /* EMVProcessor.h */,
+				175492CB1BD9713000CE428B /* Gateway.h */,
+				175492D01BD9713000CE428B /* TransactionKeys.h */,
+				175492D11BD9713000CE428B /* XmlParser.h */,
+			);
+			name = Beanstream.SDK;
+			path = ../Beanstream.SDK;
+			sourceTree = "<group>";
+		};
+		17ED1BBB1BDAD45500C1CCAE /* Simulators */ = {
+			isa = PBXGroup;
+			children = (
+				17ED1BBC1BDAD45500C1CCAE /* BICCreateSessionSimulator.h */,
+				17ED1BBD1BDAD45500C1CCAE /* BICCreateSessionSimulator.m */,
+			);
+			path = Simulators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,7 +242,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1754925E1BD6B24000CE428B /* BeanstreamAPISimulator.m in Sources */,
+				1754925E1BD6B24000CE428B /* BICBeanstreamAPISimulator.m in Sources */,
+				17ED1BBF1BDAD4A200C1CCAE /* BICCreateSessionSimulator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +402,7 @@
 				175492A51BD8425100CE428B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
