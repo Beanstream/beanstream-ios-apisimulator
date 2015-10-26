@@ -21,9 +21,19 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1748C67A1BDE8FF200C1D346 /* BICValidateSessionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1748C6791BDE8FF200C1D346 /* BICValidateSessionSimulator.m */; settings = {ASSET_TAGS = (); }; };
+		1748C67D1BDE902700C1D346 /* BICProcessTransactionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1748C67C1BDE902700C1D346 /* BICProcessTransactionSimulator.m */; settings = {ASSET_TAGS = (); }; };
+		1748C6801BDE905C00C1D346 /* BICSearchTransactionsSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1748C67F1BDE905C00C1D346 /* BICSearchTransactionsSimulator.m */; settings = {ASSET_TAGS = (); }; };
+		1748C6831BDE908600C1D346 /* BICReceiptSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1748C6821BDE908600C1D346 /* BICReceiptSimulator.m */; settings = {ASSET_TAGS = (); }; };
+		1748C6891BDE90F500C1D346 /* BICAttachSignatureSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1748C6881BDE90F500C1D346 /* BICAttachSignatureSimulator.m */; settings = {ASSET_TAGS = (); }; };
+		1748C68C1BDE91A800C1D346 /* BICAbandonSessionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1748C68B1BDE91A800C1D346 /* BICAbandonSessionSimulator.m */; settings = {ASSET_TAGS = (); }; };
+		1748C68F1BDE9A1900C1D346 /* BICSimulatorState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1748C68E1BDE9A1900C1D346 /* BICSimulatorState.m */; settings = {ASSET_TAGS = (); }; };
 		1754925C1BD6B24000CE428B /* BICBeanstreamAPISimulator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1754925B1BD6B24000CE428B /* BICBeanstreamAPISimulator.h */; };
 		1754925E1BD6B24000CE428B /* BICBeanstreamAPISimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1754925D1BD6B24000CE428B /* BICBeanstreamAPISimulator.m */; };
 		17ED1BBF1BDAD4A200C1CCAE /* BICCreateSessionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ED1BBD1BDAD45500C1CCAE /* BICCreateSessionSimulator.m */; };
+		17ED1BC51BDB013B00C1CCAE /* BICPinPadConnectionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ED1BC41BDB013B00C1CCAE /* BICPinPadConnectionSimulator.m */; settings = {ASSET_TAGS = (); }; };
+		17ED1BC81BDB016500C1CCAE /* BICInitializePinPadSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ED1BC71BDB016500C1CCAE /* BICInitializePinPadSimulator.m */; settings = {ASSET_TAGS = (); }; };
+		17ED1BCB1BDB018A00C1CCAE /* BICUpdatePinPadSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ED1BCA1BDB018A00C1CCAE /* BICUpdatePinPadSimulator.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +50,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1748C6781BDE8FE600C1D346 /* BICValidateSessionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICValidateSessionSimulator.h; sourceTree = "<group>"; };
+		1748C6791BDE8FF200C1D346 /* BICValidateSessionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICValidateSessionSimulator.m; sourceTree = "<group>"; };
+		1748C67B1BDE901B00C1D346 /* BICProcessTransactionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICProcessTransactionSimulator.h; sourceTree = "<group>"; };
+		1748C67C1BDE902700C1D346 /* BICProcessTransactionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICProcessTransactionSimulator.m; sourceTree = "<group>"; };
+		1748C67E1BDE904800C1D346 /* BICSearchTransactionsSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSearchTransactionsSimulator.h; sourceTree = "<group>"; };
+		1748C67F1BDE905C00C1D346 /* BICSearchTransactionsSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSearchTransactionsSimulator.m; sourceTree = "<group>"; };
+		1748C6811BDE907A00C1D346 /* BICReceiptSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICReceiptSimulator.h; sourceTree = "<group>"; };
+		1748C6821BDE908600C1D346 /* BICReceiptSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICReceiptSimulator.m; sourceTree = "<group>"; };
+		1748C6871BDE90EC00C1D346 /* BICAttachSignatureSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICAttachSignatureSimulator.h; sourceTree = "<group>"; };
+		1748C6881BDE90F500C1D346 /* BICAttachSignatureSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICAttachSignatureSimulator.m; sourceTree = "<group>"; };
+		1748C68A1BDE919A00C1D346 /* BICAbandonSessionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICAbandonSessionSimulator.h; sourceTree = "<group>"; };
+		1748C68B1BDE91A800C1D346 /* BICAbandonSessionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICAbandonSessionSimulator.m; sourceTree = "<group>"; };
+		1748C68D1BDE996C00C1D346 /* BICSimulatorState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatorState.h; sourceTree = "<group>"; };
+		1748C68E1BDE9A1900C1D346 /* BICSimulatorState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatorState.m; sourceTree = "<group>"; };
 		175492581BD6B24000CE428B /* libBeanstreamAPISimulator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBeanstreamAPISimulator.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1754925B1BD6B24000CE428B /* BICBeanstreamAPISimulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BICBeanstreamAPISimulator.h; sourceTree = "<group>"; };
 		1754925D1BD6B24000CE428B /* BICBeanstreamAPISimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BICBeanstreamAPISimulator.m; sourceTree = "<group>"; };
@@ -73,6 +97,12 @@
 		175492D11BD9713000CE428B /* XmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlParser.h; sourceTree = "<group>"; };
 		17ED1BBC1BDAD45500C1CCAE /* BICCreateSessionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICCreateSessionSimulator.h; sourceTree = "<group>"; };
 		17ED1BBD1BDAD45500C1CCAE /* BICCreateSessionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICCreateSessionSimulator.m; sourceTree = "<group>"; };
+		17ED1BC31BDB012D00C1CCAE /* BICPinPadConnectionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICPinPadConnectionSimulator.h; sourceTree = "<group>"; };
+		17ED1BC41BDB013B00C1CCAE /* BICPinPadConnectionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICPinPadConnectionSimulator.m; sourceTree = "<group>"; };
+		17ED1BC61BDB015800C1CCAE /* BICInitializePinPadSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICInitializePinPadSimulator.h; sourceTree = "<group>"; };
+		17ED1BC71BDB016500C1CCAE /* BICInitializePinPadSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICInitializePinPadSimulator.m; sourceTree = "<group>"; };
+		17ED1BC91BDB018100C1CCAE /* BICUpdatePinPadSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICUpdatePinPadSimulator.h; sourceTree = "<group>"; };
+		17ED1BCA1BDB018A00C1CCAE /* BICUpdatePinPadSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICUpdatePinPadSimulator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +139,8 @@
 				17ED1BBB1BDAD45500C1CCAE /* Simulators */,
 				1754925B1BD6B24000CE428B /* BICBeanstreamAPISimulator.h */,
 				1754925D1BD6B24000CE428B /* BICBeanstreamAPISimulator.m */,
+				1748C68D1BDE996C00C1D346 /* BICSimulatorState.h */,
+				1748C68E1BDE9A1900C1D346 /* BICSimulatorState.m */,
 			);
 			path = BeanstreamAPISimulator;
 			sourceTree = "<group>";
@@ -160,8 +192,26 @@
 		17ED1BBB1BDAD45500C1CCAE /* Simulators */ = {
 			isa = PBXGroup;
 			children = (
+				1748C68A1BDE919A00C1D346 /* BICAbandonSessionSimulator.h */,
+				1748C68B1BDE91A800C1D346 /* BICAbandonSessionSimulator.m */,
 				17ED1BBC1BDAD45500C1CCAE /* BICCreateSessionSimulator.h */,
 				17ED1BBD1BDAD45500C1CCAE /* BICCreateSessionSimulator.m */,
+				1748C6781BDE8FE600C1D346 /* BICValidateSessionSimulator.h */,
+				1748C6791BDE8FF200C1D346 /* BICValidateSessionSimulator.m */,
+				17ED1BC31BDB012D00C1CCAE /* BICPinPadConnectionSimulator.h */,
+				17ED1BC41BDB013B00C1CCAE /* BICPinPadConnectionSimulator.m */,
+				17ED1BC61BDB015800C1CCAE /* BICInitializePinPadSimulator.h */,
+				17ED1BC71BDB016500C1CCAE /* BICInitializePinPadSimulator.m */,
+				17ED1BC91BDB018100C1CCAE /* BICUpdatePinPadSimulator.h */,
+				17ED1BCA1BDB018A00C1CCAE /* BICUpdatePinPadSimulator.m */,
+				1748C67B1BDE901B00C1D346 /* BICProcessTransactionSimulator.h */,
+				1748C67C1BDE902700C1D346 /* BICProcessTransactionSimulator.m */,
+				1748C67E1BDE904800C1D346 /* BICSearchTransactionsSimulator.h */,
+				1748C67F1BDE905C00C1D346 /* BICSearchTransactionsSimulator.m */,
+				1748C6811BDE907A00C1D346 /* BICReceiptSimulator.h */,
+				1748C6821BDE908600C1D346 /* BICReceiptSimulator.m */,
+				1748C6871BDE90EC00C1D346 /* BICAttachSignatureSimulator.h */,
+				1748C6881BDE90F500C1D346 /* BICAttachSignatureSimulator.m */,
 			);
 			path = Simulators;
 			sourceTree = "<group>";
@@ -242,8 +292,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1748C6831BDE908600C1D346 /* BICReceiptSimulator.m in Sources */,
+				1748C6801BDE905C00C1D346 /* BICSearchTransactionsSimulator.m in Sources */,
+				1748C67A1BDE8FF200C1D346 /* BICValidateSessionSimulator.m in Sources */,
+				1748C68F1BDE9A1900C1D346 /* BICSimulatorState.m in Sources */,
+				1748C68C1BDE91A800C1D346 /* BICAbandonSessionSimulator.m in Sources */,
+				17ED1BC81BDB016500C1CCAE /* BICInitializePinPadSimulator.m in Sources */,
+				17ED1BCB1BDB018A00C1CCAE /* BICUpdatePinPadSimulator.m in Sources */,
+				1748C67D1BDE902700C1D346 /* BICProcessTransactionSimulator.m in Sources */,
 				1754925E1BD6B24000CE428B /* BICBeanstreamAPISimulator.m in Sources */,
 				17ED1BBF1BDAD4A200C1CCAE /* BICCreateSessionSimulator.m in Sources */,
+				1748C6891BDE90F500C1D346 /* BICAttachSignatureSimulator.m in Sources */,
+				17ED1BC51BDB013B00C1CCAE /* BICPinPadConnectionSimulator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

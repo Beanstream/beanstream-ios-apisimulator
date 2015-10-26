@@ -7,7 +7,17 @@
 //
 
 #import "BICBeanstreamAPISimulator.h"
+
+#import "BICAbandonSessionSimulator.h"
 #import "BICCreateSessionSimulator.h"
+#import "BICValidateSessionSimulator.h"
+#import "BICPinPadConnectionSimulator.h"
+#import "BICInitializePinPadSimulator.h"
+#import "BICUpdatePinPadSimulator.h"
+#import "BICProcessTransactionSimulator.h"
+#import "BICSearchTransactionsSimulator.h"
+#import "BICReceiptSimulator.h"
+#import "BICAttachSignatureSimulator.h"
 
 #import "BICBeanstreamAPI.h"
 
@@ -59,19 +69,16 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
     dispatch_queue_t que = dispatch_queue_create(BICQueueAbandonSession, NULL);
     dispatch_async(que, ^{
-        BICAbandonSessionResponse *response = [[BICAbandonSessionResponse alloc] init];
 
-        response.isSuccessful = YES;
-        NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
+        BICAbandonSessionSimulator *simulator = [[BICAbandonSessionSimulator alloc] init];
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (response.isSuccessful) {
-                success(response);
-            } else {
-                failure([BICSDKError getErrorFromResponse:response
-                                          withErrorDomain:BICSDKErrorDomainSession]);
-            }
-        });
+        [simulator abandonSession:^(BICAbandonSessionResponse *response) {
+            success(response);
+        }
+        failure:^(NSError *error) {
+            failure(error);
+
+        }];
     });
 }
 
@@ -128,45 +135,38 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
     dispatch_queue_t que = dispatch_queue_create(BICQueueValidateSession, NULL);
     dispatch_async(que, ^{
-        BICPreferences *preferences = [[BICPreferences alloc] init];
 
-        BICValidateSessionResponse *response = [[BICValidateSessionResponse alloc] init];
+        BICValidateSessionSimulator *simulator = [[BICValidateSessionSimulator alloc] init];
 
-        response.isSuccessful = NO;
-        NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
+        [simulator validateSession:^(BICValidateSessionResponse *response) {
+            success(response);
+        }
+        failure:^(NSError *error) {
+            failure(error);
 
-        response.isSuccessful =
-        ((preferences.sessionExpiryDate != nil) &&
-         ([[NSDate date] compare:preferences.sessionExpiryDate] == NSOrderedDescending));
-
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (response.isSuccessful) {
-                success(response);
-            } else {
-                failure([BICSDKError getErrorFromResponse:response
-                                          withErrorDomain:BICSDKErrorDomainSession]);
-            }
-        });
+        }];
     });
 }
 
 - (void)connectToPinPad
 {
     NSLog((@"%s"), __PRETTY_FUNCTION__);
-    //TODO
+    BICPinPadConnectionSimulator *simulator = [[BICPinPadConnectionSimulator alloc] init];
+    [simulator connectToPinPad];
 }
 
 - (BOOL)isPinPadConnected
 {
     NSLog((@"%s"), __PRETTY_FUNCTION__);
-    //TODO
-    return NO;
+    BICPinPadConnectionSimulator *simulator = [[BICPinPadConnectionSimulator alloc] init];
+    return simulator.isPinPadConnected;
 }
 
 - (void)closePinPadConnection
 {
     NSLog((@"%s"), __PRETTY_FUNCTION__);
-    //TODO
+    BICPinPadConnectionSimulator *simulator = [[BICPinPadConnectionSimulator alloc] init];
+    [simulator closePinPadConnection];
 }
 
 - (void)initializePinPad:(void (^)(BICInitPinPadResponse *response))success
@@ -176,20 +176,16 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
     dispatch_queue_t que = dispatch_queue_create(BICQueueInitPinPad, NULL);
     dispatch_async(que, ^{
-        BICInitPinPadResponse *response = [[BICInitPinPadResponse alloc] init];
-        
-        //TODO
-        response.isSuccessful = NO;
-        NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (response.isSuccessful) {
-                success(response);
-            } else {
-                failure([BICSDKError getErrorFromResponse:response
-                                          withErrorDomain:BICSDKErrorDomainPinPad]);
-            }
-        });
+        BICInitializePinPadSimulator *simulator = [[BICInitializePinPadSimulator alloc] init];
+
+        [simulator initializePinPad:^(BICInitPinPadResponse *response) {
+            success(response);
+        }
+        failure:^(NSError *error) {
+            failure(error);
+
+        }];
     });
 }
 
@@ -200,20 +196,16 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
     dispatch_queue_t que = dispatch_queue_create(BICQueueUpdatePinPad, NULL);
     dispatch_async(que, ^{
-        BICUpdatePinPadResponse *response = [[BICUpdatePinPadResponse alloc] init];
-        
-        //TODO
-        response.isSuccessful = NO;
-        NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (response.isSuccessful) {
-                success(response);
-            } else {
-                failure([BICSDKError getErrorFromResponse:response
-                                          withErrorDomain:BICSDKErrorDomainPinPad]);
-            }
-        });
+        BICUpdatePinPadSimulator *simulator = [[BICUpdatePinPadSimulator alloc] init];
+
+        [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
+            success(response);
+        }
+        failure:^(NSError *error) {
+            failure(error);
+
+        }];
     });
 }
 
@@ -221,25 +213,21 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
                    success:(void (^)(BICTransactionResponse *response))success
                    failure:(void (^)(NSError *error))failure
 {
-    NSLog((@"%s "), __PRETTY_FUNCTION__);
+    NSLog((@"%s"), __PRETTY_FUNCTION__);
 
     dispatch_queue_t que = dispatch_queue_create(BICQueueProcessTransaction, NULL);
     dispatch_async(que, ^{
 
-        BICTransactionResponse *response = [[BICTransactionResponse alloc] init];
-        
-        //TODO
-        response.isSuccessful = NO;
-        NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
+        BICProcessTransactionSimulator *simulator = [[BICProcessTransactionSimulator alloc] init];
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (response.isSuccessful) {
-                success(response);
-            } else {
-                failure([BICSDKError getErrorFromResponse:response
-                                          withErrorDomain:BICSDKErrorDomainTransactionProcess]);
-            }
-        });
+        [simulator processTransaction:(BICTransactionRequest *)request
+        success:^(BICTransactionResponse *response) {
+            success(response);
+        }
+        failure:^(NSError *error) {
+            failure(error);
+
+        }];
     });
 }
 
@@ -251,20 +239,17 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
     dispatch_queue_t que = dispatch_queue_create(BICQueueSearchTransactions, NULL);
     dispatch_async(que, ^{
-        BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
-        
-        //TODO
-        response.isSuccessful = NO;
-        NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (response.isSuccessful) {
-                success(response);
-            } else {
-                failure([BICSDKError getErrorFromResponse:response
-                                          withErrorDomain:BICSDKErrorDomainTransactionSearch]);
-            }
-        });
+        BICSearchTransactionsSimulator *simulator = [[BICSearchTransactionsSimulator alloc] init];
+
+        [simulator searchTransactions:(BICSearchTransactionsRequest *)request
+        success:^(BICSearchTransactionsResponse *response) {
+            success(response);
+        }
+        failure:^(NSError *error) {
+            failure(error);
+
+        }];
     });
 }
 
@@ -277,20 +262,18 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
     dispatch_queue_t que = dispatch_queue_create(BICQueuePrintReceipt, NULL);
     dispatch_async(que, ^{
-        BICReceiptResponse *response = [[BICReceiptResponse alloc] init];
-        
-        //TODO
-        response.isSuccessful = NO;
-        NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (response.isSuccessful) {
-                success(response);
-            } else {
-                failure([BICSDKError getErrorFromResponse:response
-                                          withErrorDomain:BICSDKErrorDomainTransactionReceipt]);
-            }
-        });
+        BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
+
+        [simulator getPrintReceipt:transactionId
+        language:language
+        success:^(BICReceiptResponse *response) {
+            success(response);
+        }
+        failure:^(NSError *error) {
+            failure(error);
+
+        }];
     });
 }
 
@@ -304,20 +287,19 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
     dispatch_queue_t que = dispatch_queue_create(BICQueueEmailReceipt, NULL);
     dispatch_async(que, ^{
-        BICReceiptResponse *response = [[BICReceiptResponse alloc] init];
-        
-        //TODO
-        response.isSuccessful = NO;
-        NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (response.isSuccessful) {
-                success(response);
-            } else {
-                failure([BICSDKError getErrorFromResponse:response
-                                          withErrorDomain:BICSDKErrorDomainTransactionReceipt]);
-            }
-        });
+        BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
+
+        [simulator sendEmailReceipt:transactionId
+        email:emailAddress
+        language:language
+        success:^(BICReceiptResponse *response) {
+            success(response);
+        }
+        failure:^(NSError *error) {
+            failure(error);
+
+        }];
     });
 }
 
@@ -327,22 +309,21 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
                              failure:(void (^)(NSError *error))failure
 {
     NSLog((@"%s"), __PRETTY_FUNCTION__);
+
     dispatch_queue_t que = dispatch_queue_create(BICQueueAttachSignature, NULL);
     dispatch_async(que, ^{
-        BICAttachSignatureResponse *response = [[BICAttachSignatureResponse alloc] init];
-        
-        //TODO
-        response.isSuccessful = NO;
-        NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (response.isSuccessful) {
-                success(response);
-            } else {
-                failure([BICSDKError getErrorFromResponse:response
-                                          withErrorDomain:BICSDKErrorDomainTransactionSignature]);
-            }
-        });
+        BICAttachSignatureSimulator *simulator = [[BICAttachSignatureSimulator alloc] init];
+
+        [simulator attachSignatureToTransaction:transactionId
+        signatureImage:signatureImage
+        success:^(BICAttachSignatureResponse *response) {
+            success(response);
+        }
+        failure:^(NSError *error) {
+            failure(error);
+
+        }];
     });
 }
 

@@ -19,9 +19,11 @@
               success:(void (^)(BICCreateSessionResponse *response))success
               failure:(void (^)(NSError *error))failure
 {
-    //TODO validate
+    //TODO Validate
+    
     BICCreateSessionResponse *response =
-    [self getValidSessionResponse:companyLogin username:username];
+    [self getSuccessfulResponse:companyLogin username:username];
+    [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
 
     NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
 
@@ -35,14 +37,15 @@
 - (void)createSessionWithSavedCredentials:(void (^)(BICCreateSessionResponse *response))success
                                   failure:(void (^)(NSError *error))failure
 {
-    //TODO validate
-    BICPreferences *preferences = [[BICPreferences alloc]init];
+    // TODO validate
+    BICPreferences *preferences = [[BICPreferences alloc] init];
     NSString *companyLogin = preferences.signinCompanyLogin;
-    NSString *userName = preferences.signinUserName;
+    NSString *username = preferences.signinUserName;
     NSString *password = preferences.signinPassword;
-    
+
     BICCreateSessionResponse *response =
-    [self getValidSessionResponse:companyLogin username:userName];
+    [self getSuccessfulResponse:companyLogin username:username];
+    [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
 
     NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
 
@@ -53,13 +56,38 @@
     }
 }
 
-- (BICCreateSessionResponse *)getValidSessionResponse:(NSString *)companyLogin
-                                             username:(NSString *)username
+- (void)saveSessionInfo:(BICCreateSessionResponse *)response
+           companyLogin:(NSString *)companyLogin
+               username:(NSString *)username
+               password:(NSString *)password
+{
+    BICPreferences *preferences = [[BICPreferences alloc] init];
+    if (response.isAuthorized) {
+        preferences.sessionMerchantId = response.merchantId;
+        preferences.sessionId = response.sessionId;
+//        preferences.sessionExpiryDate =
+//        [BICDate addHoursToDate:SessionExpiryInHours toDate:[NSDate date]];
+
+        preferences.signinCompanyLogin = companyLogin;
+        preferences.signinUserName = username;
+
+        if (preferences.rememberMe) {
+            preferences.signinPassword = password;
+        } else {
+            preferences.signinPassword = @"";
+        }
+    } else {
+        preferences.sessionId = @"";
+    }
+}
+
+- (BICCreateSessionResponse *)getSuccessfulResponse:(NSString *)companyLogin
+                                           username:(NSString *)username
 {
     BICCreateSessionResponse *response = [[BICCreateSessionResponse alloc] init];
-    
+
     response.isSuccessful = YES;
-    
+
     response.code = 1;
     response.version = @"1.0";
     response.message = @"Session Created";
@@ -83,7 +111,7 @@
     response.currencyType = @"CAD";
     response.currencyDecimals = @"2";
     response.cardProcessor = @"FD";
-    
+
     return response;
 }
 
