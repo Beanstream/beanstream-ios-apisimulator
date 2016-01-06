@@ -10,6 +10,8 @@
 #import "BICTransactionRequest.h"
 #import "BICTransactionResponse.h"
 
+#import "BICSDKConstants.h"
+
 @implementation BICProcessTransactionSimulator
 
 - (void)processTransaction:(BICTransactionRequest *)request
@@ -35,7 +37,7 @@
 - (BICTransactionResponse *)getBaseResponse:(BICTransactionRequest *)request
 {
     BICTransactionResponse *response = [[BICTransactionResponse alloc] init];
-
+    
     response.trnId = @"12345678";
     response.trnOrderNumber = request.orderNumber;
     response.errorType = @"N";
@@ -67,13 +69,15 @@
 - (BICTransactionResponse *)getSuccessfulResponse:(BICTransactionRequest *)request
 {
     BICTransactionResponse *response = [self getBaseResponse:request];
-
+    
+    response.code = 1;
+    
     response.isSuccessful = YES;
     response.trnApproved = YES;
     response.messageId = @"1";
     response.messageText = @"Approved";
     response.pinVerified = @"1";
-    response.successCode = BICResponse_SUCCESS_CODE;
+    response.successCode = BIC_TRX_APPROVED;
     
     if ([self isRequestCashOrCheque:request]) {
         response.authCode = @"1235ABC";
