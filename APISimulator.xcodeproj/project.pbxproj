@@ -1,0 +1,574 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BC0DF5BC1C3DBC7B000528CA /* APISimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5BB1C3DBC7B000528CA /* APISimulator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BC0DF5C31C3DBC7B000528CA /* APISimulator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0DF5B81C3DBC7B000528CA /* APISimulator.framework */; };
+		BC0DF5C81C3DBC7B000528CA /* APISimulatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5C71C3DBC7B000528CA /* APISimulatorTests.m */; };
+		BC0DF5D41C3DBD50000528CA /* BICBeanstreamAPISimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5D21C3DBD50000528CA /* BICBeanstreamAPISimulator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BC0DF5D51C3DBD50000528CA /* BICBeanstreamAPISimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5D31C3DBD50000528CA /* BICBeanstreamAPISimulator.m */; };
+		BC0DF5EE1C3DBD60000528CA /* BICAbandonSessionSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5D71C3DBD60000528CA /* BICAbandonSessionSimulator.h */; };
+		BC0DF5EF1C3DBD60000528CA /* BICAbandonSessionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5D81C3DBD60000528CA /* BICAbandonSessionSimulator.m */; };
+		BC0DF5F01C3DBD60000528CA /* BICAttachSignatureSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5D91C3DBD60000528CA /* BICAttachSignatureSimulator.h */; };
+		BC0DF5F11C3DBD60000528CA /* BICAttachSignatureSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5DA1C3DBD60000528CA /* BICAttachSignatureSimulator.m */; };
+		BC0DF5F21C3DBD60000528CA /* BICCreateSessionSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5DB1C3DBD60000528CA /* BICCreateSessionSimulator.h */; };
+		BC0DF5F31C3DBD60000528CA /* BICCreateSessionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5DC1C3DBD60000528CA /* BICCreateSessionSimulator.m */; };
+		BC0DF5F41C3DBD60000528CA /* BICInitializePinPadSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5DD1C3DBD60000528CA /* BICInitializePinPadSimulator.h */; };
+		BC0DF5F51C3DBD60000528CA /* BICInitializePinPadSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5DE1C3DBD60000528CA /* BICInitializePinPadSimulator.m */; };
+		BC0DF5F61C3DBD60000528CA /* BICPinPadConnectionSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5DF1C3DBD60000528CA /* BICPinPadConnectionSimulator.h */; };
+		BC0DF5F71C3DBD60000528CA /* BICPinPadConnectionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5E01C3DBD60000528CA /* BICPinPadConnectionSimulator.m */; };
+		BC0DF5F81C3DBD60000528CA /* BICProcessTransactionSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5E11C3DBD60000528CA /* BICProcessTransactionSimulator.h */; };
+		BC0DF5F91C3DBD60000528CA /* BICProcessTransactionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5E21C3DBD60000528CA /* BICProcessTransactionSimulator.m */; };
+		BC0DF5FA1C3DBD60000528CA /* BICReceiptSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5E31C3DBD60000528CA /* BICReceiptSimulator.h */; };
+		BC0DF5FB1C3DBD60000528CA /* BICReceiptSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5E41C3DBD60000528CA /* BICReceiptSimulator.m */; };
+		BC0DF5FC1C3DBD60000528CA /* BICSearchTransactionsSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5E51C3DBD60000528CA /* BICSearchTransactionsSimulator.h */; };
+		BC0DF5FD1C3DBD60000528CA /* BICSearchTransactionsSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5E61C3DBD60000528CA /* BICSearchTransactionsSimulator.m */; };
+		BC0DF5FE1C3DBD60000528CA /* BICUpdatePinPadSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5E71C3DBD60000528CA /* BICUpdatePinPadSimulator.h */; };
+		BC0DF5FF1C3DBD60000528CA /* BICUpdatePinPadSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5E81C3DBD60000528CA /* BICUpdatePinPadSimulator.m */; };
+		BC0DF6001C3DBD60000528CA /* BICAuthenticateSessionSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5E91C3DBD60000528CA /* BICAuthenticateSessionSimulator.h */; };
+		BC0DF6011C3DBD60000528CA /* BICAuthenticateSessionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5EA1C3DBD60000528CA /* BICAuthenticateSessionSimulator.m */; };
+		BC0DF60A1C3DCB6B000528CA /* BICSimulatorState.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF6081C3DCB6B000528CA /* BICSimulatorState.h */; };
+		BC0DF60B1C3DCB6B000528CA /* BICSimulatorState.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF6091C3DCB6B000528CA /* BICSimulatorState.m */; };
+		D38F9500C641474D5992AB9D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F356D5DC2D60C69964F92AC /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BC0DF5C41C3DBC7B000528CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC0DF5AF1C3DBC7B000528CA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BC0DF5B71C3DBC7B000528CA;
+			remoteInfo = APISimulator;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3F356D5DC2D60C69964F92AC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		79733D5C35EDCFC0675236E3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		BC0DF5B81C3DBC7B000528CA /* APISimulator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APISimulator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC0DF5BB1C3DBC7B000528CA /* APISimulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APISimulator.h; sourceTree = "<group>"; };
+		BC0DF5BD1C3DBC7B000528CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC0DF5C21C3DBC7B000528CA /* APISimulatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APISimulatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC0DF5C71C3DBC7B000528CA /* APISimulatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APISimulatorTests.m; sourceTree = "<group>"; };
+		BC0DF5C91C3DBC7B000528CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC0DF5D21C3DBD50000528CA /* BICBeanstreamAPISimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICBeanstreamAPISimulator.h; sourceTree = "<group>"; };
+		BC0DF5D31C3DBD50000528CA /* BICBeanstreamAPISimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICBeanstreamAPISimulator.m; sourceTree = "<group>"; };
+		BC0DF5D71C3DBD60000528CA /* BICAbandonSessionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICAbandonSessionSimulator.h; sourceTree = "<group>"; };
+		BC0DF5D81C3DBD60000528CA /* BICAbandonSessionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICAbandonSessionSimulator.m; sourceTree = "<group>"; };
+		BC0DF5D91C3DBD60000528CA /* BICAttachSignatureSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICAttachSignatureSimulator.h; sourceTree = "<group>"; };
+		BC0DF5DA1C3DBD60000528CA /* BICAttachSignatureSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICAttachSignatureSimulator.m; sourceTree = "<group>"; };
+		BC0DF5DB1C3DBD60000528CA /* BICCreateSessionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICCreateSessionSimulator.h; sourceTree = "<group>"; };
+		BC0DF5DC1C3DBD60000528CA /* BICCreateSessionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICCreateSessionSimulator.m; sourceTree = "<group>"; };
+		BC0DF5DD1C3DBD60000528CA /* BICInitializePinPadSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICInitializePinPadSimulator.h; sourceTree = "<group>"; };
+		BC0DF5DE1C3DBD60000528CA /* BICInitializePinPadSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICInitializePinPadSimulator.m; sourceTree = "<group>"; };
+		BC0DF5DF1C3DBD60000528CA /* BICPinPadConnectionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICPinPadConnectionSimulator.h; sourceTree = "<group>"; };
+		BC0DF5E01C3DBD60000528CA /* BICPinPadConnectionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICPinPadConnectionSimulator.m; sourceTree = "<group>"; };
+		BC0DF5E11C3DBD60000528CA /* BICProcessTransactionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICProcessTransactionSimulator.h; sourceTree = "<group>"; };
+		BC0DF5E21C3DBD60000528CA /* BICProcessTransactionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICProcessTransactionSimulator.m; sourceTree = "<group>"; };
+		BC0DF5E31C3DBD60000528CA /* BICReceiptSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICReceiptSimulator.h; sourceTree = "<group>"; };
+		BC0DF5E41C3DBD60000528CA /* BICReceiptSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICReceiptSimulator.m; sourceTree = "<group>"; };
+		BC0DF5E51C3DBD60000528CA /* BICSearchTransactionsSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSearchTransactionsSimulator.h; sourceTree = "<group>"; };
+		BC0DF5E61C3DBD60000528CA /* BICSearchTransactionsSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSearchTransactionsSimulator.m; sourceTree = "<group>"; };
+		BC0DF5E71C3DBD60000528CA /* BICUpdatePinPadSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICUpdatePinPadSimulator.h; sourceTree = "<group>"; };
+		BC0DF5E81C3DBD60000528CA /* BICUpdatePinPadSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICUpdatePinPadSimulator.m; sourceTree = "<group>"; };
+		BC0DF5E91C3DBD60000528CA /* BICAuthenticateSessionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICAuthenticateSessionSimulator.h; sourceTree = "<group>"; };
+		BC0DF5EA1C3DBD60000528CA /* BICAuthenticateSessionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICAuthenticateSessionSimulator.m; sourceTree = "<group>"; };
+		BC0DF6081C3DCB6B000528CA /* BICSimulatorState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatorState.h; sourceTree = "<group>"; };
+		BC0DF6091C3DCB6B000528CA /* BICSimulatorState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatorState.m; sourceTree = "<group>"; };
+		DF4A125B3B210488FF876436 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BC0DF5B41C3DBC7B000528CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D38F9500C641474D5992AB9D /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC0DF5BF1C3DBC7B000528CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC0DF5C31C3DBC7B000528CA /* APISimulator.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		284ED27259573C2636B28209 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3F356D5DC2D60C69964F92AC /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC0DF5AE1C3DBC7B000528CA = {
+			isa = PBXGroup;
+			children = (
+				BC0DF5BA1C3DBC7B000528CA /* APISimulator */,
+				BC0DF5C61C3DBC7B000528CA /* APISimulatorTests */,
+				BC0DF5B91C3DBC7B000528CA /* Products */,
+				C7B9358258DC8ED9898DEC2C /* Pods */,
+				284ED27259573C2636B28209 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		BC0DF5B91C3DBC7B000528CA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC0DF5B81C3DBC7B000528CA /* APISimulator.framework */,
+				BC0DF5C21C3DBC7B000528CA /* APISimulatorTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC0DF5BA1C3DBC7B000528CA /* APISimulator */ = {
+			isa = PBXGroup;
+			children = (
+				BC0DF5BB1C3DBC7B000528CA /* APISimulator.h */,
+				BC0DF5D21C3DBD50000528CA /* BICBeanstreamAPISimulator.h */,
+				BC0DF5D31C3DBD50000528CA /* BICBeanstreamAPISimulator.m */,
+				BC0DF5D61C3DBD60000528CA /* Simulators */,
+				BC0DF5EB1C3DBD60000528CA /* Utils */,
+				BC0DF5BD1C3DBC7B000528CA /* Info.plist */,
+			);
+			path = APISimulator;
+			sourceTree = "<group>";
+		};
+		BC0DF5C61C3DBC7B000528CA /* APISimulatorTests */ = {
+			isa = PBXGroup;
+			children = (
+				BC0DF5C71C3DBC7B000528CA /* APISimulatorTests.m */,
+				BC0DF5C91C3DBC7B000528CA /* Info.plist */,
+			);
+			path = APISimulatorTests;
+			sourceTree = "<group>";
+		};
+		BC0DF5D61C3DBD60000528CA /* Simulators */ = {
+			isa = PBXGroup;
+			children = (
+				BC0DF5D71C3DBD60000528CA /* BICAbandonSessionSimulator.h */,
+				BC0DF5D81C3DBD60000528CA /* BICAbandonSessionSimulator.m */,
+				BC0DF5D91C3DBD60000528CA /* BICAttachSignatureSimulator.h */,
+				BC0DF5DA1C3DBD60000528CA /* BICAttachSignatureSimulator.m */,
+				BC0DF5DB1C3DBD60000528CA /* BICCreateSessionSimulator.h */,
+				BC0DF5DC1C3DBD60000528CA /* BICCreateSessionSimulator.m */,
+				BC0DF5DD1C3DBD60000528CA /* BICInitializePinPadSimulator.h */,
+				BC0DF5DE1C3DBD60000528CA /* BICInitializePinPadSimulator.m */,
+				BC0DF5DF1C3DBD60000528CA /* BICPinPadConnectionSimulator.h */,
+				BC0DF5E01C3DBD60000528CA /* BICPinPadConnectionSimulator.m */,
+				BC0DF5E11C3DBD60000528CA /* BICProcessTransactionSimulator.h */,
+				BC0DF5E21C3DBD60000528CA /* BICProcessTransactionSimulator.m */,
+				BC0DF5E31C3DBD60000528CA /* BICReceiptSimulator.h */,
+				BC0DF5E41C3DBD60000528CA /* BICReceiptSimulator.m */,
+				BC0DF5E51C3DBD60000528CA /* BICSearchTransactionsSimulator.h */,
+				BC0DF5E61C3DBD60000528CA /* BICSearchTransactionsSimulator.m */,
+				BC0DF5E71C3DBD60000528CA /* BICUpdatePinPadSimulator.h */,
+				BC0DF5E81C3DBD60000528CA /* BICUpdatePinPadSimulator.m */,
+				BC0DF5E91C3DBD60000528CA /* BICAuthenticateSessionSimulator.h */,
+				BC0DF5EA1C3DBD60000528CA /* BICAuthenticateSessionSimulator.m */,
+			);
+			path = Simulators;
+			sourceTree = "<group>";
+		};
+		BC0DF5EB1C3DBD60000528CA /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				BC0DF6081C3DCB6B000528CA /* BICSimulatorState.h */,
+				BC0DF6091C3DCB6B000528CA /* BICSimulatorState.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		C7B9358258DC8ED9898DEC2C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				79733D5C35EDCFC0675236E3 /* Pods.debug.xcconfig */,
+				DF4A125B3B210488FF876436 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		BC0DF5B51C3DBC7B000528CA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC0DF5F01C3DBD60000528CA /* BICAttachSignatureSimulator.h in Headers */,
+				BC0DF5EE1C3DBD60000528CA /* BICAbandonSessionSimulator.h in Headers */,
+				BC0DF5F81C3DBD60000528CA /* BICProcessTransactionSimulator.h in Headers */,
+				BC0DF6001C3DBD60000528CA /* BICAuthenticateSessionSimulator.h in Headers */,
+				BC0DF5F21C3DBD60000528CA /* BICCreateSessionSimulator.h in Headers */,
+				BC0DF5FC1C3DBD60000528CA /* BICSearchTransactionsSimulator.h in Headers */,
+				BC0DF60A1C3DCB6B000528CA /* BICSimulatorState.h in Headers */,
+				BC0DF5FA1C3DBD60000528CA /* BICReceiptSimulator.h in Headers */,
+				BC0DF5BC1C3DBC7B000528CA /* APISimulator.h in Headers */,
+				BC0DF5FE1C3DBD60000528CA /* BICUpdatePinPadSimulator.h in Headers */,
+				BC0DF5F41C3DBD60000528CA /* BICInitializePinPadSimulator.h in Headers */,
+				BC0DF5D41C3DBD50000528CA /* BICBeanstreamAPISimulator.h in Headers */,
+				BC0DF5F61C3DBD60000528CA /* BICPinPadConnectionSimulator.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		BC0DF5B71C3DBC7B000528CA /* APISimulator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC0DF5CC1C3DBC7B000528CA /* Build configuration list for PBXNativeTarget "APISimulator" */;
+			buildPhases = (
+				DDE15838EE569B9D6156E2D7 /* Check Pods Manifest.lock */,
+				BC0DF5B31C3DBC7B000528CA /* Sources */,
+				BC0DF5B41C3DBC7B000528CA /* Frameworks */,
+				BC0DF5B51C3DBC7B000528CA /* Headers */,
+				BC0DF5B61C3DBC7B000528CA /* Resources */,
+				F35E24298EC0E7501E2CB89E /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = APISimulator;
+			productName = APISimulator;
+			productReference = BC0DF5B81C3DBC7B000528CA /* APISimulator.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BC0DF5C11C3DBC7B000528CA /* APISimulatorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC0DF5CF1C3DBC7B000528CA /* Build configuration list for PBXNativeTarget "APISimulatorTests" */;
+			buildPhases = (
+				BC0DF5BE1C3DBC7B000528CA /* Sources */,
+				BC0DF5BF1C3DBC7B000528CA /* Frameworks */,
+				BC0DF5C01C3DBC7B000528CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC0DF5C51C3DBC7B000528CA /* PBXTargetDependency */,
+			);
+			name = APISimulatorTests;
+			productName = APISimulatorTests;
+			productReference = BC0DF5C21C3DBC7B000528CA /* APISimulatorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BC0DF5AF1C3DBC7B000528CA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Sven Resch";
+				TargetAttributes = {
+					BC0DF5B71C3DBC7B000528CA = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					BC0DF5C11C3DBC7B000528CA = {
+						CreatedOnToolsVersion = 7.2;
+					};
+				};
+			};
+			buildConfigurationList = BC0DF5B21C3DBC7B000528CA /* Build configuration list for PBXProject "APISimulator" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BC0DF5AE1C3DBC7B000528CA;
+			productRefGroup = BC0DF5B91C3DBC7B000528CA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BC0DF5B71C3DBC7B000528CA /* APISimulator */,
+				BC0DF5C11C3DBC7B000528CA /* APISimulatorTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BC0DF5B61C3DBC7B000528CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC0DF5C01C3DBC7B000528CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DDE15838EE569B9D6156E2D7 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F35E24298EC0E7501E2CB89E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BC0DF5B31C3DBC7B000528CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC0DF6011C3DBD60000528CA /* BICAuthenticateSessionSimulator.m in Sources */,
+				BC0DF5F51C3DBD60000528CA /* BICInitializePinPadSimulator.m in Sources */,
+				BC0DF5F31C3DBD60000528CA /* BICCreateSessionSimulator.m in Sources */,
+				BC0DF60B1C3DCB6B000528CA /* BICSimulatorState.m in Sources */,
+				BC0DF5FB1C3DBD60000528CA /* BICReceiptSimulator.m in Sources */,
+				BC0DF5FD1C3DBD60000528CA /* BICSearchTransactionsSimulator.m in Sources */,
+				BC0DF5EF1C3DBD60000528CA /* BICAbandonSessionSimulator.m in Sources */,
+				BC0DF5F91C3DBD60000528CA /* BICProcessTransactionSimulator.m in Sources */,
+				BC0DF5FF1C3DBD60000528CA /* BICUpdatePinPadSimulator.m in Sources */,
+				BC0DF5F71C3DBD60000528CA /* BICPinPadConnectionSimulator.m in Sources */,
+				BC0DF5F11C3DBD60000528CA /* BICAttachSignatureSimulator.m in Sources */,
+				BC0DF5D51C3DBD50000528CA /* BICBeanstreamAPISimulator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC0DF5BE1C3DBC7B000528CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC0DF5C81C3DBC7B000528CA /* APISimulatorTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BC0DF5C51C3DBC7B000528CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BC0DF5B71C3DBC7B000528CA /* APISimulator */;
+			targetProxy = BC0DF5C41C3DBC7B000528CA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BC0DF5CA1C3DBC7B000528CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/APISimulator/Simulators",
+					"$(PROJECT_DIR)/APISimulator/Utils",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USE_HEADERMAP = NO;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		BC0DF5CB1C3DBC7B000528CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/APISimulator/Simulators",
+					"$(PROJECT_DIR)/APISimulator/Utils",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USE_HEADERMAP = NO;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		BC0DF5CD1C3DBC7B000528CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 79733D5C35EDCFC0675236E3 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = APISimulator/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulator;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		BC0DF5CE1C3DBC7B000528CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF4A125B3B210488FF876436 /* Pods.release.xcconfig */;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = APISimulator/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulator;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		BC0DF5D01C3DBC7B000528CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = APISimulatorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulatorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BC0DF5D11C3DBC7B000528CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = APISimulatorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulatorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BC0DF5B21C3DBC7B000528CA /* Build configuration list for PBXProject "APISimulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC0DF5CA1C3DBC7B000528CA /* Debug */,
+				BC0DF5CB1C3DBC7B000528CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC0DF5CC1C3DBC7B000528CA /* Build configuration list for PBXNativeTarget "APISimulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC0DF5CD1C3DBC7B000528CA /* Debug */,
+				BC0DF5CE1C3DBC7B000528CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC0DF5CF1C3DBC7B000528CA /* Build configuration list for PBXNativeTarget "APISimulatorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC0DF5D01C3DBC7B000528CA /* Debug */,
+				BC0DF5D11C3DBC7B000528CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BC0DF5AF1C3DBC7B000528CA /* Project object */;
+}

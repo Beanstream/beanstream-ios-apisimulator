@@ -1,0 +1,37 @@
+PODS:
+  - AFNetworking (2.6.0):
+    - AFNetworking/NSURLConnection (= 2.6.0)
+    - AFNetworking/NSURLSession (= 2.6.0)
+    - AFNetworking/Reachability (= 2.6.0)
+    - AFNetworking/Security (= 2.6.0)
+    - AFNetworking/Serialization (= 2.6.0)
+    - AFNetworking/UIKit (= 2.6.0)
+  - AFNetworking/NSURLConnection (2.6.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.0)
+  - AFNetworking/Security (2.6.0)
+  - AFNetworking/Serialization (2.6.0)
+  - AFNetworking/UIKit (2.6.0):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Beanstream.SDK (0.0.1):
+    - AFNetworking (= 2.6.0)
+
+DEPENDENCIES:
+  - Beanstream.SDK (from `http://localhost/Beanstream.SDK.podspec`)
+
+EXTERNAL SOURCES:
+  Beanstream.SDK:
+    :podspec: http://localhost/Beanstream.SDK.podspec
+
+SPEC CHECKSUMS:
+  AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
+  Beanstream.SDK: 9f9e4fcf580ed2c319260d58bed3a55aca5a31f8
+
+COCOAPODS: 0.39.0
