@@ -74,9 +74,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
         [simulator abandonSession:^(BICAbandonSessionResponse *response) {
             success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -100,9 +106,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
         password:password
         success:^(BICCreateSessionResponse *response) {
             success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -120,9 +132,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
         [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
             success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -140,9 +158,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
         [simulator validateSession:^(BICValidateSessionResponse *response) {
             success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -181,9 +205,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
         [simulator initializePinPad:^(BICInitPinPadResponse *response) {
             success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -201,9 +231,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
         [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
             success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -222,10 +258,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
         [simulator processTransaction:(BICTransactionRequest *)request
         success:^(BICTransactionResponse *response) {
-            success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -244,10 +285,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
 
         [simulator searchTransactions:(BICSearchTransactionsRequest *)request
         success:^(BICSearchTransactionsResponse *response) {
-            success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -268,10 +314,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
         [simulator getPrintReceipt:transactionId
         language:language
         success:^(BICReceiptResponse *response) {
-            success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -294,10 +345,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
         email:emailAddress
         language:language
         success:^(BICReceiptResponse *response) {
-            success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
@@ -318,10 +374,15 @@ static const char *BICQueueSearchTransactions = "com.beanstream.simulator.search
         [simulator attachSignatureToTransaction:transactionId
         signatureImage:signatureImage
         success:^(BICAttachSignatureResponse *response) {
-            success(response);
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(response);
+            });
         }
         failure:^(NSError *error) {
-            failure(error);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failure(error);
+            });
 
         }];
     });
