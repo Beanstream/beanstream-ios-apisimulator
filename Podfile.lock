@@ -24,14 +24,10 @@ PODS:
     - AFNetworking (= 2.6.0)
 
 DEPENDENCIES:
-  - Beanstream.SDK (from `http://localhost/Beanstream.SDK.podspec`)
-
-EXTERNAL SOURCES:
-  Beanstream.SDK:
-    :podspec: http://localhost/Beanstream.SDK.podspec
+  - Beanstream.SDK
 
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
-  Beanstream.SDK: 9f9e4fcf580ed2c319260d58bed3a55aca5a31f8
+  Beanstream.SDK: f2d6894aa65787de1d4975f1c1793f0f54c6d00a
 
 COCOAPODS: 0.39.0
