@@ -1,4 +1,5 @@
 Pod::Spec.new do |s|
+
   s.name     = 'BeanstreamAPISimulator'
   s.version  = '0.0.1'
   s.license  = 'MIT'
@@ -23,4 +24,12 @@ Pod::Spec.new do |s|
     ss.source_files = 'APISimulator/Utils/*.{h,m}'
     ss.public_header_files = 'APISimulator/Utils/*.h'
   end
+
+  
+  s.dependency "AFNetworking", "= 2.6.0"
+  s.dependency 'Beanstream.SDK', :podspec => 'http://localhost/Beanstream.SDK.podspec'
+  s.libraries = 'z', 'c++', 'iSMP', 'Beanstream.SDK'
+
+  s.xcconfig  = { "LIBRARY_SEARCH_PATHS" => "$(PODS_ROOT)/Beanstream.SDK/Beanstream.SDK" }
+
 end
