@@ -43,7 +43,8 @@
 - (void)abandonSession:(void (^)(BICAbandonSessionResponse *response))success
                failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
         BICAbandonSessionSimulator *simulator = [[BICAbandonSessionSimulator alloc] init];
         
         [simulator abandonSession:^(BICAbandonSessionResponse *response) {
@@ -51,7 +52,7 @@
         } failure:^(NSError *error) {
             failure(error);
         }];
-    } failure:^(NSError *error) {
+    } orFailure:^(NSError *error) {
         failure(error);
     }];
 }
@@ -62,7 +63,8 @@
               success:(void (^)(BICCreateSessionResponse *response))success
               failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
         BICCreateSessionSimulator *simulator = [[BICCreateSessionSimulator alloc] init];
         
         [simulator createSession:companyLogin
@@ -73,7 +75,7 @@
                          } failure:^(NSError *error) {
                              failure(error);
                          }];
-    } failure:^(NSError *error) {
+    } orFailure:^(NSError *error) {
         failure(error);
     }];
 }
@@ -81,7 +83,8 @@
 - (void)createSessionWithSavedCredentials:(void (^)(BICCreateSessionResponse *response))success
                                   failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
         BICCreateSessionSimulator *simulator = [[BICCreateSessionSimulator alloc] init];
         
         [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
@@ -89,7 +92,7 @@
         } failure:^(NSError *error) {
             failure(error);
         }];
-    } failure:^(NSError *error) {
+    } orFailure:^(NSError *error) {
         failure(error);
     }];
 }
@@ -97,7 +100,8 @@
 - (void)authenticateSession:(void (^)(BICAuthenticateSessionResponse *response))success
                     failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
         BICAuthenticateSessionSimulator *simulator = [[BICAuthenticateSessionSimulator alloc] init];
         
         [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
@@ -105,7 +109,7 @@
         } failure:^(NSError *error) {
             failure(error);
         }];
-    } failure:^(NSError *error) {
+    } orFailure:^(NSError *error) {
         failure(error);
     }];
 }
@@ -131,7 +135,8 @@
 - (void)initializePinPad:(void (^)(BICInitPinPadResponse *response))success
                  failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
         BICInitializePinPadSimulator *simulator = [[BICInitializePinPadSimulator alloc] init];
         
         [simulator initializePinPad:^(BICInitPinPadResponse *response) {
@@ -139,7 +144,7 @@
         } failure:^(NSError *error) {
             failure(error);
         }];
-    } failure:^(NSError *error) {
+    } orFailure:^(NSError *error) {
         failure(error);
     }];
 }
@@ -147,7 +152,8 @@
 - (void)updatePinPad:(void (^)(BICUpdatePinPadResponse *response))success
              failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
         BICUpdatePinPadSimulator *simulator = [[BICUpdatePinPadSimulator alloc] init];
         
         [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
@@ -155,7 +161,7 @@
         } failure:^(NSError *error) {
             failure(error);
         }];
-    } failure:^(NSError *error) {
+    } orFailure:^(NSError *error) {
         failure(error);
     }];
 }
@@ -164,7 +170,8 @@
                    success:(void (^)(BICTransactionResponse *response))success
                    failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
         BICProcessTransactionSimulator *simulator = [[BICProcessTransactionSimulator alloc] init];
         
         [simulator processTransaction:(BICTransactionRequest *)request
@@ -173,7 +180,7 @@
                               } failure:^(NSError *error) {
                                   failure(error);
                               }];
-    } failure:^(NSError *error) {
+    } orFailure:^(NSError *error) {
         failure(error);
     }];
 }
@@ -182,7 +189,8 @@
                    success:(void (^)(BICSearchTransactionsResponse *response))success
                    failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
         BICSearchTransactionsSimulator *simulator = [[BICSearchTransactionsSimulator alloc] init];
         
         [simulator searchTransactions:(BICSearchTransactionsRequest *)request
@@ -191,7 +199,7 @@
                               } failure:^(NSError *error) {
                                   failure(error);
                               }];
-    } failure:^(NSError *error) {
+    } orFailure:^(NSError *error) {
         failure(error);
     }];
 }
@@ -201,7 +209,8 @@
                 success:(void (^)(BICReceiptResponse *response))success
                 failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
         BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
         
         [simulator getPrintReceipt:transactionId
@@ -211,7 +220,7 @@
                            } failure:^(NSError *error) {
                                failure(error);
                            }];
-    } failure:^(NSError *error) {
+    } orFailure:^(NSError *error) {
         failure(error);
     }];
 }
@@ -222,20 +231,21 @@
                  success:(void (^)(BICReceiptResponse *response))success
                  failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
-        BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
-        
-        [simulator sendEmailReceipt:transactionId
-                              email:emailAddress
-                           language:language
-                            success:^(BICReceiptResponse *response) {
-                                success(response);
-                            } failure:^(NSError *error) {
-                                failure(error);
-                            }];
-    } failure:^(NSError *error) {
-        failure(error);
-    }];
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
+                 BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
+                 
+                 [simulator sendEmailReceipt:transactionId
+                                       email:emailAddress
+                                    language:language
+                                     success:^(BICReceiptResponse *response) {
+                                         success(response);
+                                     } failure:^(NSError *error) {
+                                         failure(error);
+                                     }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)attachSignatureToTransaction:(NSString *)transactionId
@@ -243,28 +253,40 @@
                              success:(void (^)(BICAttachSignatureResponse *response))success
                              failure:(void (^)(NSError *error))failure
 {
-    [self processRequestWithSuccess:^() {
-        BICAttachSignatureSimulator *simulator = [[BICAttachSignatureSimulator alloc] init];
-        
-        [simulator attachSignatureToTransaction:transactionId
-                                 signatureImage:signatureImage
-                                        success:^(BICAttachSignatureResponse *response) {
-                                            success(response);
-                                        }
-                                        failure:^(NSError *error) {
-                                            failure(error);
-                                        }];
-    } failure:^(NSError *error) {
-        failure(error);
-    }];
+    [self processRequest:__PRETTY_FUNCTION__
+             withSuccess:^() {
+                 BICAttachSignatureSimulator *simulator = [[BICAttachSignatureSimulator alloc] init];
+                 
+                 [simulator attachSignatureToTransaction:transactionId
+                                          signatureImage:signatureImage
+                                                 success:^(BICAttachSignatureResponse *response) {
+                                                     success(response);
+                                                 }
+                                                 failure:^(NSError *error) {
+                                                     failure(error);
+                                                 }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 #pragma mark - Private methods
 
-- (void)processRequestWithSuccess:(void (^)())success
-                          failure:(void (^)(NSError *error))failure {
+- (void)processRequest:(const char [90])prettyFunction
+           withSuccess:(void (^)())success
+             orFailure:(void (^)(NSError *error))failure
+{
+    NSString *functionName = [NSString stringWithFormat:@"%s", prettyFunction];
+    if ( [functionName hasPrefix:@"-[BICBeanstreamAPISimulator "] ) {
+        functionName = [functionName substringFromIndex:@"-[BICBeanstreamAPISimulator ".length];
+    }
+    if ( [functionName hasSuffix:@"]"] ) {
+        functionName = [functionName substringToIndex:functionName.length-2];
+    }
+    functionName = [NSString stringWithFormat:@"Choose Simulator Option\n%@", functionName];
+    
     // Use an alert sheet to let a user choose a Normal or Forced Error path to execute
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Choose simulator option"
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:functionName
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *normalAction = [UIAlertAction actionWithTitle:@"Execute Normally"
