@@ -12,4 +12,6 @@
 
 @interface BICBeanstreamAPISimulator : BICBeanstreamAPI
 
+// All needed BICBeanstreamAPI methods are reimplemented in this simulator class
+
 @end
