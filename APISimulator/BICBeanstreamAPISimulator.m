@@ -16,13 +16,13 @@
 #import "BICUpdatePinPadSimulator.h"
 #import "BICProcessTransactionSimulator.h"
 #import "BICSearchTransactionsSimulator.h"
-#import "BICReceiptSimulator.h"
 #import "BICAttachSignatureSimulator.h"
+#import "BICReceiptSimulator.h"
 
 #import "BICBeanstreamAPI.h"
 #import "BICSDKConstants.h"
-#import "BICSDKError.h"
 #import "BICPreferences.h"
+#import "BICSDKError.h"
 
 #import "BICAbandonSessionResponse.h"
 #import "BICCreateSessionResponse.h"
@@ -37,12 +37,6 @@
 #import "BICAttachSignatureResponse.h"
 
 @implementation BICBeanstreamAPISimulator
-
-- (instancetype)init
-{
-    self = [super init];
-    return self;
-}
 
 #pragma mark - API methods
 
