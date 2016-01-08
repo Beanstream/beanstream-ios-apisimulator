@@ -134,9 +134,9 @@ static NSString *const TransactionTypeReturn = @"R";
     response.code = 1;
     response.message = @"Report Generated";
     response.version = SearchTransactionVersion;
-
     response.transactionRecords = [self getBaseArrayOfTransactionRecords];
-
+    response.total = response.transactionRecords.count;
+    
     return response;
 }
 
