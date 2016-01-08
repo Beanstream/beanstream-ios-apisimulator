@@ -49,7 +49,7 @@
 - (void)abandonSession:(void (^)(BICAbandonSessionResponse *response))success
                failure:(void (^)(NSError *error))failure
 {
-    [self getUserChoiceAndExecuteWithSuccess:^() {
+    [self processRequestWithSuccess:^() {
         BICAbandonSessionSimulator *simulator = [[BICAbandonSessionSimulator alloc] init];
         
         [simulator abandonSession:^(BICAbandonSessionResponse *response) {
@@ -269,15 +269,6 @@
 
 - (void)processRequestWithSuccess:(void (^)())success
                           failure:(void (^)(NSError *error))failure {
-    // actually process after 1 second delay
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC),
-                   dispatch_get_main_queue(), ^{
-        [self getUserChoiceAndExecuteWithSuccess:success failure:failure];
-    });
-}
-
-- (void)getUserChoiceAndExecuteWithSuccess:(void (^)())success
-                                   failure:(void (^)(NSError *error))failure {
     // Use an alert sheet to let a user choose a Normal or Forced Error path to execute
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Choose simulator option"
                                                                    message:nil
@@ -286,14 +277,9 @@
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * _Nonnull action)
                                    {
-                                       // actually process after 1 second delay
-                                       dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC);
-                                       dispatch_after(time, dispatch_get_main_queue(),
-                                                      ^{
-                                                          if ( success ) {
-                                                              success();
-                                                          }
-                                                      });
+                                       if ( success ) {
+                                           success();
+                                       }
                                    }];
     [alert addAction:normalAction];
 
@@ -301,18 +287,13 @@
                                                            style:UIAlertActionStyleDestructive
                                                          handler:^(UIAlertAction * _Nonnull action)
                                   {
-                                      // actually process after 1 second delay
-                                      dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC);
-                                      dispatch_after(time, dispatch_get_main_queue(),
-                                                     ^{
-                                                         if ( failure ) {
-                                                             NSDictionary *info = @{ NSLocalizedDescriptionKey: @"BIC Request Failed" };
-                                                             NSError *error = [NSError errorWithDomain:@"BIC SIM Forced Error"
-                                                                                                  code:1
-                                                                                              userInfo:info];
-                                                             failure(error);
-                                                         }
-                                                     });
+                                      if ( failure ) {
+                                          NSDictionary *info = @{ NSLocalizedDescriptionKey: @"BIC Request Failed" };
+                                          NSError *error = [NSError errorWithDomain:@"BIC SIM Forced Error"
+                                                                               code:1
+                                                                           userInfo:info];
+                                          failure(error);
+                                      }
                                   }];
     [alert addAction:errorAction];
     
