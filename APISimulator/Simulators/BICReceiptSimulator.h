@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BICSimulator.h"
+
 @class BICReceiptResponse;
 
-@interface BICReceiptSimulator : NSObject
+@interface BICReceiptSimulator : NSObject <BICSimulator>
 
 - (void)getPrintReceipt:(NSString *)transactionId
                language:(NSString *)language

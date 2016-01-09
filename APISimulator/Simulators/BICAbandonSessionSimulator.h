@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BICSimulator.h"
+
 @class BICAbandonSessionResponse;
 
-@interface BICAbandonSessionSimulator : NSObject
+@interface BICAbandonSessionSimulator : NSObject <BICSimulator>
 
 - (void)abandonSession:(void (^)(BICAbandonSessionResponse *response))success
               failure:(void (^)(NSError *error))failure;

@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BICSimulator.h"
+
 @class BICSearchTransactionsRequest;
 @class BICSearchTransactionsResponse;
 
-@interface BICSearchTransactionsSimulator : NSObject
+@interface BICSearchTransactionsSimulator : NSObject <BICSimulator>
 
 - (void)searchTransactions:(BICSearchTransactionsRequest *)request
                    success:(void (^)(BICSearchTransactionsResponse *response))success

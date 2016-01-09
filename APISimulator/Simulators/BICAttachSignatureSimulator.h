@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BICSimulator.h"
+
 @class BICAttachSignatureResponse;
 
-@interface BICAttachSignatureSimulator : NSObject
+@interface BICAttachSignatureSimulator : NSObject <BICSimulator>
 
 - (void)attachSignatureToTransaction:(NSString *)transactionId
                       signatureImage:(UIImage *)signatureImage

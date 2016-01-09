@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BICSimulator.h"
+
 @class BICTransactionRequest;
 @class BICTransactionResponse;
 
 #define BICResponse_SUCCESS_CODE 5
 
-@interface BICProcessTransactionSimulator : NSObject
+@interface BICProcessTransactionSimulator : NSObject <BICSimulator>
 
 - (void)processTransaction:(BICTransactionRequest *)request
                    success:(void (^)(BICTransactionResponse *response))success

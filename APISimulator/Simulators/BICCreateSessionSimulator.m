@@ -12,83 +12,177 @@
 
 @implementation BICCreateSessionSimulator
 
+static NSString *CREATE_SESSION_VERSION_NUMBER = @"1.0";
+
+@synthesize simulatorMode;
+
+#pragma mark - BICSimulator protocol methods
+
+- (NSArray *)supportedModes
+{
+    return @[@(SimulatorModeCreateSessionCreated),
+             @(SimulatorModeCreateSessionInvalid),
+             @(SimulatorModeCreateSessionExpired),
+             @(SimulatorModeCreateSessionEncryptionFailure),
+             @(SimulatorModeCreateSessionHTTPError),
+             @(SimulatorModeCreateSessionNetworkError)];
+}
+
+- (NSString *)labelForSimulatorMode:(SimulatorMode)mode
+{
+    NSString *label = nil;
+    
+    switch (mode) {
+        case SimulatorModeCreateSessionCreated:
+            label = @"Authorized";
+            break;
+        case SimulatorModeCreateSessionInvalid:
+            label = @"Invalid Credentials";
+            break;
+        case SimulatorModeCreateSessionExpired:
+            label = @"Password Expired";
+            break;
+        case SimulatorModeCreateSessionEncryptionFailure:
+            label = @"Authorized with Encryption Failure";
+            break;
+        case SimulatorModeCreateSessionHTTPError:
+            label = @"HTTP Error";
+            break;
+        case SimulatorModeCreateSessionNetworkError:
+            label = @"Network Error";
+            break;
+        default:
+            label = @"Developer Issue --> Unknown Mode";
+            break;
+    }
+    
+    return label;
+}
+
+#pragma mark - BICCreateSession overrides
+
 - (void)createSession:(NSString *)companyLogin
              username:(NSString *)username
              password:(NSString *)password
               success:(void (^)(BICCreateSessionResponse *response))success
               failure:(void (^)(NSError *error))failure
 {
-    //TODO Validate
+    BICCreateSessionResponse *response = [self validationResponseWithCompany:companyLogin username:username password:password];
+    NSError *error = nil;
     
-    BICCreateSessionResponse *response =
-    [self getSuccessfulResponse:companyLogin username:username];
-    [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
-
+    if ( !response ) {
+        // Validation passed... continue
+        switch (self.simulatorMode) {
+            case SimulatorModeCreateSessionCreated:
+            {
+                response = [self createSuccessfulResponse:companyLogin username:username];
+                [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
+                break;
+            }
+            case SimulatorModeCreateSessionInvalid:
+            {
+                response = [self createInvalidCredentialsResponse];
+                [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
+                break;
+            }
+            case SimulatorModeCreateSessionExpired:
+            {
+                response = [self createPasswordExpiredResponse];
+                [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
+                break;
+            }
+            case SimulatorModeCreateSessionEncryptionFailure:
+            {
+                error = [NSError errorWithDomain:@"BIC SIM Encryption Error"
+                                            code:1
+                                        userInfo:@{ NSLocalizedDescriptionKey: @"Error Encrypting Credentials" }];
+                BICPreferences *preferences = [[BICPreferences alloc] init];
+                preferences.password = @"";
+                break;
+            }
+            case SimulatorModeCreateSessionHTTPError:
+            {
+                error = [NSError errorWithDomain:@"BIC SIM HTTP Error"
+                                            code:404
+                                        userInfo:@{ NSLocalizedDescriptionKey: @"Network Error" }];
+                break;
+            }
+            case SimulatorModeCreateSessionNetworkError:
+            {
+                error = [NSError errorWithDomain:@"BIC SIM Network Error"
+                                            code:404
+                                        userInfo:@{ NSLocalizedDescriptionKey: @"Unknown Host Error: Unable to resolve host \"www.beanstream.com\": No address associated with hostname" }];
+                break;
+            }
+            default:
+            {
+                error = [NSError errorWithDomain:@"BIC SIM Usage Error"
+                                            code:1
+                                        userInfo:@{ NSLocalizedDescriptionKey: @"Simulator mode must be set!!!" }];
+                break;
+            }
+        }
+    }
+    
     NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
-
-    if (response.isSuccessful) {
+    if (response && response.isSuccessful) {
         success(response);
-    } else {
-        failure([[NSError alloc] init]);
+    }
+    else {
+        if ( !error ) {
+            failure([[NSError alloc] init]);
+        }
+        else {
+            failure(error);
+        }
     }
 }
 
 - (void)createSessionWithSavedCredentials:(void (^)(BICCreateSessionResponse *response))success
                                   failure:(void (^)(NSError *error))failure
 {
-    // TODO validate
     BICPreferences *preferences = [[BICPreferences alloc] init];
     NSString *companyLogin = preferences.companyLogin;
     NSString *username = preferences.username;
     NSString *password = preferences.password;
-
-    BICCreateSessionResponse *response =
-    [self getSuccessfulResponse:companyLogin username:username];
-    [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
-
-    NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
-
-    if (response.isSuccessful) {
-        success(response);
-    } else {
-        failure([[NSError alloc] init]);
-    }
+    
+    NSLog(@"Calling createSession with saved credentials...");
+    
+    [self createSession:companyLogin
+               username:username
+               password:password
+                success:success
+                failure:failure];
 }
 
-- (void)saveSessionInfo:(BICCreateSessionResponse *)response
-           companyLogin:(NSString *)companyLogin
-               username:(NSString *)username
-               password:(NSString *)password
+#pragma mark - Private methods - Creating Various Reponses
+
+// Returns nil if validation was successful
+- (BICCreateSessionResponse *)validationResponseWithCompany:(NSString *)companyLogin
+                                                   username:(NSString *)username
+                                                   password:(NSString *)password
 {
-    BICPreferences *preferences = [[BICPreferences alloc] init];
-    if (response.isAuthorized) {
-        preferences.merchantId = response.merchantId;
-        preferences.sessionId = response.sessionId;
-//        preferences.sessionExpiryDate =
-//        [BICDate addHoursToDate:SessionExpiryInHours toDate:[NSDate date]];
-
-        preferences.companyLogin = companyLogin;
-        preferences.username = username;
-
-        if (preferences.rememberMe) {
-            preferences.password = password;
-        } else {
-            preferences.password = @"";
-        }
-    } else {
-        preferences.sessionId = @"";
+    BICCreateSessionResponse *response = nil;
+    
+    if (!companyLogin || companyLogin.length == 0 || !username || username.length == 0 || !password || password.length == 0) {
+        NSString *message = [NSString stringWithFormat:@"Missing XML element: %@%@%@",
+                             [self isValidParameter:companyLogin param:@"Company Login"],
+                             [self isValidParameter:username param:@"User name"],
+                             [self isValidParameter:password param:@"Password"]];
+        
+        response = [self createMissingFieldResponse];
+        response.message = message;
     }
+    
+    return response;
 }
 
-- (BICCreateSessionResponse *)getSuccessfulResponse:(NSString *)companyLogin
-                                           username:(NSString *)username
+- (BICCreateSessionResponse *)createSuccessfulResponse:(NSString *)companyLogin
+                                              username:(NSString *)username
 {
     BICCreateSessionResponse *response = [[BICCreateSessionResponse alloc] init];
-
-    response.isSuccessful = YES;
-
     response.code = 1;
-    response.version = @"1.0";
+    response.version = CREATE_SESSION_VERSION_NUMBER;
     response.message = @"Session Created";
     response.sessionId = @"A43BADD1354F4FB1B03E74472F23D121";
     response.idleTimeout = @"1440";
@@ -110,8 +204,80 @@
     response.currencyType = @"CAD";
     response.currencyDecimals = @"2";
     response.cardProcessor = @"FD";
-
+    response.isSuccessful = YES;
+    
     return response;
+}
+
+- (BICCreateSessionResponse *)createInvalidCredentialsResponse
+{
+    BICCreateSessionResponse *response = [[BICCreateSessionResponse alloc] init];
+    response.code = 6;
+    response.version = CREATE_SESSION_VERSION_NUMBER;
+    response.message = @"Invalid login credentials";
+    response.isSuccessful = YES;
+    
+    return response;
+}
+
+- (BICCreateSessionResponse *)createPasswordExpiredResponse
+{
+    BICCreateSessionResponse *response = [[BICCreateSessionResponse alloc] init];
+    response.code = 14;
+    response.version = CREATE_SESSION_VERSION_NUMBER;
+    response.message = @"Your password has expired. An email has been sent to your email address on file to guide you through the steps to reset your password. If not received in the next 30 minutes, please call our support team at 1.888.472.0811";
+    response.isSuccessful = YES;
+    
+    return response;
+}
+
+- (BICCreateSessionResponse *)createMissingFieldResponse
+{
+    BICCreateSessionResponse *response = [[BICCreateSessionResponse alloc] init];
+    response.code = 10;
+    response.version = CREATE_SESSION_VERSION_NUMBER;
+    response.message = @"Missing XML Element";
+    response.isSuccessful = YES;
+    
+    return response;
+}
+
+#pragma mark - Private methods
+
+- (NSString *)isValidParameter:(NSString *)parameter param:(NSString *)parameterName
+{
+    NSString *message = @"";
+    if (!parameter || parameter.length == 0) {
+        message = [NSString stringWithFormat:@"%@ is empty.", parameterName];
+    }
+    return message;
+}
+
+- (void)saveSessionInfo:(BICCreateSessionResponse *)response
+           companyLogin:(NSString *)companyLogin
+               username:(NSString *)username
+               password:(NSString *)password
+{
+    BICPreferences *preferences = [[BICPreferences alloc] init];
+    if (response.isAuthorized) {
+        preferences.merchantId = response.merchantId;
+        preferences.sessionId = response.sessionId;
+        //        preferences.sessionExpiryDate =
+        //        [BICDate addHoursToDate:SessionExpiryInHours toDate:[NSDate date]];
+        
+        preferences.companyLogin = companyLogin;
+        preferences.username = username;
+        
+        if (preferences.rememberMe) {
+            preferences.password = password;
+        }
+        else {
+            preferences.password = @"";
+        }
+    }
+    else {
+        preferences.sessionId = @"";
+    }
 }
 
 @end

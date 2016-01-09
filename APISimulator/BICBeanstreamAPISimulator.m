@@ -43,18 +43,17 @@
 - (void)abandonSession:(void (^)(BICAbandonSessionResponse *response))success
                failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICAbandonSessionSimulator *simulator = [[BICAbandonSessionSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-        BICAbandonSessionSimulator *simulator = [[BICAbandonSessionSimulator alloc] init];
-        
-        [simulator abandonSession:^(BICAbandonSessionResponse *response) {
-            success(response);
-        } failure:^(NSError *error) {
-            failure(error);
-        }];
-    } orFailure:^(NSError *error) {
-        failure(error);
-    }];
+                 [simulator abandonSession:^(BICAbandonSessionResponse *response) {
+                     success(response);
+                 } failure:^(NSError *error) {
+                     failure(error);
+                 }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)createSession:(NSString *)companyLogin
@@ -63,55 +62,52 @@
               success:(void (^)(BICCreateSessionResponse *response))success
               failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICCreateSessionSimulator *simulator = [[BICCreateSessionSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-        BICCreateSessionSimulator *simulator = [[BICCreateSessionSimulator alloc] init];
-        
-        [simulator createSession:companyLogin
-                        username:username
-                        password:password
-                         success:^(BICCreateSessionResponse *response) {
-                             success(response);
-                         } failure:^(NSError *error) {
-                             failure(error);
-                         }];
-    } orFailure:^(NSError *error) {
-        failure(error);
-    }];
+                 [simulator createSession:companyLogin
+                                 username:username
+                                 password:password
+                                  success:^(BICCreateSessionResponse *response) {
+                                      success(response);
+                                  } failure:^(NSError *error) {
+                                      failure(error);
+                                  }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)createSessionWithSavedCredentials:(void (^)(BICCreateSessionResponse *response))success
                                   failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICCreateSessionSimulator *simulator = [[BICCreateSessionSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-        BICCreateSessionSimulator *simulator = [[BICCreateSessionSimulator alloc] init];
-        
-        [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
-            success(response);
-        } failure:^(NSError *error) {
-            failure(error);
-        }];
-    } orFailure:^(NSError *error) {
-        failure(error);
-    }];
+                 [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
+                     success(response);
+                 } failure:^(NSError *error) {
+                     failure(error);
+                 }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)authenticateSession:(void (^)(BICAuthenticateSessionResponse *response))success
                     failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICAuthenticateSessionSimulator *simulator = [[BICAuthenticateSessionSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-        BICAuthenticateSessionSimulator *simulator = [[BICAuthenticateSessionSimulator alloc] init];
-        
-        [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
-            success(response);
-        } failure:^(NSError *error) {
-            failure(error);
-        }];
-    } orFailure:^(NSError *error) {
-        failure(error);
-    }];
+                 [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
+                     success(response);
+                 } failure:^(NSError *error) {
+                     failure(error);
+                 }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)connectToPinPad
@@ -135,73 +131,69 @@
 - (void)initializePinPad:(void (^)(BICInitPinPadResponse *response))success
                  failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICInitializePinPadSimulator *simulator = [[BICInitializePinPadSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-        BICInitializePinPadSimulator *simulator = [[BICInitializePinPadSimulator alloc] init];
-        
-        [simulator initializePinPad:^(BICInitPinPadResponse *response) {
-            success(response);
-        } failure:^(NSError *error) {
-            failure(error);
-        }];
-    } orFailure:^(NSError *error) {
-        failure(error);
-    }];
+                 [simulator initializePinPad:^(BICInitPinPadResponse *response) {
+                     success(response);
+                 } failure:^(NSError *error) {
+                     failure(error);
+                 }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)updatePinPad:(void (^)(BICUpdatePinPadResponse *response))success
              failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICUpdatePinPadSimulator *simulator = [[BICUpdatePinPadSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-        BICUpdatePinPadSimulator *simulator = [[BICUpdatePinPadSimulator alloc] init];
-        
-        [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
-            success(response);
-        } failure:^(NSError *error) {
-            failure(error);
-        }];
-    } orFailure:^(NSError *error) {
-        failure(error);
-    }];
+                 [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
+                     success(response);
+                 } failure:^(NSError *error) {
+                     failure(error);
+                 }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)processTransaction:(BICTransactionRequest *)request
                    success:(void (^)(BICTransactionResponse *response))success
                    failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICProcessTransactionSimulator *simulator = [[BICProcessTransactionSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-        BICProcessTransactionSimulator *simulator = [[BICProcessTransactionSimulator alloc] init];
-        
-        [simulator processTransaction:(BICTransactionRequest *)request
-                              success:^(BICTransactionResponse *response) {
-                                  success(response);
-                              } failure:^(NSError *error) {
-                                  failure(error);
-                              }];
-    } orFailure:^(NSError *error) {
-        failure(error);
-    }];
+                 [simulator processTransaction:(BICTransactionRequest *)request
+                                       success:^(BICTransactionResponse *response) {
+                                           success(response);
+                                       } failure:^(NSError *error) {
+                                           failure(error);
+                                       }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)searchTransactions:(BICSearchTransactionsRequest *)request
                    success:(void (^)(BICSearchTransactionsResponse *response))success
                    failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICSearchTransactionsSimulator *simulator = [[BICSearchTransactionsSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-        BICSearchTransactionsSimulator *simulator = [[BICSearchTransactionsSimulator alloc] init];
-        
-        [simulator searchTransactions:(BICSearchTransactionsRequest *)request
-                              success:^(BICSearchTransactionsResponse *response) {
-                                  success(response);
-                              } failure:^(NSError *error) {
-                                  failure(error);
-                              }];
-    } orFailure:^(NSError *error) {
-        failure(error);
-    }];
+                 [simulator searchTransactions:(BICSearchTransactionsRequest *)request
+                                       success:^(BICSearchTransactionsResponse *response) {
+                                           success(response);
+                                       } failure:^(NSError *error) {
+                                           failure(error);
+                                       }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)getPrintReceipt:(NSString *)transactionId
@@ -209,20 +201,19 @@
                 success:(void (^)(BICReceiptResponse *response))success
                 failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-        BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
-        
-        [simulator getPrintReceipt:transactionId
-                          language:language
-                           success:^(BICReceiptResponse *response) {
-                               success(response);
-                           } failure:^(NSError *error) {
-                               failure(error);
-                           }];
-    } orFailure:^(NSError *error) {
-        failure(error);
-    }];
+                 [simulator getPrintReceipt:transactionId
+                                   language:language
+                                    success:^(BICReceiptResponse *response) {
+                                        success(response);
+                                    } failure:^(NSError *error) {
+                                        failure(error);
+                                    }];
+             } orFailure:^(NSError *error) {
+                 failure(error);
+             }];
 }
 
 - (void)sendEmailReceipt:(NSString *)transactionId
@@ -231,10 +222,9 @@
                  success:(void (^)(BICReceiptResponse *response))success
                  failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-                 BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
-                 
                  [simulator sendEmailReceipt:transactionId
                                        email:emailAddress
                                     language:language
@@ -253,10 +243,9 @@
                              success:(void (^)(BICAttachSignatureResponse *response))success
                              failure:(void (^)(NSError *error))failure
 {
-    [self processRequest:__PRETTY_FUNCTION__
+    BICAttachSignatureSimulator *simulator = [[BICAttachSignatureSimulator alloc] init];
+    [self processRequest:simulator
              withSuccess:^() {
-                 BICAttachSignatureSimulator *simulator = [[BICAttachSignatureSimulator alloc] init];
-                 
                  [simulator attachSignatureToTransaction:transactionId
                                           signatureImage:signatureImage
                                                  success:^(BICAttachSignatureResponse *response) {
@@ -272,16 +261,29 @@
 
 #pragma mark - Private methods
 
-- (void)processRequest:(const char [90])prettyFunction
+- (void)processRequest:(id<BICSimulator>)simulator
            withSuccess:(void (^)())success
              orFailure:(void (^)(NSError *error))failure
 {
-    NSString *functionName = [NSString stringWithFormat:@"%s", prettyFunction];
-    if ( [functionName hasPrefix:@"-[BICBeanstreamAPISimulator "] ) {
-        functionName = [functionName substringFromIndex:@"-[BICBeanstreamAPISimulator ".length];
-    }
-    if ( [functionName hasSuffix:@"]"] ) {
-        functionName = [functionName substringToIndex:functionName.length-2];
+    //
+    // Determine the calling method signature
+    // Found on http://stackoverflow.com/questions/1451342/objective-c-find-caller-of-method
+    //
+    NSString *sourceString = [[NSThread callStackSymbols] objectAtIndex:1];
+    // Example: 1   UIKit                               0x00540c89 -[UIApplication _callInitializationDelegatesForURL:payload:suspended:] + 1163
+    NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[sourceString  componentsSeparatedByCharactersInSet:separatorSet]];
+    [array removeObject:@""];
+    
+    //    NSLog(@"Stack = %@", [array objectAtIndex:0]);
+    //    NSLog(@"Framework = %@", [array objectAtIndex:1]);
+    //    NSLog(@"Memory address = %@", [array objectAtIndex:2]);
+    //    NSLog(@"Class caller = %@", [array objectAtIndex:3]);
+    //    NSLog(@"Function caller = %@", [array objectAtIndex:4]);
+    
+    NSString *functionName = [array objectAtIndex:4];
+    if ( [functionName hasSuffix:@"success:failure:"] ) {
+        functionName = [functionName substringToIndex:functionName.length - @"success:failure:".length - 1];
     }
     functionName = [NSString stringWithFormat:@"Choose Simulator Option\n%@", functionName];
     
@@ -289,19 +291,26 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:functionName
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *normalAction = [UIAlertAction actionWithTitle:@"Execute Normally"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction * _Nonnull action)
-                                   {
-                                       if ( success ) {
-                                           success();
-                                       }
-                                   }];
-    [alert addAction:normalAction];
-
+    NSArray *simulatorModes = simulator.supportedModes;
+    for ( NSNumber *modeNum in simulatorModes ) {
+        SimulatorMode mode = modeNum.integerValue;
+        NSString *label = [simulator labelForSimulatorMode:mode];
+        
+        UIAlertAction *action = [UIAlertAction actionWithTitle:label
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action)
+                                 {
+                                     simulator.simulatorMode = mode;
+                                     if ( success ) {
+                                         success();
+                                     }
+                                 }];
+        [alert addAction:action];
+    }
+    
     UIAlertAction *errorAction = [UIAlertAction actionWithTitle:@"Force Error"
-                                                           style:UIAlertActionStyleDestructive
-                                                         handler:^(UIAlertAction * _Nonnull action)
+                                                          style:UIAlertActionStyleDestructive
+                                                        handler:^(UIAlertAction * _Nonnull action)
                                   {
                                       if ( failure ) {
                                           NSDictionary *info = @{ NSLocalizedDescriptionKey: @"BIC Request Failed" };

@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BICSimulator.h"
+
 @class BICInitPinPadResponse;
 
-@interface BICInitializePinPadSimulator : NSObject
+@interface BICInitializePinPadSimulator : NSObject <BICSimulator>
 
 - (void)initializePinPad:(void (^)(BICInitPinPadResponse *response))success
                  failure:(void (^)(NSError *error))failure;

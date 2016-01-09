@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BICPinPadConnectionSimulator : NSObject
+#import "BICSimulator.h"
+
+@interface BICPinPadConnectionSimulator : NSObject <BICSimulator>
 
 - (void)connectToPinPad;
 

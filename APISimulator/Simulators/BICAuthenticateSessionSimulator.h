@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BICSimulator.h"
+
 @class BICAuthenticateSessionResponse;
 
-@interface BICAuthenticateSessionSimulator : NSObject
+@interface BICAuthenticateSessionSimulator : NSObject <BICSimulator>
 
 - (void)authenticateSession:(void (^)(BICAuthenticateSessionResponse *response))success
                     failure:(void (^)(NSError *error))failure;

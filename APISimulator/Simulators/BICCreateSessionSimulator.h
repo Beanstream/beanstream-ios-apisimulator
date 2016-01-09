@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BICSimulator.h"
+
 @class BICCreateSessionResponse;
 
-@interface BICCreateSessionSimulator : NSObject
+@interface BICCreateSessionSimulator : NSObject <BICSimulator>
 
 - (void)createSession:(NSString *)companyLogin
              username:(NSString *)username
