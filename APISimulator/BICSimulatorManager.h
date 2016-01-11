@@ -5,9 +5,9 @@
 //  Created by Sven Resch on 2016-01-11.
 //  Copyright © 2016 Sven Resch. All rights reserved.
 //
-// Implemenented as a singleton to provide an API to manage getting instances
-// of every supported Simulator in a way that supports being able to set Headless
-// and SimulatorMode options in a concise way. As such being able to control the
+// Implemenented as a singleton to provide an API for managing instances of
+// every supported Simulator in a way that can support being able to set Headless
+// and SimulatorMode options in a concise way. As such we are able to control the
 // simulators both programatically (to support test automation) and via a GUI.
 //
 
