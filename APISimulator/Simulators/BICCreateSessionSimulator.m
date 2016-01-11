@@ -70,7 +70,7 @@ static NSString *CREATE_SESSION_VERSION_NUMBER = @"1.0";
     return label;
 }
 
-#pragma mark - BICCreateSession overrides
+#pragma mark - Public methods
 
 - (void)createSession:(NSString *)companyLogin
              username:(NSString *)username
