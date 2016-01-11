@@ -8,6 +8,12 @@
 
 #import "BICBeanstreamAPISimulator.h"
 
+#import "BICSimulatorManager.h"
+#import "BICBeanstreamAPI.h"
+#import "BICSDKConstants.h"
+#import "BICPreferences.h"
+#import "BICSDKError.h"
+
 #import "BICAbandonSessionSimulator.h"
 #import "BICCreateSessionSimulator.h"
 #import "BICAuthenticateSessionSimulator.h"
@@ -18,11 +24,6 @@
 #import "BICSearchTransactionsSimulator.h"
 #import "BICAttachSignatureSimulator.h"
 #import "BICReceiptSimulator.h"
-
-#import "BICBeanstreamAPI.h"
-#import "BICSDKConstants.h"
-#import "BICPreferences.h"
-#import "BICSDKError.h"
 
 #import "BICAbandonSessionResponse.h"
 #import "BICCreateSessionResponse.h"
@@ -43,9 +44,9 @@
 - (void)abandonSession:(void (^)(BICAbandonSessionResponse *response))success
                failure:(void (^)(NSError *error))failure
 {
-    BICAbandonSessionSimulator *simulator = [[BICAbandonSessionSimulator alloc] init];
+    BICAbandonSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AbandonSessionSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator abandonSession:^(BICAbandonSessionResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
@@ -62,9 +63,9 @@
               success:(void (^)(BICCreateSessionResponse *response))success
               failure:(void (^)(NSError *error))failure
 {
-    BICCreateSessionSimulator *simulator = [[BICCreateSessionSimulator alloc] init];
+    BICCreateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:CreateSessionSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator createSession:companyLogin
                                  username:username
                                  password:password
@@ -81,9 +82,9 @@
 - (void)createSessionWithSavedCredentials:(void (^)(BICCreateSessionResponse *response))success
                                   failure:(void (^)(NSError *error))failure
 {
-    BICCreateSessionSimulator *simulator = [[BICCreateSessionSimulator alloc] init];
+    BICCreateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:CreateSessionSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
@@ -97,9 +98,9 @@
 - (void)authenticateSession:(void (^)(BICAuthenticateSessionResponse *response))success
                     failure:(void (^)(NSError *error))failure
 {
-    BICAuthenticateSessionSimulator *simulator = [[BICAuthenticateSessionSimulator alloc] init];
+    BICAuthenticateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AuthenticateSessionSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
@@ -131,9 +132,9 @@
 - (void)initializePinPad:(void (^)(BICInitPinPadResponse *response))success
                  failure:(void (^)(NSError *error))failure
 {
-    BICInitializePinPadSimulator *simulator = [[BICInitializePinPadSimulator alloc] init];
+    BICInitializePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:InitializePinPadSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator initializePinPad:^(BICInitPinPadResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
@@ -147,9 +148,9 @@
 - (void)updatePinPad:(void (^)(BICUpdatePinPadResponse *response))success
              failure:(void (^)(NSError *error))failure
 {
-    BICUpdatePinPadSimulator *simulator = [[BICUpdatePinPadSimulator alloc] init];
+    BICUpdatePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:UpdatePinPadSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
@@ -164,9 +165,9 @@
                    success:(void (^)(BICTransactionResponse *response))success
                    failure:(void (^)(NSError *error))failure
 {
-    BICProcessTransactionSimulator *simulator = [[BICProcessTransactionSimulator alloc] init];
+    BICProcessTransactionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ProcessTransactionSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator processTransaction:(BICTransactionRequest *)request
                                        success:^(BICTransactionResponse *response) {
                                            success(response);
@@ -182,9 +183,9 @@
                    success:(void (^)(BICSearchTransactionsResponse *response))success
                    failure:(void (^)(NSError *error))failure
 {
-    BICSearchTransactionsSimulator *simulator = [[BICSearchTransactionsSimulator alloc] init];
+    BICSearchTransactionsSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:SearchTransactionsSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator searchTransactions:(BICSearchTransactionsRequest *)request
                                        success:^(BICSearchTransactionsResponse *response) {
                                            success(response);
@@ -201,9 +202,9 @@
                 success:(void (^)(BICReceiptResponse *response))success
                 failure:(void (^)(NSError *error))failure
 {
-    BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
+    BICReceiptSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ReceiptSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator getPrintReceipt:transactionId
                                    language:language
                                     success:^(BICReceiptResponse *response) {
@@ -222,9 +223,9 @@
                  success:(void (^)(BICReceiptResponse *response))success
                  failure:(void (^)(NSError *error))failure
 {
-    BICReceiptSimulator *simulator = [[BICReceiptSimulator alloc] init];
+    BICReceiptSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ReceiptSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator sendEmailReceipt:transactionId
                                        email:emailAddress
                                     language:language
@@ -243,9 +244,9 @@
                              success:(void (^)(BICAttachSignatureResponse *response))success
                              failure:(void (^)(NSError *error))failure
 {
-    BICAttachSignatureSimulator *simulator = [[BICAttachSignatureSimulator alloc] init];
+    BICAttachSignatureSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AttachSignatureSimulatorIdentifier];
     [self processRequest:simulator
-             withSuccess:^() {
+               withBlock:^() {
                  [simulator attachSignatureToTransaction:transactionId
                                           signatureImage:signatureImage
                                                  success:^(BICAttachSignatureResponse *response) {
@@ -262,9 +263,18 @@
 #pragma mark - Private methods
 
 - (void)processRequest:(id<BICSimulator>)simulator
-           withSuccess:(void (^)())success
+             withBlock:(void (^)())completion
              orFailure:(void (^)(NSError *error))failure
 {
+    if ( simulator.headless ) {
+        // No need for GUI. Execute the completion block with whatever simulator
+        // mode is currently present.
+        if ( completion ) {
+            completion();
+        }
+        return;
+    }
+    
     //
     // Determine the calling method signature
     // Found on http://stackoverflow.com/questions/1451342/objective-c-find-caller-of-method
@@ -301,8 +311,8 @@
                                                        handler:^(UIAlertAction * _Nonnull action)
                                  {
                                      simulator.simulatorMode = mode;
-                                     if ( success ) {
-                                         success();
+                                     if ( completion ) {
+                                         completion();
                                      }
                                  }];
         [alert addAction:action];

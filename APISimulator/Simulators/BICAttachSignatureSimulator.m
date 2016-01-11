@@ -13,7 +13,7 @@
 
 @implementation BICAttachSignatureSimulator
 
-@synthesize simulatorMode;
+@synthesize simulatorMode, headless;
 
 #pragma mark - BICSimulator protocol methods
 

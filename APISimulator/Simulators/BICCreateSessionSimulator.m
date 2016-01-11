@@ -14,7 +14,18 @@
 
 static NSString *CREATE_SESSION_VERSION_NUMBER = @"1.0";
 
-@synthesize simulatorMode;
+@synthesize simulatorMode, headless;
+
+#pragma mark - Initialization methods
+
+- (id)init
+{
+    if (self = [super init]) {
+        // Must set a default mode of operation in case of headless mode operation
+        self.simulatorMode = SimulatorModeCreateSessionCreated;
+    }
+    return self;
+}
 
 #pragma mark - BICSimulator protocol methods
 

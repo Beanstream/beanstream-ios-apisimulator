@@ -148,7 +148,7 @@ static NSString *const BICMerchantReceipt =
 "colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" style=\"text-align: center;\">***MERCHANT "
 "COPY***</td></tr></table></body></html>";
 
-@synthesize simulatorMode;
+@synthesize simulatorMode, headless;
 
 #pragma mark - BICSimulator protocol methods
 

@@ -34,6 +34,9 @@
 		BC0DF6011C3DBD60000528CA /* BICAuthenticateSessionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5EA1C3DBD60000528CA /* BICAuthenticateSessionSimulator.m */; };
 		BC0DF60A1C3DCB6B000528CA /* BICSimulatorState.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF6081C3DCB6B000528CA /* BICSimulatorState.h */; };
 		BC0DF60B1C3DCB6B000528CA /* BICSimulatorState.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF6091C3DCB6B000528CA /* BICSimulatorState.m */; };
+		BC291C2A1C444565008E1E4D /* BICSimulatorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C281C444565008E1E4D /* BICSimulatorManager.h */; };
+		BC291C2B1C444565008E1E4D /* BICSimulatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BC291C291C444565008E1E4D /* BICSimulatorManager.m */; };
+		BC291C2D1C444A95008E1E4D /* BICSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C2C1C444A95008E1E4D /* BICSimulator.h */; };
 		D38F9500C641474D5992AB9D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F356D5DC2D60C69964F92AC /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +83,9 @@
 		BC0DF5EA1C3DBD60000528CA /* BICAuthenticateSessionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICAuthenticateSessionSimulator.m; sourceTree = "<group>"; };
 		BC0DF6081C3DCB6B000528CA /* BICSimulatorState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatorState.h; sourceTree = "<group>"; };
 		BC0DF6091C3DCB6B000528CA /* BICSimulatorState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatorState.m; sourceTree = "<group>"; };
+		BC291C281C444565008E1E4D /* BICSimulatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatorManager.h; sourceTree = "<group>"; };
+		BC291C291C444565008E1E4D /* BICSimulatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatorManager.m; sourceTree = "<group>"; };
+		BC291C2C1C444A95008E1E4D /* BICSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulator.h; sourceTree = "<group>"; };
 		DF4A125B3B210488FF876436 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,6 +141,8 @@
 			isa = PBXGroup;
 			children = (
 				BC0DF5BB1C3DBC7B000528CA /* APISimulator.h */,
+				BC291C281C444565008E1E4D /* BICSimulatorManager.h */,
+				BC291C291C444565008E1E4D /* BICSimulatorManager.m */,
 				BC0DF5D21C3DBD50000528CA /* BICBeanstreamAPISimulator.h */,
 				BC0DF5D31C3DBD50000528CA /* BICBeanstreamAPISimulator.m */,
 				BC0DF5D61C3DBD60000528CA /* Simulators */,
@@ -156,6 +164,7 @@
 		BC0DF5D61C3DBD60000528CA /* Simulators */ = {
 			isa = PBXGroup;
 			children = (
+				BC291C2C1C444A95008E1E4D /* BICSimulator.h */,
 				BC0DF5D71C3DBD60000528CA /* BICAbandonSessionSimulator.h */,
 				BC0DF5D81C3DBD60000528CA /* BICAbandonSessionSimulator.m */,
 				BC0DF5D91C3DBD60000528CA /* BICAttachSignatureSimulator.h */,
@@ -208,6 +217,7 @@
 				BC0DF5F01C3DBD60000528CA /* BICAttachSignatureSimulator.h in Headers */,
 				BC0DF5EE1C3DBD60000528CA /* BICAbandonSessionSimulator.h in Headers */,
 				BC0DF5F81C3DBD60000528CA /* BICProcessTransactionSimulator.h in Headers */,
+				BC291C2A1C444565008E1E4D /* BICSimulatorManager.h in Headers */,
 				BC0DF6001C3DBD60000528CA /* BICAuthenticateSessionSimulator.h in Headers */,
 				BC0DF5F21C3DBD60000528CA /* BICCreateSessionSimulator.h in Headers */,
 				BC0DF5FC1C3DBD60000528CA /* BICSearchTransactionsSimulator.h in Headers */,
@@ -217,6 +227,7 @@
 				BC0DF5FE1C3DBD60000528CA /* BICUpdatePinPadSimulator.h in Headers */,
 				BC0DF5F41C3DBD60000528CA /* BICInitializePinPadSimulator.h in Headers */,
 				BC0DF5D41C3DBD50000528CA /* BICBeanstreamAPISimulator.h in Headers */,
+				BC291C2D1C444A95008E1E4D /* BICSimulator.h in Headers */,
 				BC0DF5F61C3DBD60000528CA /* BICPinPadConnectionSimulator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,6 +365,7 @@
 			files = (
 				BC0DF6011C3DBD60000528CA /* BICAuthenticateSessionSimulator.m in Sources */,
 				BC0DF5F51C3DBD60000528CA /* BICInitializePinPadSimulator.m in Sources */,
+				BC291C2B1C444565008E1E4D /* BICSimulatorManager.m in Sources */,
 				BC0DF5F31C3DBD60000528CA /* BICCreateSessionSimulator.m in Sources */,
 				BC0DF60B1C3DCB6B000528CA /* BICSimulatorState.m in Sources */,
 				BC0DF5FB1C3DBD60000528CA /* BICReceiptSimulator.m in Sources */,

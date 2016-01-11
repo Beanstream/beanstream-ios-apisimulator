@@ -11,7 +11,7 @@
 
 @implementation BICInitializePinPadSimulator
 
-@synthesize simulatorMode;
+@synthesize simulatorMode, headless;
 
 #pragma mark - BICSimulator protocol methods
 

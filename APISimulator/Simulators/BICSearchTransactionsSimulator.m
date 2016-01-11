@@ -22,7 +22,7 @@ static NSString *const TransactionTypePreAuth = @"PA";
 static NSString *const TransactionTypePreAuthComplete = @"PAC";
 static NSString *const TransactionTypeReturn = @"R";
 
-@synthesize simulatorMode;
+@synthesize simulatorMode, headless;
 
 #pragma mark - BICSimulator protocol methods
 

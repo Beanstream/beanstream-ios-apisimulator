@@ -18,6 +18,7 @@ typedef enum : NSUInteger {
 @protocol BICSimulator <NSObject>
 
 @property (nonatomic, assign) SimulatorMode simulatorMode;
+@property (nonatomic, assign) BOOL headless; // Indicator if mode input GUI should be shown
 @property (nonatomic, readonly) NSArray /*<NSNumber>*/ *supportedModes; // <SimulatorMode>
 
 - (NSString *)labelForSimulatorMode:(SimulatorMode)simulatorMode;
