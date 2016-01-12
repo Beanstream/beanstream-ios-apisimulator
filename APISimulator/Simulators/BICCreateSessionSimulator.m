@@ -14,12 +14,12 @@
 
 static NSString *CREATE_SESSION_VERSION_NUMBER = @"1.0";
 
-BICSimulatorMode *SimulatorModeCreateSessionCreated = nil;
-BICSimulatorMode *SimulatorModeCreateSessionInvalid = nil;
-BICSimulatorMode *SimulatorModeCreateSessionExpired = nil;
-BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
-BICSimulatorMode *SimulatorModeCreateSessionHTTPError = nil;
-BICSimulatorMode *SimulatorModeCreateSessionNetworkError = nil;
+static BICSimulatorMode *SimulatorModeCreateSessionCreated = nil;
+static BICSimulatorMode *SimulatorModeCreateSessionInvalid = nil;
+static BICSimulatorMode *SimulatorModeCreateSessionExpired = nil;
+static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
+static BICSimulatorMode *SimulatorModeCreateSessionHTTPError = nil;
+static BICSimulatorMode *SimulatorModeCreateSessionNetworkError = nil;
 
 @synthesize simulatorMode, interactive;
 

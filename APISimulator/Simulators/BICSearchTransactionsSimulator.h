@@ -15,13 +15,6 @@
 
 @interface BICSearchTransactionsSimulator : NSObject <BICSimulator>
 
-extern BICSimulatorMode *SimulatorModeSearchTransactionsMix;
-extern BICSimulatorMode *SimulatorModeSearchTransactionsNone;
-extern BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedBy;
-extern BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedTo;
-extern BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession;
-extern BICSimulatorMode *SimulatorModeSearchTransactionsError;
-
 - (void)searchTransactions:(BICSearchTransactionsRequest *)request
                    success:(void (^)(BICSearchTransactionsResponse *response))success
                    failure:(void (^)(NSError *error))failure;

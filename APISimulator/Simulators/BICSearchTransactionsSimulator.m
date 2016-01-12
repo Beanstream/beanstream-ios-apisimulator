@@ -24,12 +24,12 @@ static NSString *const TransactionTypeReturn = @"R";
 
 static NSString *SEARCH_TRANSACTION_VERSION_NUMBER = @"1.0";
 
-BICSimulatorMode *SimulatorModeSearchTransactionsMix = nil;
-BICSimulatorMode *SimulatorModeSearchTransactionsNone = nil;
-BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedBy = nil;
-BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedTo = nil;
-BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
-BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
+static BICSimulatorMode *SimulatorModeSearchTransactionsMix = nil;
+static BICSimulatorMode *SimulatorModeSearchTransactionsNone = nil;
+static BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedBy = nil;
+static BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedTo = nil;
+static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
+static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
 
 @synthesize simulatorMode, interactive;
 
