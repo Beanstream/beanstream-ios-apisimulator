@@ -106,7 +106,7 @@ static BICSimulatorMode *SimulatorModeCreateSessionNetworkError = nil;
     }
 
     NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
-    if (response && response.isSuccessful) {
+    if (response.isSuccessful) {
         success(response);
     }
     else {
