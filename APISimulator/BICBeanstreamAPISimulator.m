@@ -266,7 +266,7 @@
              withBlock:(void (^)())completion
              orFailure:(void (^)(NSError *error))failure
 {
-    if ( simulator.headless ) {
+    if ( !simulator.interactive ) {
         // No need for GUI. Execute the completion block with whatever simulator
         // mode is currently present.
         if ( completion ) {
@@ -302,9 +302,8 @@
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
     NSArray *simulatorModes = simulator.supportedModes;
-    for ( NSNumber *modeNum in simulatorModes ) {
-        SimulatorMode mode = modeNum.integerValue;
-        NSString *label = [simulator labelForSimulatorMode:mode];
+    for ( BICSimulatorMode *mode in simulatorModes ) {
+        NSString *label = mode.label;
         
         UIAlertAction *action = [UIAlertAction actionWithTitle:label
                                                          style:UIAlertActionStyleDefault

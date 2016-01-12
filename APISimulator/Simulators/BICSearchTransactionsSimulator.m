@@ -22,66 +22,211 @@ static NSString *const TransactionTypePreAuth = @"PA";
 static NSString *const TransactionTypePreAuthComplete = @"PAC";
 static NSString *const TransactionTypeReturn = @"R";
 
-@synthesize simulatorMode, headless;
+static NSString *SEARCH_TRANSACTION_VERSION_NUMBER = @"1.0";
+
+BICSimulatorMode *SimulatorModeSearchTransactionsMix = nil;
+BICSimulatorMode *SimulatorModeSearchTransactionsNone = nil;
+BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedBy = nil;
+BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedTo = nil;
+BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
+BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
+
+@synthesize simulatorMode, interactive;
+
+#pragma mark - Initialization methods
+
++ (void)initialize
+{
+    SimulatorModeSearchTransactionsMix = [[BICSimulatorMode alloc] initWithLabel:@"Transaction Mix"];
+    SimulatorModeSearchTransactionsNone = [[BICSimulatorMode alloc] initWithLabel:@"No Transactions"];
+    SimulatorModeSearchTransactionsAdjustedBy = [[BICSimulatorMode alloc] initWithLabel:@"Adjusted By"];
+    SimulatorModeSearchTransactionsAdjustedTo = [[BICSimulatorMode alloc] initWithLabel:@"Adjusted To"];
+    SimulatorModeSearchTransactionsInvalidSession = [[BICSimulatorMode alloc] initWithLabel:@"Invalid Session"];
+    SimulatorModeSearchTransactionsError = [[BICSimulatorMode alloc] initWithLabel:@"Error"];
+}
+
+- (id)init
+{
+    if (self = [super init]) {
+        // Must set a default mode of operation in case of headless mode operation
+        self.simulatorMode = SimulatorModeSearchTransactionsMix;
+    }
+    return self;
+}
 
 #pragma mark - BICSimulator protocol methods
 
 - (NSArray *)supportedModes
 {
-    return @[@(SimulatorModeCreateSessionCreated),
-             @(SimulatorModeCreateSessionInvalid),
-             @(SimulatorModeCreateSessionExpired),
-             @(SimulatorModeCreateSessionEncryptionFailure),
-             @(SimulatorModeCreateSessionHTTPError),
-             @(SimulatorModeCreateSessionNetworkError)];
+    return @[SimulatorModeSearchTransactionsMix,
+             SimulatorModeSearchTransactionsNone,
+             SimulatorModeSearchTransactionsAdjustedBy,
+             SimulatorModeSearchTransactionsAdjustedTo,
+             SimulatorModeSearchTransactionsError,
+             SimulatorModeSearchTransactionsInvalidSession];
 }
 
-- (NSString *)labelForSimulatorMode:(SimulatorMode)simulatorMode
-{
-    NSString *label = nil;
-    
-    switch (self.simulatorMode) {
-        case SimulatorModeCreateSessionCreated:
-            label = @"Authorized";
-            break;
-        case SimulatorModeCreateSessionInvalid:
-            label = @"Invalid Credentials";
-            break;
-        case SimulatorModeCreateSessionExpired:
-            label = @"Password Expired";
-            break;
-        case SimulatorModeCreateSessionEncryptionFailure:
-            label = @"Authorized with Encryption Failure";
-            break;
-        case SimulatorModeCreateSessionHTTPError:
-            label = @"HTTP Error";
-            break;
-        case SimulatorModeCreateSessionNetworkError:
-            label = @"Network Error";
-            break;
-        default:
-            label = @"Developer Issue --> Unknown Mode";
-            break;
-    }
-    
-    return label;
-}
-
-#pragma mark - BICCreateSession overrides
+#pragma mark - Public methods
 
 - (void)searchTransactions:(BICSearchTransactionsRequest *)request
                    success:(void (^)(BICSearchTransactionsResponse *response))success
                    failure:(void (^)(NSError *error))failure
 {
-    //TODO Validate
+    BICSearchTransactionsResponse *response = [self validateRequest:request];
     
-    BICSearchTransactionsResponse *response = [self getSuccessfulResponse:request];
+    if ( !response ) {
+        response = [self createSuccessfulResponse:request];
+    }
 
     if (response.isSuccessful) {
         success(response);
-    } else {
+    }
+    else {
         failure([[NSError alloc] init]);
     }
+}
+
+#pragma mark - Private methods
+
+- (BICSearchTransactionsResponse *)createSuccessfulResponse:(BICSearchTransactionsRequest *)request
+{
+    BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
+    
+    response.code = 1;
+    response.message = @"Report Generated";
+    response.version = SearchTransactionVersion;
+    response.transactionRecords = [self getBaseArrayOfTransactionRecords];
+    response.total = response.transactionRecords.count;
+    response.isSuccessful = YES;
+    
+    return response;
+}
+
+
+- (BICSearchTransactionsResponse *)createDataValidationErrorResponse
+{
+    BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
+    
+    response.code = 6;
+    response.message = @"Data Validation Failed. ";
+    response.version = SEARCH_TRANSACTION_VERSION_NUMBER;
+    response.isSuccessful = YES;
+    
+    return response;
+}
+
+// Returns nil if validation was successful
+- (BICSearchTransactionsResponse *)validateRequest:(BICSearchTransactionsRequest *)request
+{
+    BICSearchTransactionsResponse *response = nil;
+    NSMutableString *message = [NSMutableString new];
+
+// Currently the iOS SDK does not have ASC|DESC ordering options
+//    if ( !(rptOrder.equals(SearchTransactionRequest.REPORT_ORDER_ACSENDING) ||
+//        rptOrder.equals(SearchTransactionRequest.REPORT_ORDER_DESCENDING) || rptOrder.equals("")) ) {
+//        message = message + "Field rptOrder must be 1 or 2. ";
+//    }
+    
+    BICFilterBy filterBy = request.reportFilterBy;
+    if ( !(filterBy >=0 && filterBy <= 7) ) {
+        [message appendString:@"Field rptFilterby must be between 1 or 7. "];
+    }
+    else if ( filterBy > 0 && request.reportFilterByValue.length == 0 ) {
+        [message appendString:@"Field rptFilterValue must have value. "];
+    }
+
+// Currently the iOS SDK only supports the "=" operator.
+//    BICOperationType opType = request.reportFilterByOperationType;
+//    if (!isValidRptOperationType(transactionRequest.getRptOperationType())) {
+//        message = message + "Field rptOperationType must be one of =, %3E%3D, %3C%3D. ";
+//    }
+    
+// Currently the iOS SDK only supports the "=" operator.
+//    if (!isRptFilterByValidForRptOperationType(transactionRequest.getRptOperationType(), transactionRequest.getRptFilterBy())) {
+//        message = message + "Field rptOperationType must be = ";
+//    }
+    
+    if ( !request.reportStartDate || !request.reportEndDate ) {
+        [message appendString:@"rptToDateTime and rptFromDateTime cannot be blank. "];
+    }
+    
+    if ( message.length > 0 ) {
+        NSLog(@"Error Validating: %@", message);
+        
+        response = [self createDataValidationErrorResponse];
+        response.message = [NSString stringWithFormat:@"%@%@", response.message, message];
+    }
+    
+    return response;
+}
+
+
+- (NSMutableArray *)getBaseArrayOfTransactionRecords
+{
+    int numRecordsToGenerate = 200;
+    
+    NSMutableArray *records = [NSMutableArray array];
+    for (int i = 0; i < numRecordsToGenerate; i++) {
+        [records addObject:[self getBaseTransactionRecord:i]];
+    }
+    
+    return records;
+}
+
+- (BICTransactionDetail *)getBaseTransactionRecord:(int)rowId
+{
+    BICTransactionDetail *record = [[BICTransactionDetail alloc] init];
+    
+    record.rowId = [NSString stringWithFormat:@"%d", rowId];
+    
+    NSString *formattedNumber = [NSString stringWithFormat:@"%03d", rowId];
+    
+    record.trnId = [NSString stringWithFormat:@"10000%@", formattedNumber];
+    
+    record.trnDateTime = [self getCurrentDateMinusHours:rowId];
+    
+    record.trnType = [self getTransactionTypeForRowId:rowId];
+    record.trnOrderNumber = [NSString stringWithFormat:@"A%@", formattedNumber];
+    record.trnMaskedCard = [NSString stringWithFormat:@"%03d", rowId + 1250];
+    
+    record.trnAmount = [NSString stringWithFormat:@"%d", rowId + 10];
+    record.trnReturns = @"0.00";
+    record.trnCompletions = @"0.00";
+    record.trnVoided = @"0";
+    
+    record.trnResponse = @"1";
+    record.trnCardType = [self getCardTypeForRowId:rowId];
+    record.messageId = @"1";
+    record.messageText = ((rowId % 2 == 0) ? @"Approved" : @"Declined");
+    record.trnCardOwner = @"Beanstream";
+    record.billingName = @"";
+    record.billingEmail = @"";
+    record.billingPhone = @"";
+    record.billingAddress1 = @"";
+    record.billingAddress2 = @"";
+    record.billingCity = @"";
+    record.billingProvince = @"";
+    record.billingPostal = @"";
+    record.billingCountry = @"";
+    record.shippingName = @"";
+    record.shippingEmail = @"";
+    record.shippingPhone = @"";
+    record.shippingAddress1 = @"";
+    record.shippingAddress2 = @"";
+    record.shippingCity = @"";
+    record.shippingProvince = @"";
+    record.shippingPostal = @"";
+    record.shippingCountry = @"";
+    record.ref1 = @"48.4381087";
+    record.ref2 = @"-123.3669824";
+    record.ref3 = @"";
+    record.ref4 = @"";
+    record.ref5 = @"";
+    //    record.tax1Amount = @"0.0000";
+    //    record.tax2Amount = @"0.0000";
+    //    record.tipAmount = @"0.00";
+    
+    return record;
 }
 
 - (NSString *)getCurrentDateMinusHours:(int)hours
@@ -171,88 +316,6 @@ static NSString *const TransactionTypeReturn = @"R";
     }
 
     return cardType;
-}
-
-- (BICSearchTransactionsResponse *)getSuccessfulResponse:(BICSearchTransactionsRequest *)request
-{
-    BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
-
-    response.isSuccessful = YES;
-    response.code = 1;
-    response.message = @"Report Generated";
-    response.version = SearchTransactionVersion;
-    response.transactionRecords = [self getBaseArrayOfTransactionRecords];
-    response.total = response.transactionRecords.count;
-    
-    return response;
-}
-
-- (NSMutableArray *)getBaseArrayOfTransactionRecords
-{
-    int numRecordsToGenerate = 200;
-
-    NSMutableArray *records = [NSMutableArray array];
-    for (int i = 0; i < numRecordsToGenerate; i++) {
-        [records addObject:[self getBaseTransactionRecord:i]];
-    }
-
-    return records;
-}
-
-- (BICTransactionDetail *)getBaseTransactionRecord:(int)rowId
-{
-    BICTransactionDetail *record = [[BICTransactionDetail alloc] init];
-
-    record.rowId = [NSString stringWithFormat:@"%d", rowId];
-
-    NSString *formattedNumber = [NSString stringWithFormat:@"%03d", rowId];
-
-    record.trnId = [NSString stringWithFormat:@"10000%@", formattedNumber];
-
-    record.trnDateTime = [self getCurrentDateMinusHours:rowId];
-
-    record.trnType = [self getTransactionTypeForRowId:rowId];
-    record.trnOrderNumber = [NSString stringWithFormat:@"A%@", formattedNumber];
-    record.trnMaskedCard = [NSString stringWithFormat:@"%03d", rowId + 1250];
-
-    record.trnAmount = [NSString stringWithFormat:@"%d", rowId + 10];
-    record.trnReturns = @"0.00";
-    record.trnCompletions = @"0.00";
-    record.trnVoided = @"0";
-
-    record.trnResponse = @"1";
-    record.trnCardType = [self getCardTypeForRowId:rowId];
-    record.messageId = @"1";
-    record.messageText = ((rowId % 2 == 0) ? @"Approved" : @"Declined");
-    record.trnCardOwner = @"Beanstream";
-    record.billingName = @"";
-    record.billingEmail = @"";
-    record.billingPhone = @"";
-    record.billingAddress1 = @"";
-    record.billingAddress2 = @"";
-    record.billingCity = @"";
-    record.billingProvince = @"";
-    record.billingPostal = @"";
-    record.billingCountry = @"";
-    record.shippingName = @"";
-    record.shippingEmail = @"";
-    record.shippingPhone = @"";
-    record.shippingAddress1 = @"";
-    record.shippingAddress2 = @"";
-    record.shippingCity = @"";
-    record.shippingProvince = @"";
-    record.shippingPostal = @"";
-    record.shippingCountry = @"";
-    record.ref1 = @"48.4381087";
-    record.ref2 = @"-123.3669824";
-    record.ref3 = @"";
-    record.ref4 = @"";
-    record.ref5 = @"";
-//    record.tax1Amount = @"0.0000";
-//    record.tax2Amount = @"0.0000";
-//    record.tipAmount = @"0.00";
-
-    return record;
 }
 
 @end

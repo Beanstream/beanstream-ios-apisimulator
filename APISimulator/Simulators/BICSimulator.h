@@ -5,22 +5,20 @@
 //  Created by Sven Resch on 2016-01-08.
 //  Copyright © 2016 Beanstream Internet Commerce, Inc. All rights reserved.
 //
+// This protocol must be implemented by all simulators.
+//
 
-typedef enum : NSUInteger {
-    SimulatorModeCreateSessionCreated = 1,
-    SimulatorModeCreateSessionInvalid,
-    SimulatorModeCreateSessionExpired,
-    SimulatorModeCreateSessionEncryptionFailure,
-    SimulatorModeCreateSessionHTTPError,
-    SimulatorModeCreateSessionNetworkError
-} SimulatorMode;
+#import "BICSimulatorMode.h"
 
 @protocol BICSimulator <NSObject>
 
-@property (nonatomic, assign) SimulatorMode simulatorMode;
-@property (nonatomic, assign) BOOL headless; // Indicator if mode input GUI should be shown
-@property (nonatomic, readonly) NSArray /*<NSNumber>*/ *supportedModes; // <SimulatorMode>
+// Indicator if mode input GUI should be shown.
+@property (nonatomic, assign) BOOL interactive;
 
-- (NSString *)labelForSimulatorMode:(SimulatorMode)simulatorMode;
+// The currently operating BICSimulatorMode.
+@property (nonatomic, strong) BICSimulatorMode *simulatorMode;
+
+// Array of supported BICSimulatorMode instances.
+@property (nonatomic, readonly) NSArray *supportedModes;
 
 @end

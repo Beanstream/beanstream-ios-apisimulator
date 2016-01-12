@@ -37,6 +37,8 @@
 		BC291C2A1C444565008E1E4D /* BICSimulatorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C281C444565008E1E4D /* BICSimulatorManager.h */; };
 		BC291C2B1C444565008E1E4D /* BICSimulatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BC291C291C444565008E1E4D /* BICSimulatorManager.m */; };
 		BC291C2D1C444A95008E1E4D /* BICSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C2C1C444A95008E1E4D /* BICSimulator.h */; };
+		BC291C301C4591F7008E1E4D /* BICSimulatorMode.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C2E1C4591F7008E1E4D /* BICSimulatorMode.h */; };
+		BC291C311C4591F7008E1E4D /* BICSimulatorMode.m in Sources */ = {isa = PBXBuildFile; fileRef = BC291C2F1C4591F7008E1E4D /* BICSimulatorMode.m */; };
 		D38F9500C641474D5992AB9D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F356D5DC2D60C69964F92AC /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +88,8 @@
 		BC291C281C444565008E1E4D /* BICSimulatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatorManager.h; sourceTree = "<group>"; };
 		BC291C291C444565008E1E4D /* BICSimulatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatorManager.m; sourceTree = "<group>"; };
 		BC291C2C1C444A95008E1E4D /* BICSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulator.h; sourceTree = "<group>"; };
+		BC291C2E1C4591F7008E1E4D /* BICSimulatorMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatorMode.h; sourceTree = "<group>"; };
+		BC291C2F1C4591F7008E1E4D /* BICSimulatorMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatorMode.m; sourceTree = "<group>"; };
 		DF4A125B3B210488FF876436 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,6 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				BC291C2C1C444A95008E1E4D /* BICSimulator.h */,
+				BC291C2E1C4591F7008E1E4D /* BICSimulatorMode.h */,
+				BC291C2F1C4591F7008E1E4D /* BICSimulatorMode.m */,
 				BC0DF5D71C3DBD60000528CA /* BICAbandonSessionSimulator.h */,
 				BC0DF5D81C3DBD60000528CA /* BICAbandonSessionSimulator.m */,
 				BC0DF5D91C3DBD60000528CA /* BICAttachSignatureSimulator.h */,
@@ -225,6 +231,7 @@
 				BC0DF5FA1C3DBD60000528CA /* BICReceiptSimulator.h in Headers */,
 				BC0DF5BC1C3DBC7B000528CA /* APISimulator.h in Headers */,
 				BC0DF5FE1C3DBD60000528CA /* BICUpdatePinPadSimulator.h in Headers */,
+				BC291C301C4591F7008E1E4D /* BICSimulatorMode.h in Headers */,
 				BC0DF5F41C3DBD60000528CA /* BICInitializePinPadSimulator.h in Headers */,
 				BC0DF5D41C3DBD50000528CA /* BICBeanstreamAPISimulator.h in Headers */,
 				BC291C2D1C444A95008E1E4D /* BICSimulator.h in Headers */,
@@ -371,6 +378,7 @@
 				BC0DF5FB1C3DBD60000528CA /* BICReceiptSimulator.m in Sources */,
 				BC0DF5FD1C3DBD60000528CA /* BICSearchTransactionsSimulator.m in Sources */,
 				BC0DF5EF1C3DBD60000528CA /* BICAbandonSessionSimulator.m in Sources */,
+				BC291C311C4591F7008E1E4D /* BICSimulatorMode.m in Sources */,
 				BC0DF5F91C3DBD60000528CA /* BICProcessTransactionSimulator.m in Sources */,
 				BC0DF5FF1C3DBD60000528CA /* BICUpdatePinPadSimulator.m in Sources */,
 				BC0DF5F71C3DBD60000528CA /* BICPinPadConnectionSimulator.m in Sources */,

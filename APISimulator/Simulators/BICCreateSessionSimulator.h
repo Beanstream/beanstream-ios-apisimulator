@@ -14,6 +14,13 @@
 
 @interface BICCreateSessionSimulator : NSObject <BICSimulator>
 
+extern BICSimulatorMode *SimulatorModeCreateSessionCreated;
+extern BICSimulatorMode *SimulatorModeCreateSessionInvalid;
+extern BICSimulatorMode *SimulatorModeCreateSessionExpired;
+extern BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure;
+extern BICSimulatorMode *SimulatorModeCreateSessionHTTPError;
+extern BICSimulatorMode *SimulatorModeCreateSessionNetworkError;
+
 - (void)createSession:(NSString *)companyLogin
              username:(NSString *)username
              password:(NSString *)password

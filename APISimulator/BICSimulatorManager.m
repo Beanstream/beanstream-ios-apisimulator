@@ -85,6 +85,9 @@ NSString *const AuthenticateSessionSimulatorIdentifier  = @"AuthenticateSession"
         
         simulator = [[BICAuthenticateSessionSimulator alloc] init];
         [self.simDict setObject:simulator forKey:AuthenticateSessionSimulatorIdentifier];
+        
+        // By default run with interactive mode to start
+        [self enableInteractive:YES];
     }
     return self;
 }
@@ -97,10 +100,11 @@ NSString *const AuthenticateSessionSimulatorIdentifier  = @"AuthenticateSession"
     return simulator;
 }
 
-- (void)enableHeadless:(BOOL)headless
+- (void)enableInteractive:(BOOL)interactive
 {
-    for ( id<BICSimulator> simulator in self.simDict ) {
-        simulator.headless = headless;
+    for ( id key in self.simDict ) {
+        id<BICSimulator> simulator = [self.simDict objectForKey:key];
+        simulator.interactive = interactive;
     }
 }
 

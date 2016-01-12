@@ -14,9 +14,26 @@
 
 static NSString *CREATE_SESSION_VERSION_NUMBER = @"1.0";
 
-@synthesize simulatorMode, headless;
+BICSimulatorMode *SimulatorModeCreateSessionCreated = nil;
+BICSimulatorMode *SimulatorModeCreateSessionInvalid = nil;
+BICSimulatorMode *SimulatorModeCreateSessionExpired = nil;
+BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
+BICSimulatorMode *SimulatorModeCreateSessionHTTPError = nil;
+BICSimulatorMode *SimulatorModeCreateSessionNetworkError = nil;
+
+@synthesize simulatorMode, interactive;
 
 #pragma mark - Initialization methods
+
++ (void)initialize
+{
+    SimulatorModeCreateSessionCreated = [[BICSimulatorMode alloc] initWithLabel:@"Authorized"];
+    SimulatorModeCreateSessionInvalid = [[BICSimulatorMode alloc] initWithLabel:@"Invalid Credentials"];
+    SimulatorModeCreateSessionExpired = [[BICSimulatorMode alloc] initWithLabel:@"Password Expired"];
+    SimulatorModeCreateSessionEncryptionFailure = [[BICSimulatorMode alloc] initWithLabel:@"Authorized with Encryption Failure"];
+    SimulatorModeCreateSessionHTTPError = [[BICSimulatorMode alloc] initWithLabel:@"HTTP Error"];
+    SimulatorModeCreateSessionNetworkError = [[BICSimulatorMode alloc] initWithLabel:@"Network Error"];
+}
 
 - (id)init
 {
@@ -31,43 +48,12 @@ static NSString *CREATE_SESSION_VERSION_NUMBER = @"1.0";
 
 - (NSArray *)supportedModes
 {
-    return @[@(SimulatorModeCreateSessionCreated),
-             @(SimulatorModeCreateSessionInvalid),
-             @(SimulatorModeCreateSessionExpired),
-             @(SimulatorModeCreateSessionEncryptionFailure),
-             @(SimulatorModeCreateSessionHTTPError),
-             @(SimulatorModeCreateSessionNetworkError)];
-}
-
-- (NSString *)labelForSimulatorMode:(SimulatorMode)mode
-{
-    NSString *label = nil;
-    
-    switch (mode) {
-        case SimulatorModeCreateSessionCreated:
-            label = @"Authorized";
-            break;
-        case SimulatorModeCreateSessionInvalid:
-            label = @"Invalid Credentials";
-            break;
-        case SimulatorModeCreateSessionExpired:
-            label = @"Password Expired";
-            break;
-        case SimulatorModeCreateSessionEncryptionFailure:
-            label = @"Authorized with Encryption Failure";
-            break;
-        case SimulatorModeCreateSessionHTTPError:
-            label = @"HTTP Error";
-            break;
-        case SimulatorModeCreateSessionNetworkError:
-            label = @"Network Error";
-            break;
-        default:
-            label = @"Developer Issue --> Unknown Mode";
-            break;
-    }
-    
-    return label;
+    return @[SimulatorModeCreateSessionCreated,
+             SimulatorModeCreateSessionInvalid,
+             SimulatorModeCreateSessionExpired,
+             SimulatorModeCreateSessionEncryptionFailure,
+             SimulatorModeCreateSessionHTTPError,
+             SimulatorModeCreateSessionNetworkError];
 }
 
 #pragma mark - Public methods
@@ -83,64 +69,48 @@ static NSString *CREATE_SESSION_VERSION_NUMBER = @"1.0";
     
     if ( !response ) {
         // Validation passed... continue
-        switch (self.simulatorMode) {
-            case SimulatorModeCreateSessionCreated:
-            {
-                response = [self createSuccessfulResponse:companyLogin username:username];
-                [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
-                break;
-            }
-            case SimulatorModeCreateSessionInvalid:
-            {
-                response = [self createInvalidCredentialsResponse];
-                [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
-                break;
-            }
-            case SimulatorModeCreateSessionExpired:
-            {
-                response = [self createPasswordExpiredResponse];
-                [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
-                break;
-            }
-            case SimulatorModeCreateSessionEncryptionFailure:
-            {
-                error = [NSError errorWithDomain:@"BIC SIM Encryption Error"
-                                            code:1
-                                        userInfo:@{ NSLocalizedDescriptionKey: @"Error Encrypting Credentials" }];
-                BICPreferences *preferences = [[BICPreferences alloc] init];
-                preferences.password = @"";
-                break;
-            }
-            case SimulatorModeCreateSessionHTTPError:
-            {
-                error = [NSError errorWithDomain:@"BIC SIM HTTP Error"
-                                            code:404
-                                        userInfo:@{ NSLocalizedDescriptionKey: @"Network Error" }];
-                break;
-            }
-            case SimulatorModeCreateSessionNetworkError:
-            {
-                error = [NSError errorWithDomain:@"BIC SIM Network Error"
-                                            code:404
-                                        userInfo:@{ NSLocalizedDescriptionKey: @"Unknown Host Error: Unable to resolve host \"www.beanstream.com\": No address associated with hostname" }];
-                break;
-            }
-            default:
-            {
-                error = [NSError errorWithDomain:@"BIC SIM Usage Error"
-                                            code:1
-                                        userInfo:@{ NSLocalizedDescriptionKey: @"Simulator mode must be set!!!" }];
-                break;
-            }
+        if (self.simulatorMode == SimulatorModeCreateSessionCreated) {
+            response = [self createSuccessfulResponse:companyLogin username:username];
+            [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
+        }
+        else if (self.simulatorMode == SimulatorModeCreateSessionInvalid) {
+            response = [self createInvalidCredentialsResponse];
+            [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
+        }
+        else if (self.simulatorMode == SimulatorModeCreateSessionExpired) {
+            response = [self createPasswordExpiredResponse];
+            [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
+        }
+        else if (self.simulatorMode == SimulatorModeCreateSessionEncryptionFailure) {
+            error = [NSError errorWithDomain:@"BIC SIM Encryption Error"
+                                        code:1
+                                    userInfo:@{ NSLocalizedDescriptionKey: @"Error Encrypting Credentials" }];
+            BICPreferences *preferences = [[BICPreferences alloc] init];
+            preferences.password = @"";
+        }
+        else if (self.simulatorMode == SimulatorModeCreateSessionHTTPError) {
+            error = [NSError errorWithDomain:@"BIC SIM HTTP Error"
+                                        code:404
+                                    userInfo:@{ NSLocalizedDescriptionKey: @"Network Error" }];
+        }
+        else if (self.simulatorMode == SimulatorModeCreateSessionNetworkError ) {
+            error = [NSError errorWithDomain:@"BIC SIM Network Error"
+                                        code:404
+                                    userInfo:@{ NSLocalizedDescriptionKey: @"Unknown Host Error: Unable to resolve host \"www.beanstream.com\": No address associated with hostname" }];
+        }
+        else {
+            error = [NSError errorWithDomain:@"BIC SIM Usage Error"
+                                        code:1
+                                    userInfo:@{ NSLocalizedDescriptionKey: @"Simulator mode must be set!!!" }];
         }
     }
-    
+
     NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
     if (response && response.isSuccessful) {
         success(response);
     }
     else {
-        if ( !error ) {
+        if (!error) {
             failure([[NSError alloc] init]);
         }
         else {

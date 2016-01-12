@@ -34,8 +34,8 @@ extern NSString *const AuthenticateSessionSimulatorIdentifier;
 // Returns a simulator for the given identifier.
 - (id<BICSimulator>)simulatorForIdentifier:(NSString *)identifier;
 
-// Convenience method to enable/disable headless mode on all known simulators.
-- (void)enableHeadless:(BOOL)headless;
+// Convenience method to enable/disable interactive mode on all known simulators.
+- (void)enableInteractive:(BOOL)interactive;
 
 // Returns a pretty label for the given Simulator
 - (NSString *)labelForSimulator:(id<BICSimulator>)simulator;

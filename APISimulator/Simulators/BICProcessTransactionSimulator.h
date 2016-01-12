@@ -13,8 +13,6 @@
 @class BICTransactionRequest;
 @class BICTransactionResponse;
 
-#define BICResponse_SUCCESS_CODE 5
-
 @interface BICProcessTransactionSimulator : NSObject <BICSimulator>
 
 - (void)processTransaction:(BICTransactionRequest *)request

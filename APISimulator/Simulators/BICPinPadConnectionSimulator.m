@@ -11,49 +11,13 @@
 
 @implementation BICPinPadConnectionSimulator
 
-@synthesize simulatorMode, headless;
+@synthesize simulatorMode, interactive;
 
 #pragma mark - BICSimulator protocol methods
 
 - (NSArray *)supportedModes
 {
-    return @[@(SimulatorModeCreateSessionCreated),
-             @(SimulatorModeCreateSessionInvalid),
-             @(SimulatorModeCreateSessionExpired),
-             @(SimulatorModeCreateSessionEncryptionFailure),
-             @(SimulatorModeCreateSessionHTTPError),
-             @(SimulatorModeCreateSessionNetworkError)];
-}
-
-- (NSString *)labelForSimulatorMode:(SimulatorMode)simulatorMode
-{
-    NSString *label = nil;
-    
-    switch (self.simulatorMode) {
-        case SimulatorModeCreateSessionCreated:
-            label = @"Authorized";
-            break;
-        case SimulatorModeCreateSessionInvalid:
-            label = @"Invalid Credentials";
-            break;
-        case SimulatorModeCreateSessionExpired:
-            label = @"Password Expired";
-            break;
-        case SimulatorModeCreateSessionEncryptionFailure:
-            label = @"Authorized with Encryption Failure";
-            break;
-        case SimulatorModeCreateSessionHTTPError:
-            label = @"HTTP Error";
-            break;
-        case SimulatorModeCreateSessionNetworkError:
-            label = @"Network Error";
-            break;
-        default:
-            label = @"Developer Issue --> Unknown Mode";
-            break;
-    }
-    
-    return label;
+    return @[];
 }
 
 #pragma mark - BICCreateSession overrides
