@@ -62,8 +62,8 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
              SimulatorModeSearchTransactionsNone,
              SimulatorModeSearchTransactionsAdjustedBy,
              SimulatorModeSearchTransactionsAdjustedTo,
-             SimulatorModeSearchTransactionsError,
-             SimulatorModeSearchTransactionsInvalidSession];
+             SimulatorModeSearchTransactionsInvalidSession,
+             SimulatorModeSearchTransactionsError];
 }
 
 #pragma mark - Public methods
@@ -73,22 +73,54 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
                    failure:(void (^)(NSError *error))failure
 {
     BICSearchTransactionsResponse *response = [self validateRequest:request];
+    NSError *error = nil;
     
     if ( !response ) {
-        response = [self createSuccessfulResponse:request];
+        // Validation passed... continue
+        if (self.simulatorMode == SimulatorModeSearchTransactionsMix) {
+            response = [self createSuccessfulResponse];
+        }
+        else if (self.simulatorMode == SimulatorModeSearchTransactionsNone) {
+            response = [self createEmptyTransactionsResponse];
+        }
+        else if (self.simulatorMode == SimulatorModeSearchTransactionsAdjustedBy) {
+            response = [self createAdjustedByTransactions];
+        }
+        else if (self.simulatorMode == SimulatorModeSearchTransactionsAdjustedTo) {
+            response = [self createAdjustedToTransactions];
+        }
+        else if (self.simulatorMode == SimulatorModeSearchTransactionsInvalidSession) {
+            response = [self createInvalidSessionResponse];
+        }
+        else if (self.simulatorMode == SimulatorModeSearchTransactionsError) {
+            error = [NSError errorWithDomain:@"BIC SIM HTTP Error"
+                                        code:404
+                                    userInfo:@{ NSLocalizedDescriptionKey: @"Network Error" }];
+        }
+        else {
+            error = [NSError errorWithDomain:@"BIC SIM Usage Error"
+                                        code:1
+                                    userInfo:@{ NSLocalizedDescriptionKey: @"Simulator mode must be set!!!" }];
+        }
     }
 
+    NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
     if (response.isSuccessful) {
         success(response);
     }
     else {
-        failure([[NSError alloc] init]);
+        if (!error) {
+            failure([[NSError alloc] init]);
+        }
+        else {
+            failure(error);
+        }
     }
 }
 
 #pragma mark - Private methods
 
-- (BICSearchTransactionsResponse *)createSuccessfulResponse:(BICSearchTransactionsRequest *)request
+- (BICSearchTransactionsResponse *)createSuccessfulResponse
 {
     BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
     
@@ -102,6 +134,102 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
     return response;
 }
 
+- (BICSearchTransactionsResponse *)createEmptyTransactionsResponse
+{
+    BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
+    
+    response.code = 1;
+    response.message = @"Report Generated";
+    response.version = SearchTransactionVersion;
+    response.transactionRecords = [NSMutableArray new];
+    response.total = 0;
+    response.isSuccessful = YES;
+    
+    return response;
+}
+
+- (BICSearchTransactionsResponse *)createAdjustedByTransactions
+{
+    BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
+
+    response.code = 1;
+    response.message = @"Report Generated";
+    response.version = SearchTransactionVersion;
+    
+    NSMutableArray *records = [NSMutableArray new];
+    
+    BICTransactionDetail *record = [[BICTransactionDetail alloc] init];
+    record.rowId = @"0";
+    record.trnId = @"10001234";
+    record.trnAmount = [NSDecimalNumber decimalNumberWithString:@"15.00"];
+    record.trnReturns = @"15.00";
+    record.trnType = @"R";
+    record.trnCardType = @"VI";
+    [records addObject:record];
+    
+    record = [[BICTransactionDetail alloc] init];
+    record.rowId = @"1";
+    record.trnId = @"10001235";
+    record.trnAmount = [NSDecimalNumber decimalNumberWithString:@"15.00"];
+    record.trnReturns = @"15.00";
+    record.trnType = @"R";
+    record.trnCardType = @"VI";
+    [records addObject:record];
+    
+    response.transactionRecords = records;
+    return response;
+}
+
+- (BICSearchTransactionsResponse *)createAdjustedToTransactions
+{
+    BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
+    
+    response.code = 1;
+    response.message = @"Report Generated";
+    response.version = SearchTransactionVersion;
+    
+    NSMutableArray *records = [NSMutableArray new];
+    
+    BICTransactionDetail *record = [[BICTransactionDetail alloc] init];
+    record.rowId = @"0";
+    record.trnId = @"10001234";
+    record.trnAmount = [NSDecimalNumber decimalNumberWithString:@"15.00"];
+    record.trnReturns = @"15.00";
+    record.trnType = @"P";
+    record.trnCardType = @"VI";
+    record.trnResponse = @"1";
+    [records addObject:record];
+    
+    response.transactionRecords = records;
+    return response;
+}
+
+- (BICSearchTransactionsResponse *)attemptRetryIfPasswordRetryOnAndRememberMeOff
+{
+    BICSearchTransactionsResponse *response = nil;
+    BOOL isRetrySuccessful;// = SessionRetry.initiateRetry();
+    
+    if (isRetrySuccessful) {
+        response = [self createSuccessfulResponse];
+    }
+    else {
+        response = [self createInvalidSessionResponse];
+    }
+    
+    return response;
+}
+
+- (BICSearchTransactionsResponse *)createInvalidSessionResponse
+{
+    BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
+    
+    response.code = 7;
+    response.message = @"Authentication failed";
+    response.version = SearchTransactionVersion;
+    response.isSuccessful = YES;
+    
+    return response;
+}
 
 - (BICSearchTransactionsResponse *)createDataValidationErrorResponse
 {
@@ -189,7 +317,7 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
     record.trnOrderNumber = [NSString stringWithFormat:@"A%@", formattedNumber];
     record.trnMaskedCard = [NSString stringWithFormat:@"%03d", rowId + 1250];
     
-    record.trnAmount = [NSString stringWithFormat:@"%d", rowId + 10];
+    record.trnAmount = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%d", rowId + 10]];
     record.trnReturns = @"0.00";
     record.trnCompletions = @"0.00";
     record.trnVoided = @"0";
@@ -229,13 +357,13 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
     return record;
 }
 
-- (NSString *)getCurrentDateMinusHours:(int)hours
+- (NSDate *)getCurrentDateMinusHours:(int)hours
 {
     NSDate *date = [[NSDate date] dateByAddingTimeInterval:-hours * 60 * 60];
 
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:SearchTransactionDateFormat];
-    return [self getFormattedDateString:date];
+    return date;
 }
 
 - (NSString *)getFormattedDateString:date
