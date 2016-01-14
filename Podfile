@@ -3,4 +3,3 @@
 
 source 'https://github.com/Beanstream-DRWP/beanstream-ios-specs.git'
 pod 'Beanstream.SDK'
-

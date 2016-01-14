@@ -9,9 +9,9 @@
 #import "BICBeanstreamAPISimulator.h"
 
 #import "BICSimulatorManager.h"
-#import "BICBeanstreamAPI.h"
+#import "BICSimulatedCredentialManager.h"
+#import "BICAuthenticationService.h"
 #import "BICSDKConstants.h"
-#import "BICPreferences.h"
 #import "BICSDKError.h"
 
 #import "BICAbandonSessionSimulator.h"
@@ -39,6 +39,17 @@
 
 @implementation BICBeanstreamAPISimulator
 
+#pragma mark - Initialization methods
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [BICAuthenticationService sharedService].credentialManager = [[BICSimulatedCredentialManager alloc] init];
+    }
+    return self;
+}
+
 #pragma mark - API methods
 
 - (void)abandonSession:(void (^)(BICAbandonSessionResponse *response))success
@@ -46,6 +57,7 @@
 {
     BICAbandonSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AbandonSessionSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:YES
                withBlock:^() {
                  [simulator abandonSession:^(BICAbandonSessionResponse *response) {
                      success(response);
@@ -57,6 +69,23 @@
              }];
 }
 
+- (void)authenticateSession:(void (^)(BICAuthenticateSessionResponse *response))success
+                    failure:(void (^)(NSError *error))failure
+{
+    BICAuthenticateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AuthenticateSessionSimulatorIdentifier];
+    [self processRequest:simulator
+            checkSession:YES
+               withBlock:^() {
+                   [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
+                       success(response);
+                   } failure:^(NSError *error) {
+                       failure(error);
+                   }];
+               } orFailure:^(NSError *error) {
+                   failure(error);
+               }];
+}
+
 - (void)createSession:(NSString *)companyLogin
              username:(NSString *)username
              password:(NSString *)password
@@ -65,6 +94,7 @@
 {
     BICCreateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:CreateSessionSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:NO
                withBlock:^() {
                  [simulator createSession:companyLogin
                                  username:username
@@ -84,24 +114,9 @@
 {
     BICCreateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:CreateSessionSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:NO
                withBlock:^() {
                  [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
-                     success(response);
-                 } failure:^(NSError *error) {
-                     failure(error);
-                 }];
-             } orFailure:^(NSError *error) {
-                 failure(error);
-             }];
-}
-
-- (void)authenticateSession:(void (^)(BICAuthenticateSessionResponse *response))success
-                    failure:(void (^)(NSError *error))failure
-{
-    BICAuthenticateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AuthenticateSessionSimulatorIdentifier];
-    [self processRequest:simulator
-               withBlock:^() {
-                 [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
                      failure(error);
@@ -134,6 +149,7 @@
 {
     BICInitializePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:InitializePinPadSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:YES
                withBlock:^() {
                  [simulator initializePinPad:^(BICInitPinPadResponse *response) {
                      success(response);
@@ -150,6 +166,7 @@
 {
     BICUpdatePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:UpdatePinPadSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:YES
                withBlock:^() {
                  [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
                      success(response);
@@ -167,6 +184,7 @@
 {
     BICProcessTransactionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ProcessTransactionSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:YES
                withBlock:^() {
                  [simulator processTransaction:(BICTransactionRequest *)request
                                        success:^(BICTransactionResponse *response) {
@@ -185,10 +203,23 @@
 {
     BICSearchTransactionsSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:SearchTransactionsSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:YES
                withBlock:^() {
                  [simulator searchTransactions:(BICSearchTransactionsRequest *)request
                                        success:^(BICSearchTransactionsResponse *response) {
-                                           success(response);
+                                           if (response.code == 7 /*ReportApiCodeSessionFailed*/) {
+                                               [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
+                                                   if (sessionResponse.isAuthorized) {
+                                                       [self searchTransactions:request success:success failure:failure];
+                                                   }
+                                                   else {
+                                                       success(response);
+                                                   }
+                                               }];
+                                           }
+                                           else {
+                                               success(response);
+                                           }
                                        } failure:^(NSError *error) {
                                            failure(error);
                                        }];
@@ -204,11 +235,24 @@
 {
     BICReceiptSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ReceiptSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:YES
                withBlock:^() {
                  [simulator getPrintReceipt:transactionId
                                    language:language
                                     success:^(BICReceiptResponse *response) {
-                                        success(response);
+                                        if (response.code == 5 /*TransactionUtilitiesCodeAuthenticationFailed*/) {
+                                            [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
+                                                if (sessionResponse.isAuthorized) {
+                                                    [self getPrintReceipt:transactionId language:language success:success failure:failure];
+                                                }
+                                                else {
+                                                    success(response);
+                                                }
+                                            }];
+                                        }
+                                        else {
+                                            success(response);
+                                        }
                                     } failure:^(NSError *error) {
                                         failure(error);
                                     }];
@@ -225,12 +269,25 @@
 {
     BICReceiptSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ReceiptSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:YES
                withBlock:^() {
                  [simulator sendEmailReceipt:transactionId
                                        email:emailAddress
                                     language:language
                                      success:^(BICReceiptResponse *response) {
-                                         success(response);
+                                         if (response.code == 5 /*TransactionUtilitiesCodeAuthenticationFailed*/) {
+                                             [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
+                                                 if (sessionResponse.isAuthorized) {
+                                                     [self sendEmailReceipt:transactionId email:emailAddress language:language success:success failure:failure];
+                                                 }
+                                                 else {
+                                                     success(response);
+                                                 }
+                                             }];
+                                         }
+                                         else {
+                                             success(response);
+                                         }
                                      } failure:^(NSError *error) {
                                          failure(error);
                                      }];
@@ -240,17 +297,25 @@
 }
 
 - (void)attachSignatureToTransaction:(NSString *)transactionId
-                      signatureImage:(UIImage *)signatureImage
+                      signatureImage:(UIImage *)image
                              success:(void (^)(BICAttachSignatureResponse *response))success
                              failure:(void (^)(NSError *error))failure
 {
     BICAttachSignatureSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AttachSignatureSimulatorIdentifier];
     [self processRequest:simulator
+            checkSession:YES
                withBlock:^() {
                  [simulator attachSignatureToTransaction:transactionId
-                                          signatureImage:signatureImage
+                                          signatureImage:image
                                                  success:^(BICAttachSignatureResponse *response) {
-                                                     success(response);
+                                                     if (response.code == 5 /*TransactionUtilitiesCodeAuthenticationFailed*/) {
+                                                         [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
+                                                             [self attachSignatureToTransaction:transactionId signatureImage:image success:success failure:failure];
+                                                         }];
+                                                     }
+                                                     else {
+                                                         success(response);
+                                                     }
                                                  }
                                                  failure:^(NSError *error) {
                                                      failure(error);
@@ -263,9 +328,15 @@
 #pragma mark - Private methods
 
 - (void)processRequest:(id<BICSimulator>)simulator
+          checkSession:(BOOL)checkSession
              withBlock:(void (^)())completion
              orFailure:(void (^)(NSError *error))failure
 {
+    if (checkSession && ![self isSessionSaved]) {
+        failure([BICSDKError getSessionNotFoundError]);
+        return;
+    }
+
     if ( !simulator.interactive ) {
         // No need for GUI. Execute the completion block with whatever simulator
         // mode is currently present.
@@ -311,7 +382,9 @@
                                  {
                                      simulator.simulatorMode = mode;
                                      if ( completion ) {
-                                         completion();
+                                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                                             completion();
+                                         });
                                      }
                                  }];
         [alert addAction:action];
@@ -331,12 +404,17 @@
                                   }];
     [alert addAction:errorAction];
     
-    UITabBarController *tabController = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    UIViewController *controller = tabController.selectedViewController;
+    UIViewController *controller = [UIApplication sharedApplication].keyWindow.rootViewController;
+    if ( [controller isKindOfClass:[UITabBarController class]] ) {
+        controller = ((UITabBarController *)controller).selectedViewController;
+    }
     if ( controller.presentedViewController ) {
         controller = controller.presentedViewController;
     }
-    [controller presentViewController:alert animated:YES completion:nil];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [controller presentViewController:alert animated:YES completion:nil];
+    });
 }
 
 @end

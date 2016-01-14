@@ -39,6 +39,8 @@
 		BC291C2D1C444A95008E1E4D /* BICSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C2C1C444A95008E1E4D /* BICSimulator.h */; };
 		BC291C301C4591F7008E1E4D /* BICSimulatorMode.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C2E1C4591F7008E1E4D /* BICSimulatorMode.h */; };
 		BC291C311C4591F7008E1E4D /* BICSimulatorMode.m in Sources */ = {isa = PBXBuildFile; fileRef = BC291C2F1C4591F7008E1E4D /* BICSimulatorMode.m */; };
+		BC291C3A1C46ECD3008E1E4D /* BICSimulatedCredentialManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C381C46ECD3008E1E4D /* BICSimulatedCredentialManager.h */; };
+		BC291C3B1C46ECD3008E1E4D /* BICSimulatedCredentialManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BC291C391C46ECD3008E1E4D /* BICSimulatedCredentialManager.m */; };
 		D38F9500C641474D5992AB9D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F356D5DC2D60C69964F92AC /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +92,8 @@
 		BC291C2C1C444A95008E1E4D /* BICSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulator.h; sourceTree = "<group>"; };
 		BC291C2E1C4591F7008E1E4D /* BICSimulatorMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatorMode.h; sourceTree = "<group>"; };
 		BC291C2F1C4591F7008E1E4D /* BICSimulatorMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatorMode.m; sourceTree = "<group>"; };
+		BC291C381C46ECD3008E1E4D /* BICSimulatedCredentialManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatedCredentialManager.h; sourceTree = "<group>"; };
+		BC291C391C46ECD3008E1E4D /* BICSimulatedCredentialManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatedCredentialManager.m; sourceTree = "<group>"; };
 		DF4A125B3B210488FF876436 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,6 +153,8 @@
 				BC291C291C444565008E1E4D /* BICSimulatorManager.m */,
 				BC0DF5D21C3DBD50000528CA /* BICBeanstreamAPISimulator.h */,
 				BC0DF5D31C3DBD50000528CA /* BICBeanstreamAPISimulator.m */,
+				BC291C381C46ECD3008E1E4D /* BICSimulatedCredentialManager.h */,
+				BC291C391C46ECD3008E1E4D /* BICSimulatedCredentialManager.m */,
 				BC0DF5D61C3DBD60000528CA /* Simulators */,
 				BC0DF5EB1C3DBD60000528CA /* Utils */,
 				BC0DF5BD1C3DBC7B000528CA /* Info.plist */,
@@ -233,6 +239,7 @@
 				BC0DF5FE1C3DBD60000528CA /* BICUpdatePinPadSimulator.h in Headers */,
 				BC291C301C4591F7008E1E4D /* BICSimulatorMode.h in Headers */,
 				BC0DF5F41C3DBD60000528CA /* BICInitializePinPadSimulator.h in Headers */,
+				BC291C3A1C46ECD3008E1E4D /* BICSimulatedCredentialManager.h in Headers */,
 				BC0DF5D41C3DBD50000528CA /* BICBeanstreamAPISimulator.h in Headers */,
 				BC291C2D1C444A95008E1E4D /* BICSimulator.h in Headers */,
 				BC0DF5F61C3DBD60000528CA /* BICPinPadConnectionSimulator.h in Headers */,
@@ -287,7 +294,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = "Sven Resch";
+				ORGANIZATIONNAME = "Beanstream Internet Commerce Inc.";
 				TargetAttributes = {
 					BC0DF5B71C3DBC7B000528CA = {
 						CreatedOnToolsVersion = 7.2;
@@ -380,6 +387,7 @@
 				BC0DF5EF1C3DBD60000528CA /* BICAbandonSessionSimulator.m in Sources */,
 				BC291C311C4591F7008E1E4D /* BICSimulatorMode.m in Sources */,
 				BC0DF5F91C3DBD60000528CA /* BICProcessTransactionSimulator.m in Sources */,
+				BC291C3B1C46ECD3008E1E4D /* BICSimulatedCredentialManager.m in Sources */,
 				BC0DF5FF1C3DBD60000528CA /* BICUpdatePinPadSimulator.m in Sources */,
 				BC0DF5F71C3DBD60000528CA /* BICPinPadConnectionSimulator.m in Sources */,
 				BC0DF5F11C3DBD60000528CA /* BICAttachSignatureSimulator.m in Sources */,

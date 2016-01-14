@@ -31,8 +31,14 @@
 {
     //TODO Validate
     
-    BICTransactionResponse *response = [self getSuccessfulResponse:request];
-
+    BICTransactionResponse *response = nil;
+    
+    if ([BIC_CASH_PAYMENT_METHOD isEqualToString:request.paymentMethod] || [BIC_CHECK_PAYMENT_METHOD isEqualToString:request.paymentMethod] || !request.emvEnabled){
+        response = [self getSuccessfulResponse:request];
+    } else {
+        //response = [self getSuccessfulEMVResponse:request];?? nEEDed?
+    }
+    
     if (response.isSuccessful) {
         success(response);
     } else {
