@@ -177,6 +177,9 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
     [records addObject:record];
     
     response.transactionRecords = records;
+    response.total = response.transactionRecords.count;
+    response.isSuccessful = YES;
+    
     return response;
 }
 
@@ -201,6 +204,9 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
     [records addObject:record];
     
     response.transactionRecords = records;
+    response.total = response.transactionRecords.count;
+    response.isSuccessful = YES;
+
     return response;
 }
 
