@@ -6,8 +6,6 @@
 //  Copyright © 2016 Sven Resch. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 //! Project version number for APISimulator.
 FOUNDATION_EXPORT double APISimulatorVersionNumber;
 

@@ -243,9 +243,6 @@ static BICSimulatorMode *SimulatorModeCreateSessionNetworkError = nil;
     if (response.isAuthorized) {
         preferences.merchantId = response.merchantId;
         preferences.sessionId = response.sessionId;
-        //        preferences.sessionExpiryDate =
-        //        [BICDate addHoursToDate:SessionExpiryInHours toDate:[NSDate date]];
-        
         preferences.companyLogin = companyLogin;
         preferences.username = username;
         
