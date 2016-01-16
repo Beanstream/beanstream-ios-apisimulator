@@ -62,7 +62,7 @@
                  [simulator abandonSession:^(BICAbandonSessionResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
-                     failure(error);
+                     [self handleFailure:failure withError:error];
                  }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -79,7 +79,7 @@
                    [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
                        success(response);
                    } failure:^(NSError *error) {
-                       failure(error);
+                       [self handleFailure:failure withError:error];
                    }];
                } orFailure:^(NSError *error) {
                    failure(error);
@@ -102,7 +102,7 @@
                                   success:^(BICCreateSessionResponse *response) {
                                       success(response);
                                   } failure:^(NSError *error) {
-                                      failure(error);
+                                      [self handleFailure:failure withError:error];
                                   }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -119,7 +119,7 @@
                  [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
-                     failure(error);
+                     [self handleFailure:failure withError:error];
                  }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -154,7 +154,7 @@
                  [simulator initializePinPad:^(BICInitPinPadResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
-                     failure(error);
+                     [self handleFailure:failure withError:error];
                  }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -171,7 +171,7 @@
                  [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
                      success(response);
                  } failure:^(NSError *error) {
-                     failure(error);
+                     [self handleFailure:failure withError:error];
                  }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -221,7 +221,7 @@
                                                success(response);
                                            }
                                        } failure:^(NSError *error) {
-                                           failure(error);
+                                           [self handleFailure:failure withError:error];
                                        }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -254,7 +254,7 @@
                                             success(response);
                                         }
                                     } failure:^(NSError *error) {
-                                        failure(error);
+                                        [self handleFailure:failure withError:error];
                                     }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -289,7 +289,7 @@
                                              success(response);
                                          }
                                      } failure:^(NSError *error) {
-                                         failure(error);
+                                         [self handleFailure:failure withError:error];
                                      }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -318,7 +318,7 @@
                                                      }
                                                  }
                                                  failure:^(NSError *error) {
-                                                     failure(error);
+                                                     [self handleFailure:failure withError:error];
                                                  }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -414,6 +414,13 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [controller presentViewController:alert animated:YES completion:nil];
+    });
+}
+
+- (void)handleFailure:(void (^)(NSError *error))failure withError:(NSError *)error
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        failure(error);
     });
 }
 
