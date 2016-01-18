@@ -78,6 +78,7 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
     preferences.username = @"";
     preferences.password = @"";
     //preferences.sessionExpiryDate = [NSDate date];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
     if (response.isSuccessful) {
