@@ -148,31 +148,58 @@ static NSString *const BICMerchantReceipt =
 "colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" style=\"text-align: center;\">***MERCHANT "
 "COPY***</td></tr></table></body></html>";
 
+static NSString *RECEIPT_VERSION_NUMBER = @"1.0";
+
+static BICSimulatorMode *SimulatorModeReceiptGetReceipt = nil;
+static BICSimulatorMode *SimulatorModeReceiptSendEmail = nil;
+static BICSimulatorMode *SimulatorModeReceiptTransactionIdNotFound = nil;
+static BICSimulatorMode *SimulatorModeReceiptInvalidEmail = nil;
+static BICSimulatorMode *SimulatorModeReceiptInvalidSession = nil;
+static BICSimulatorMode *SimulatorModeReceiptErrorGetting = nil;
+
 @synthesize simulatorMode, interactive;
+
+#pragma mark - Initialization methods
+
++ (void)initialize
+{
+    SimulatorModeReceiptGetReceipt = [[BICSimulatorMode alloc] initWithLabel:@"Get Receipt"];
+    SimulatorModeReceiptSendEmail = [[BICSimulatorMode alloc] initWithLabel:@"Send Email"];
+    SimulatorModeReceiptTransactionIdNotFound = [[BICSimulatorMode alloc] initWithLabel:@"Transaction ID Not Found"];
+    SimulatorModeReceiptInvalidEmail = [[BICSimulatorMode alloc] initWithLabel:@"Invalid Email"];
+    SimulatorModeReceiptInvalidSession = [[BICSimulatorMode alloc] initWithLabel:@"Invalid Session"];
+    SimulatorModeReceiptErrorGetting = [[BICSimulatorMode alloc] initWithLabel:@"Error Getting Receipt"];
+}
+
+- (id)init
+{
+    if (self = [super init]) {
+        // Must set a default mode of operation in case of headless mode operation
+        self.simulatorMode = SimulatorModeReceiptGetReceipt;
+    }
+    return self;
+}
 
 #pragma mark - BICSimulator protocol methods
 
 - (NSArray *)supportedModes
 {
-    return @[];
+    return @[SimulatorModeReceiptGetReceipt,
+             SimulatorModeReceiptSendEmail,
+             SimulatorModeReceiptTransactionIdNotFound,
+             SimulatorModeReceiptInvalidEmail,
+             SimulatorModeReceiptInvalidSession,
+             SimulatorModeReceiptErrorGetting];
 }
 
-#pragma mark - BICCreateSession overrides
+#pragma mark - Public methods
 
 - (void)getPrintReceipt:(NSString *)transactionId
                language:(NSString *)language
                 success:(void (^)(BICReceiptResponse *response))success
                 failure:(void (^)(NSError *error))failure
 {
-    //TODO Validate
-    
-    BICReceiptResponse *response = [self getSuccessfulResponse];
-    
-    if (response.isSuccessful) {
-        success(response);
-    } else {
-        failure([[NSError alloc] init]);
-    }
+    [self processRequestWithTransId:transactionId email:nil language:language success:success failure:failure];
 }
 
 - (void)sendEmailReceipt:(NSString *)transactionId
@@ -181,31 +208,133 @@ static NSString *const BICMerchantReceipt =
                  success:(void (^)(BICReceiptResponse *response))success
                  failure:(void (^)(NSError *error))failure
 {
-    //TODO Validate
+    [self processRequestWithTransId:transactionId email:emailAddress language:language success:success failure:failure];
+}
+
+#pragma mark - Private methods
+
+- (void)processRequestWithTransId:(NSString *)transactionId
+                            email:emailAddress
+                         language:(NSString *)language
+                          success:(void (^)(BICReceiptResponse *response))success
+                          failure:(void (^)(NSError *error))failure
+{
+    BICReceiptResponse *response = nil;
+    NSError *error = nil;
     
-    BICReceiptResponse *response = [self getSuccessfulResponse];
+    if ( !(transactionId == nil || transactionId.length != 8 || [self isNumeric:transactionId]) ) {
+        response = [self createInvalidTransactionIdResponse];
+    }
+    else {
+        if (self.simulatorMode == SimulatorModeReceiptGetReceipt ||
+            self.simulatorMode == SimulatorModeReceiptSendEmail) {
+            response = [self createSuccessfulResponse];
+        }
+        else if (self.simulatorMode == SimulatorModeReceiptTransactionIdNotFound) {
+            response = [self createCouldNotFindTransactionIdResponse];
+        }
+        else if (self.simulatorMode == SimulatorModeReceiptInvalidEmail) {
+            response = [self createInvalidEmailAddressResponse];
+        }
+        else if (self.simulatorMode == SimulatorModeReceiptInvalidSession) {
+            response = [self createInvalidSessionResponse];
+        }
+        else if (self.simulatorMode == SimulatorModeReceiptErrorGetting) {
+            response = [self createErrorGettingReceiptResponse];
+        }
+        else {
+            error = [NSError errorWithDomain:@"BIC SIM Usage Error"
+                                        code:1
+                                    userInfo:@{ NSLocalizedDescriptionKey: @"Simulator mode must be set!!!" }];
+        }
+    }
     
+    NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
     if (response.isSuccessful) {
         success(response);
-    } else {
-        failure([[NSError alloc] init]);
+    }
+    else {
+        if (!error) {
+            failure([[NSError alloc] init]);
+        }
+        else {
+            failure(error);
+        }
     }
 }
 
-- (BICReceiptResponse *)getSuccessfulResponse
+- (BICReceiptResponse *)createSuccessfulResponse
 {
     BICReceiptResponse *response = [[BICReceiptResponse alloc] init];
-    
-    response.isSuccessful = YES;
-    
     response.code = 1;
-    response.version = @"1.0";
+    response.version = RECEIPT_VERSION_NUMBER;
     response.message = @"";
-    
     response.receiptCustomerCopy = BICCustomerReceipt;
     response.receiptMerchantCopy = BICMerchantReceipt;
-    
+    response.isSuccessful = YES;
     return response;
+}
+
+- (BICReceiptResponse *)createInvalidTransactionIdResponse
+{
+    BICReceiptResponse *response = [[BICReceiptResponse alloc] init];
+    response.code = 6;
+    response.version = RECEIPT_VERSION_NUMBER;
+    response.message = @"Invalid TransactionId";
+    response.isSuccessful = YES;
+    return response;
+}
+
+- (BICReceiptResponse *)createCouldNotFindTransactionIdResponse
+{
+    BICReceiptResponse *response = [[BICReceiptResponse alloc] init];
+    response.code = 6;
+    response.version = RECEIPT_VERSION_NUMBER;
+    response.message = @"Could not find transaction for transactionId: 2000001. Error code (-257). Error Messages: Invalid transaction / receipt";
+    response.isSuccessful = YES;
+    return response;
+}
+
+- (BICReceiptResponse *)createInvalidEmailAddressResponse
+{
+    BICReceiptResponse *response = [[BICReceiptResponse alloc] init];
+    response.code = 10;
+    response.version = RECEIPT_VERSION_NUMBER;
+    response.message = @"Invalid Email Address";
+    response.isSuccessful = YES;
+    return response;
+}
+
+- (BICReceiptResponse *)createInvalidSessionResponse
+{
+    BICReceiptResponse *response = [[BICReceiptResponse alloc] init];
+    response.code = 7;
+    response.message = @"Authentication failed";
+    response.version = RECEIPT_VERSION_NUMBER;
+    response.isSuccessful = YES;
+    return response;
+}
+
+- (BICReceiptResponse *)createErrorGettingReceiptResponse
+{
+    BICReceiptResponse *response = [[BICReceiptResponse alloc] init];
+    response.code = 2;
+    response.message = @"Error while getting receipt.";
+    response.version = RECEIPT_VERSION_NUMBER;
+    response.isSuccessful = YES;
+    return response;
+}
+
+- (BOOL)isNumeric:(NSString *)string
+{
+    NSCharacterSet* notDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+    if ([string rangeOfCharacterFromSet:notDigits].location == NSNotFound) {
+        // String consists only of the digits 0 through 9
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 
 @end
