@@ -422,6 +422,9 @@
     if ( [controller isKindOfClass:[UITabBarController class]] ) {
         controller = ((UITabBarController *)controller).selectedViewController;
     }
+    if ( [controller isKindOfClass:[UINavigationController class]] ) {
+        controller = ((UINavigationController *)controller).topViewController;
+    }
     if ( controller.presentedViewController ) {
         controller = controller.presentedViewController;
     }
