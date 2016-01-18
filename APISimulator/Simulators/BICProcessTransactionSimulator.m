@@ -347,7 +347,7 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedErrorNetwork = nil;
 
 - (BOOL)isValidAdjustmentId:(NSString *)adjustmentId
 {
-    return !adjustmentId || (adjustmentId.length == 8 && adjustmentId.integerValue > 0);
+    return !adjustmentId || (adjustmentId.length == 8 && [self isNumeric:adjustmentId]);
 }
 
 - (BOOL)isValidCardNumber:(NSString *)cardNumber
@@ -355,6 +355,18 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedErrorNetwork = nil;
     // Note - For now, we're validating only for CP accounts, and on those accounts
     // you can't submit a card number so we need to return false if entered.
     return !cardNumber || cardNumber.length == 16;
+}
+
+- (BOOL)isNumeric:(NSString *)string
+{
+    NSCharacterSet* notDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+    if ([string rangeOfCharacterFromSet:notDigits].location == NSNotFound) {
+        // String consists only of the digits 0 through 9
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 
 @end
