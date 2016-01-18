@@ -29,7 +29,6 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsNone = nil;
 static BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedBy = nil;
 static BICSimulatorMode *SimulatorModeSearchTransactionsAdjustedTo = nil;
 static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
-static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
 
 @synthesize simulatorMode, interactive;
 
@@ -42,7 +41,6 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
     SimulatorModeSearchTransactionsAdjustedBy = [[BICSimulatorMode alloc] initWithLabel:@"Adjusted By"];
     SimulatorModeSearchTransactionsAdjustedTo = [[BICSimulatorMode alloc] initWithLabel:@"Adjusted To"];
     SimulatorModeSearchTransactionsInvalidSession = [[BICSimulatorMode alloc] initWithLabel:@"Invalid Session"];
-    SimulatorModeSearchTransactionsError = [[BICSimulatorMode alloc] initWithLabel:@"Error"];
 }
 
 - (id)init
@@ -62,8 +60,7 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
              SimulatorModeSearchTransactionsNone,
              SimulatorModeSearchTransactionsAdjustedBy,
              SimulatorModeSearchTransactionsAdjustedTo,
-             SimulatorModeSearchTransactionsInvalidSession,
-             SimulatorModeSearchTransactionsError];
+             SimulatorModeSearchTransactionsInvalidSession];
 }
 
 #pragma mark - Public methods
@@ -91,11 +88,6 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsError = nil;
         }
         else if (self.simulatorMode == SimulatorModeSearchTransactionsInvalidSession) {
             response = [self createInvalidSessionResponse];
-        }
-        else if (self.simulatorMode == SimulatorModeSearchTransactionsError) {
-            error = [NSError errorWithDomain:@"BIC SIM HTTP Error"
-                                        code:404
-                                    userInfo:@{ NSLocalizedDescriptionKey: @"Network Error" }];
         }
         else {
             error = [NSError errorWithDomain:@"BIC SIM Usage Error"

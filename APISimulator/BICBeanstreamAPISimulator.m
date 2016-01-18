@@ -390,20 +390,34 @@
         [alert addAction:action];
     }
     
-    UIAlertAction *errorAction = [UIAlertAction actionWithTitle:@"Force Error"
+    UIAlertAction *httpErrorAction = [UIAlertAction actionWithTitle:@"BIC SIM HTTP Error"
                                                           style:UIAlertActionStyleDestructive
                                                         handler:^(UIAlertAction * _Nonnull action)
                                   {
                                       if ( failure ) {
-                                          NSDictionary *info = @{ NSLocalizedDescriptionKey: @"BIC Request Failed" };
-                                          NSError *error = [NSError errorWithDomain:@"BIC SIM Forced Error"
-                                                                               code:1
+                                          NSDictionary *info = @{ NSLocalizedDescriptionKey: @"Network Error" };
+                                          NSError *error = [NSError errorWithDomain:@"BIC SIM HTTP Error"
+                                                                               code:404
                                                                            userInfo:info];
                                           failure(error);
                                       }
                                   }];
-    [alert addAction:errorAction];
-    
+    [alert addAction:httpErrorAction];
+
+    UIAlertAction *networkErrorAction = [UIAlertAction actionWithTitle:@"BIC SIM Network Error"
+                                                              style:UIAlertActionStyleDestructive
+                                                            handler:^(UIAlertAction * _Nonnull action)
+                                      {
+                                          if ( failure ) {
+                                              NSDictionary *info = @{ NSLocalizedDescriptionKey: @"Unknown Host Error: Unable to resolve host \"www.beanstream.com\": No address associated with hostname" };
+                                              NSError *error = [NSError errorWithDomain:@"BIC SIM Network Error"
+                                                                                   code:404
+                                                                               userInfo:info];
+                                              failure(error);
+                                          }
+                                      }];
+    [alert addAction:networkErrorAction];
+
     UIViewController *controller = [UIApplication sharedApplication].keyWindow.rootViewController;
     if ( [controller isKindOfClass:[UITabBarController class]] ) {
         controller = ((UITabBarController *)controller).selectedViewController;

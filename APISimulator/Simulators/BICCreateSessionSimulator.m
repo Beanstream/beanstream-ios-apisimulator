@@ -18,8 +18,6 @@ static BICSimulatorMode *SimulatorModeCreateSessionCreated = nil;
 static BICSimulatorMode *SimulatorModeCreateSessionInvalid = nil;
 static BICSimulatorMode *SimulatorModeCreateSessionExpired = nil;
 static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
-static BICSimulatorMode *SimulatorModeCreateSessionHTTPError = nil;
-static BICSimulatorMode *SimulatorModeCreateSessionNetworkError = nil;
 
 @synthesize simulatorMode, interactive;
 
@@ -31,8 +29,6 @@ static BICSimulatorMode *SimulatorModeCreateSessionNetworkError = nil;
     SimulatorModeCreateSessionInvalid = [[BICSimulatorMode alloc] initWithLabel:@"Invalid Credentials"];
     SimulatorModeCreateSessionExpired = [[BICSimulatorMode alloc] initWithLabel:@"Password Expired"];
     SimulatorModeCreateSessionEncryptionFailure = [[BICSimulatorMode alloc] initWithLabel:@"Authorized with Encryption Failure"];
-    SimulatorModeCreateSessionHTTPError = [[BICSimulatorMode alloc] initWithLabel:@"HTTP Error"];
-    SimulatorModeCreateSessionNetworkError = [[BICSimulatorMode alloc] initWithLabel:@"Network Error"];
 }
 
 - (id)init
@@ -51,9 +47,7 @@ static BICSimulatorMode *SimulatorModeCreateSessionNetworkError = nil;
     return @[SimulatorModeCreateSessionCreated,
              SimulatorModeCreateSessionInvalid,
              SimulatorModeCreateSessionExpired,
-             SimulatorModeCreateSessionEncryptionFailure,
-             SimulatorModeCreateSessionHTTPError,
-             SimulatorModeCreateSessionNetworkError];
+             SimulatorModeCreateSessionEncryptionFailure];
 }
 
 #pragma mark - Public methods
@@ -87,16 +81,6 @@ static BICSimulatorMode *SimulatorModeCreateSessionNetworkError = nil;
                                     userInfo:@{ NSLocalizedDescriptionKey: @"Error Encrypting Credentials" }];
             BICPreferences *preferences = [[BICPreferences alloc] init];
             preferences.password = @"";
-        }
-        else if (self.simulatorMode == SimulatorModeCreateSessionHTTPError) {
-            error = [NSError errorWithDomain:@"BIC SIM HTTP Error"
-                                        code:404
-                                    userInfo:@{ NSLocalizedDescriptionKey: @"Network Error" }];
-        }
-        else if (self.simulatorMode == SimulatorModeCreateSessionNetworkError ) {
-            error = [NSError errorWithDomain:@"BIC SIM Network Error"
-                                        code:404
-                                    userInfo:@{ NSLocalizedDescriptionKey: @"Unknown Host Error: Unable to resolve host \"www.beanstream.com\": No address associated with hostname" }];
         }
         else {
             error = [NSError errorWithDomain:@"BIC SIM Usage Error"

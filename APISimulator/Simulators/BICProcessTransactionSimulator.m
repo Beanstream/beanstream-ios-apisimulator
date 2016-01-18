@@ -55,8 +55,6 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedErrorNetwork = nil;
     //SimModeProcessTxnDeclinedCryptoFailure = [[BICSimulatorMode alloc] initWithLabel:@"Approved"];
     SimModeProcessTxnDeclinedServNotAllowed = [[BICSimulatorMode alloc] initWithLabel:@"Serv Not Allowed"];
     SimModeProcessTxnDeclinedNotComplete = [[BICSimulatorMode alloc] initWithLabel:@"Transaction Not Complete"];
-    SimModeProcessTxnDeclinedErrorHTTP = [[BICSimulatorMode alloc] initWithLabel:@"HTTP Error"];
-    SimModeProcessTxnDeclinedErrorNetwork = [[BICSimulatorMode alloc] initWithLabel:@"Network Error"];
 }
 
 - (id)init
@@ -84,9 +82,7 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedErrorNetwork = nil;
              SimModeProcessTxnDeclinedApplicationError,
              SimModeProcessTxnDeclinedReferralResponse,
              SimModeProcessTxnDeclinedServNotAllowed,
-             SimModeProcessTxnDeclinedNotComplete,
-             SimModeProcessTxnDeclinedErrorHTTP,
-             SimModeProcessTxnDeclinedErrorNetwork];
+             SimModeProcessTxnDeclinedNotComplete];
 }
 
 #pragma mark - Public methods
@@ -188,16 +184,6 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedErrorNetwork = nil;
             response.messageId = @"12345678";
             response.messageText = @"Transaction Not Completed";
             response.isSuccessful = YES;
-        }
-        else if (self.simulatorMode == SimModeProcessTxnDeclinedErrorHTTP) {
-            error = [NSError errorWithDomain:@"BIC SIM HTTP Error"
-                                        code:404
-                                    userInfo:@{ NSLocalizedDescriptionKey: @"Network Error" }];
-        }
-        else if (self.simulatorMode == SimModeProcessTxnDeclinedErrorNetwork) {
-            error = [NSError errorWithDomain:@"BIC SIM Network Error"
-                                        code:404
-                                    userInfo:@{ NSLocalizedDescriptionKey: @"Unknown Host Error: Unable to resolve host \"www.beanstream.com\": No address associated with hostname" }];
         }
         else {
             error = [NSError errorWithDomain:@"BIC SIM Usage Error"
