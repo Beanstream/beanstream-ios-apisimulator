@@ -73,6 +73,10 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
     
     BICPreferences *preferences = [[BICPreferences alloc]init];
     preferences.sessionId = @"";
+    preferences.merchantId = @"";
+    preferences.companyLogin = @"";
+    preferences.username = @"";
+    preferences.password = @"";
     //preferences.sessionExpiryDate = [NSDate date];
     
     NSLog((@"%s response: %@"), __PRETTY_FUNCTION__, [[response toNSDictionary] description]);
