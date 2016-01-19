@@ -110,7 +110,7 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
     BICAbandonSessionResponse *response = [[BICAbandonSessionResponse alloc] init];
     response.code = 4;
     response.version = ABANDON_SESSION_VERSION_NUMBER;
-    response.message = @"Invalid session ID";
+    response.message = @"Invalid Session ID";
     response.isSuccessful = YES;
     
     return response;

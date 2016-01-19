@@ -126,9 +126,9 @@ static BICSimulatorMode *SimulatorModeInitializePinPadInvalidSession = nil;
 - (BICInitPinPadResponse *)createInvalidSessionResponse
 {
     BICInitPinPadResponse *response = [[BICInitPinPadResponse alloc] init];
-    response.code = 7;
-    response.message = @"Authentication failed";
+    response.code = 4;
     response.version = INITIALIZE_PINPAD_VERSION_NUMBER;
+    response.message = @"Invalid Session ID";
     response.isSuccessful = YES;
     return response;
 }
