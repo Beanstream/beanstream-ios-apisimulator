@@ -67,7 +67,7 @@ static BICSimulatorMode *SimulatorModeInitializePinPadInvalidSession = nil;
         response = [self createInitializedUpdateRequired];
     }
     else if (self.simulatorMode == SimulatorModeInitializePinPadInvalidSession) {
-        //response = [self
+        response = [self createInvalidSessionResponse];
     }
     else {
         error = [NSError errorWithDomain:@"BIC SIM Usage Error"
