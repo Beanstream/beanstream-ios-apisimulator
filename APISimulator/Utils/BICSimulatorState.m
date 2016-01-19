@@ -20,6 +20,7 @@ NSString * const BICSimulatorIsPinPadConnected = @"BICSimulatorIsPinPadConnected
 - (void)setIsPinPadConnected:(BOOL)isPinPadConnected
 {
     [[NSUserDefaults standardUserDefaults] setBool:isPinPadConnected forKey:BICSimulatorIsPinPadConnected];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
