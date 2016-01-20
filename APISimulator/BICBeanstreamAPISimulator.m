@@ -182,13 +182,38 @@
                    success:(void (^)(BICTransactionResponse *response))success
                    failure:(void (^)(NSError *error))failure
 {
+    if ( request.emvEnabled || (![BIC_CASH_PAYMENT_METHOD isEqualToString:request.paymentMethod] && ![BIC_CHECK_PAYMENT_METHOD isEqualToString:request.paymentMethod]) ) {
+        // Check to make sure the Pin Pad is initialized and connected
+        if ( ![self isPinPadConnected] ) {
+            NSDictionary *info = @{ NSLocalizedDescriptionKey: @"PIN pad is not initialized. Please reboot terminal and try again." };
+            NSError *error = [NSError errorWithDomain:@"BIC SIM Pin Pad Error"
+                                                 code:-1
+                                             userInfo:info];
+            failure(error);
+            return;
+        }
+    }
+
     BICProcessTransactionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ProcessTransactionSimulatorIdentifier];
     [self processRequest:simulator
             checkSession:YES
                withBlock:^() {
                  [simulator processTransaction:(BICTransactionRequest *)request
                                        success:^(BICTransactionResponse *response) {
-                                           success(response);
+                                           if ([response.messageId integerValue] == ProcessTransactionCodeSessionExpired || [response.messageId integerValue] == ProcessTransactionCodeSessionValidationFailed) {
+                                               [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
+                                                   if (sessionResponse.isAuthorized) {
+                                                       [self processTransaction:request success:success failure:failure];
+                                                   }
+                                                   else {
+                                                       success(response);
+                                                   }
+                                               }];
+                                           }
+                                           else {
+                                               success(response);
+                                           }
+
                                        } failure:^(NSError *error) {
                                            failure(error);
                                        }];
@@ -207,7 +232,7 @@
                withBlock:^() {
                  [simulator searchTransactions:(BICSearchTransactionsRequest *)request
                                        success:^(BICSearchTransactionsResponse *response) {
-                                           if (response.code == 7 /*ReportApiCodeSessionFailed*/) {
+                                           if (response.code == ReportApiCodeSessionFailed) {
                                                [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                    if (sessionResponse.isAuthorized) {
                                                        [self searchTransactions:request success:success failure:failure];
@@ -240,7 +265,7 @@
                  [simulator getPrintReceipt:transactionId
                                    language:language
                                     success:^(BICReceiptResponse *response) {
-                                        if (response.code == 5 /*TransactionUtilitiesCodeAuthenticationFailed*/) {
+                                        if (response.code == TransactionUtilitiesCodeAuthenticationFailed) {
                                             [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                 if (sessionResponse.isAuthorized) {
                                                     [self getPrintReceipt:transactionId language:language success:success failure:failure];
@@ -275,7 +300,7 @@
                                        email:emailAddress
                                     language:language
                                      success:^(BICReceiptResponse *response) {
-                                         if (response.code == 5 /*TransactionUtilitiesCodeAuthenticationFailed*/) {
+                                         if (response.code == TransactionUtilitiesCodeAuthenticationFailed) {
                                              [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                  if (sessionResponse.isAuthorized) {
                                                      [self sendEmailReceipt:transactionId email:emailAddress language:language success:success failure:failure];
@@ -308,7 +333,7 @@
                  [simulator attachSignatureToTransaction:transactionId
                                           signatureImage:image
                                                  success:^(BICAttachSignatureResponse *response) {
-                                                     if (response.code == 5 /*TransactionUtilitiesCodeAuthenticationFailed*/) {
+                                                     if (response.code == TransactionUtilitiesCodeAuthenticationFailed) {
                                                          [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                              [self attachSignatureToTransaction:transactionId signatureImage:image success:success failure:failure];
                                                          }];
