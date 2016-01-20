@@ -25,9 +25,6 @@
 - (instancetype)init
 {
     NSLog((@"%s "), __PRETTY_FUNCTION__);
-    
-    [[BICSimulatorState alloc] init].isPinPadConnected = NO;
-    
     return [super init];
 }
 
