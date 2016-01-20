@@ -10,6 +10,7 @@
 
 #import "BICAttachSignatureSimulator.h"
 #import "BICAttachSignatureResponse.h"
+#import "BICSDKConstants.h"
 
 @implementation BICAttachSignatureSimulator
 
@@ -123,7 +124,7 @@ static BICSimulatorMode *SimulatorModeAttachSignatureInvalidSignature = nil;
 - (BICAttachSignatureResponse *)createInvalidSessionResponse
 {
     BICAttachSignatureResponse *response = [[BICAttachSignatureResponse alloc] init];
-    response.code = 5;
+    response.code = TransactionUtilitiesCodeAuthenticationFailed;
     response.version = ATTACH_SIGNATURE_VERSION_NUMBER;
     response.message = @"Invalid or expired session";
     response.isSuccessful = YES;

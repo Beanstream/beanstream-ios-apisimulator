@@ -11,6 +11,7 @@
 #import "BICSearchTransactionsRequest.h"
 #import "BICSearchTransactionsResponse.h"
 #import "BICTransactionDetail.h"
+#import "BICSDKConstants.h"
 
 @implementation BICSearchTransactionsSimulator
 
@@ -115,35 +116,30 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
 - (BICSearchTransactionsResponse *)createSuccessfulResponse
 {
     BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
-    
     response.code = 1;
     response.message = @"Report Generated";
     response.version = SearchTransactionVersion;
     response.transactionRecords = [self getBaseArrayOfTransactionRecords];
     response.total = response.transactionRecords.count;
     response.isSuccessful = YES;
-    
     return response;
 }
 
 - (BICSearchTransactionsResponse *)createEmptyTransactionsResponse
 {
     BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
-    
     response.code = 1;
     response.message = @"Report Generated";
     response.version = SearchTransactionVersion;
     response.transactionRecords = [NSMutableArray new];
     response.total = 0;
     response.isSuccessful = YES;
-    
     return response;
 }
 
 - (BICSearchTransactionsResponse *)createAdjustedByTransactions
 {
     BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
-
     response.code = 1;
     response.message = @"Report Generated";
     response.version = SearchTransactionVersion;
@@ -178,7 +174,6 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
 - (BICSearchTransactionsResponse *)createAdjustedToTransactions
 {
     BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
-    
     response.code = 1;
     response.message = @"Report Generated";
     response.version = SearchTransactionVersion;
@@ -202,42 +197,23 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
     return response;
 }
 
-- (BICSearchTransactionsResponse *)attemptRetryIfPasswordRetryOnAndRememberMeOff
-{
-    BICSearchTransactionsResponse *response = nil;
-    BOOL isRetrySuccessful;// = SessionRetry.initiateRetry();
-    
-    if (isRetrySuccessful) {
-        response = [self createSuccessfulResponse];
-    }
-    else {
-        response = [self createInvalidSessionResponse];
-    }
-    
-    return response;
-}
-
 - (BICSearchTransactionsResponse *)createInvalidSessionResponse
 {
     BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
-    
-    response.code = 7;
+    response.code = ReportApiCodeSessionFailed;
     response.message = @"Authentication failed";
     response.version = SearchTransactionVersion;
     response.isSuccessful = YES;
-    
     return response;
 }
 
 - (BICSearchTransactionsResponse *)createDataValidationErrorResponse
 {
     BICSearchTransactionsResponse *response = [[BICSearchTransactionsResponse alloc] init];
-    
     response.code = 6;
     response.message = @"Data Validation Failed. ";
     response.version = SEARCH_TRANSACTION_VERSION_NUMBER;
     response.isSuccessful = YES;
-    
     return response;
 }
 
@@ -301,16 +277,12 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
 
 - (BICTransactionDetail *)getBaseTransactionRecord:(int)rowId
 {
-    BICTransactionDetail *record = [[BICTransactionDetail alloc] init];
-    
-    record.rowId = [NSString stringWithFormat:@"%d", rowId];
-    
     NSString *formattedNumber = [NSString stringWithFormat:@"%03d", rowId];
     
+    BICTransactionDetail *record = [[BICTransactionDetail alloc] init];
+    record.rowId = [NSString stringWithFormat:@"%d", rowId];
     record.trnId = [NSString stringWithFormat:@"10000%@", formattedNumber];
-    
     record.trnDateTime = [self getCurrentDateMinusHours:rowId];
-    
     record.trnType = [self getTransactionTypeForRowId:rowId];
     record.trnOrderNumber = [NSString stringWithFormat:@"A%@", formattedNumber];
     record.trnMaskedCard = [NSString stringWithFormat:@"%03d", rowId + 1250];
@@ -389,6 +361,7 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
         trnType = TransactionTypeReturn;
         break;
     }
+    
     return trnType;
 }
 

@@ -8,6 +8,7 @@
 
 #import "BICReceiptSimulator.h"
 #import "BICReceiptResponse.h"
+#import "BICSDKConstants.h"
 
 @implementation BICReceiptSimulator
 
@@ -308,7 +309,7 @@ static BICSimulatorMode *SimulatorModeReceiptErrorGetting = nil;
 - (BICReceiptResponse *)createInvalidSessionResponse
 {
     BICReceiptResponse *response = [[BICReceiptResponse alloc] init];
-    response.code = 7;
+    response.code = TransactionUtilitiesCodeAuthenticationFailed;
     response.message = @"Authentication failed";
     response.version = RECEIPT_VERSION_NUMBER;
     response.isSuccessful = YES;
