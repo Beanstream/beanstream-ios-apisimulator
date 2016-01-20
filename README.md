@@ -1,4 +1,4 @@
-<img src="http://www.beanstream.com/wp-content/uploads/2015/08/Beanstream-logo.png" />
+<img align="right" src="http://www.beanstream.com/wp-content/uploads/2015/08/Beanstream-logo.png" />
 # Beanstream iOS SDK API Simulator
 iOS framework to simulate responses of the Beanstream SDK API.
 
