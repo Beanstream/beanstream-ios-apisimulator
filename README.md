@@ -1,8 +1,8 @@
 <img src="http://www.beanstream.com/wp-content/uploads/2015/08/Beanstream-logo.png" />
 # Beanstream iOS SDK API Simulator
+<img align="right" src="http://ingenico.ca/wp-content/uploads/2014/07/ICMP-Main-carte-Updated-2-web-version-e1424706271455.jpg" height=200px /> 
 iOS framework to simulate responses of the Beanstream SDK API.
 
-<img align="right" src="http://ingenico.ca/wp-content/uploads/2014/07/ICMP-Main-carte-Updated-2-web-version-e1424706271455.jpg" height=200px /> 
 The Beanstream SDK lets you simply track payments made by cash or cheque and when combined with an [Ingenico iCMP device](http://ingenico.ca/terminals/icmp/) also allows you to process Debit &amp; Credit Card payments as well.
 
 The main simulator class, BICBeanstreamAPISimulator, simply extends and overrides all the BICBeanstreamnAPI method calls to allow you to accompolish initial development of your apps without having to connect to any actual Beanstream remote web services nor require that you obtain and use an actual iCMP device.
