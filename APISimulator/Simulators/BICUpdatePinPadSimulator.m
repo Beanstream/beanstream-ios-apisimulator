@@ -93,7 +93,7 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
 {
     BICUpdatePinPadResponse *response = [[BICUpdatePinPadResponse alloc] init];
     response.isSuccessful = YES;
-    response.code = 1;
+    response.code = 5;
     response.version = @"1.0";
     response.message = @"Update Successful";
     return response;
@@ -104,7 +104,6 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     BICUpdatePinPadResponse *response = [[BICUpdatePinPadResponse alloc] init];
     response.code = 0x02b;
     response.message = @"Error Updating iCMP";
-    //updatePinPadResponse.setUpdateResponse(UpdatePinPadResponse.UPDATE_FAILED); // Why does iOS not do this???
     response.version = UPDATE_PINPAD_VERSION_NUMBER;
     response.isSuccessful = YES;
     return response;
@@ -115,7 +114,6 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     BICUpdatePinPadResponse *response = [[BICUpdatePinPadResponse alloc] init];
     response.code = 0x02b;
     response.message = @"Error Injecting Terminal ID";
-    //updatePinPadResponse.UpdateResponse(UpdatePinPadResponse.INJECTION_FAILED); // Why does iOS not do this???
     response.version = UPDATE_PINPAD_VERSION_NUMBER;
     response.isSuccessful = YES;
     return response;
