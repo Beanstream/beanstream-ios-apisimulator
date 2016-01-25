@@ -32,8 +32,6 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedReferralResponse = nil;
 //static BICSimulatorMode *SimModeProcessTxnDeclinedCryptoFailure = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedServNotAllowed = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
-static BICSimulatorMode *SimModeProcessTxnDeclinedErrorHTTP = nil;
-static BICSimulatorMode *SimModeProcessTxnDeclinedErrorNetwork = nil;
 
 @synthesize simulatorMode, interactive;
 
@@ -179,7 +177,7 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedErrorNetwork = nil;
             response.responseCode = 63;
         }
         else if (self.simulatorMode == SimModeProcessTxnDeclinedNotComplete) {
-            BICTransactionResponse *response = [[BICTransactionResponse alloc] init];
+            response = [[BICTransactionResponse alloc] init];
             response.trnApproved = NO;
             response.messageId = @"12345678";
             response.messageText = @"Transaction Not Completed";
