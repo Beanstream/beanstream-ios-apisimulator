@@ -455,10 +455,6 @@
         controller = controller.presentedViewController;
     }
 
-    // Done in case an app sets a UIView appearance tintcolor to be white which can be very hard to read.
-//    [[UIView appearanceWhenContainedIn:[BICAlertController class], nil] setTintColor:[UIColor blueColor]];
-//    [[UIWindow appearanceWhenContainedIn:[BICAlertController class], nil] setTintColor:[UIColor blueColor]];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         [controller presentViewController:alert animated:YES completion:nil];
     });
