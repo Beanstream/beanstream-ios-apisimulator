@@ -61,7 +61,7 @@
             checkSession:YES
                withBlock:^() {
                  [simulator abandonSession:^(BICAbandonSessionResponse *response) {
-                     success(response);
+                     [self handleSuccess:success withResponse:response];
                  } failure:^(NSError *error) {
                      [self handleFailure:failure withError:error];
                  }];
@@ -78,7 +78,7 @@
             checkSession:YES
                withBlock:^() {
                    [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
-                       success(response);
+                       [self handleSuccess:success withResponse:response];
                    } failure:^(NSError *error) {
                        [self handleFailure:failure withError:error];
                    }];
@@ -101,7 +101,7 @@
                                  username:username
                                  password:password
                                   success:^(BICCreateSessionResponse *response) {
-                                      success(response);
+                                      [self handleSuccess:success withResponse:response];
                                   } failure:^(NSError *error) {
                                       [self handleFailure:failure withError:error];
                                   }];
@@ -118,7 +118,7 @@
             checkSession:NO
                withBlock:^() {
                  [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
-                     success(response);
+                     [self handleSuccess:success withResponse:response];
                  } failure:^(NSError *error) {
                      [self handleFailure:failure withError:error];
                  }];
@@ -153,7 +153,7 @@
             checkSession:YES
                withBlock:^() {
                  [simulator initializePinPad:^(BICInitPinPadResponse *response) {
-                     success(response);
+                     [self handleSuccess:success withResponse:response];
                  } failure:^(NSError *error) {
                      [self handleFailure:failure withError:error];
                  }];
@@ -170,7 +170,7 @@
             checkSession:YES
                withBlock:^() {
                  [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
-                     success(response);
+                     [self handleSuccess:success withResponse:response];
                  } failure:^(NSError *error) {
                      [self handleFailure:failure withError:error];
                  }];
@@ -207,16 +207,16 @@
                                                        [self processTransaction:request success:success failure:failure];
                                                    }
                                                    else {
-                                                       success(response);
+                                                       [self handleSuccess:success withResponse:response];
                                                    }
                                                }];
                                            }
                                            else {
-                                               success(response);
+                                               [self handleSuccess:success withResponse:response];
                                            }
 
                                        } failure:^(NSError *error) {
-                                           failure(error);
+                                           [self handleFailure:failure withError:error];
                                        }];
              } orFailure:^(NSError *error) {
                  failure(error);
@@ -239,12 +239,12 @@
                                                        [self searchTransactions:request success:success failure:failure];
                                                    }
                                                    else {
-                                                       success(response);
+                                                       [self handleSuccess:success withResponse:response];
                                                    }
                                                }];
                                            }
                                            else {
-                                               success(response);
+                                               [self handleSuccess:success withResponse:response];
                                            }
                                        } failure:^(NSError *error) {
                                            [self handleFailure:failure withError:error];
@@ -272,12 +272,12 @@
                                                     [self getPrintReceipt:transactionId language:language success:success failure:failure];
                                                 }
                                                 else {
-                                                    success(response);
+                                                    [self handleSuccess:success withResponse:response];
                                                 }
                                             }];
                                         }
                                         else {
-                                            success(response);
+                                            [self handleSuccess:success withResponse:response];
                                         }
                                     } failure:^(NSError *error) {
                                         [self handleFailure:failure withError:error];
@@ -307,12 +307,12 @@
                                                      [self sendEmailReceipt:transactionId email:emailAddress language:language success:success failure:failure];
                                                  }
                                                  else {
-                                                     success(response);
+                                                     [self handleSuccess:success withResponse:response];
                                                  }
                                              }];
                                          }
                                          else {
-                                             success(response);
+                                             [self handleSuccess:success withResponse:response];
                                          }
                                      } failure:^(NSError *error) {
                                          [self handleFailure:failure withError:error];
@@ -340,7 +340,7 @@
                                                          }];
                                                      }
                                                      else {
-                                                         success(response);
+                                                         [self handleSuccess:success withResponse:response];
                                                      }
                                                  }
                                                  failure:^(NSError *error) {
@@ -460,10 +460,19 @@
     });
 }
 
+// Ensures failure block is called on main thread.
 - (void)handleFailure:(void (^)(NSError *error))failure withError:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         failure(error);
+    });
+}
+
+// Ensures success block is called on main thread.
+- (void)handleSuccess:(void (^)(id response))success withResponse:(BICResponse *)response
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        success(response);
     });
 }
 
