@@ -11,6 +11,7 @@
 #import "BICSimulatorManager.h"
 #import "BICSimulatedCredentialManager.h"
 #import "BICAuthenticationService.h"
+#import "BICAlertController.h"
 #import "BICSDKConstants.h"
 #import "BICSDKError.h"
 
@@ -394,9 +395,9 @@
     functionName = [NSString stringWithFormat:@"Choose Simulator Option\n%@", functionName];
     
     // Use an alert sheet to let a user choose a Normal or Forced Error path to execute
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:functionName
-                                                                   message:nil
-                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    BICAlertController *alert = [BICAlertController alertControllerWithTitle:functionName
+                                                                     message:nil
+                                                              preferredStyle:UIAlertControllerStyleActionSheet];
     NSArray *simulatorModes = simulator.supportedModes;
     for ( BICSimulatorMode *mode in simulatorModes ) {
         NSString *label = mode.label;
@@ -453,7 +454,7 @@
     if ( controller.presentedViewController ) {
         controller = controller.presentedViewController;
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [controller presentViewController:alert animated:YES completion:nil];
     });
