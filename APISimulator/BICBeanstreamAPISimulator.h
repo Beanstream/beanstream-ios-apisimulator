@@ -6,7 +6,7 @@
 //  Copyright © 2015 Beanstream. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import UIKit;
 
 #import "BICBeanstreamAPI.h"
 
