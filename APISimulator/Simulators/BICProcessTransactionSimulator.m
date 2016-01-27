@@ -9,8 +9,8 @@
 #import "BICProcessTransactionSimulator.h"
 #import "BICTransactionRequest.h"
 #import "BICTransactionResponse.h"
-
 #import "BICSDKConstants.h"
+#import "BICSDKError.h"
 
 @implementation BICProcessTransactionSimulator
 
@@ -196,11 +196,10 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     }
     else {
         if (!error) {
-            failure([[NSError alloc] init]);
+            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
         }
-        else {
-            failure(error);
-        }
+        
+        failure(error);
     }
 }
 
@@ -236,7 +235,8 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     }
     
     if (message.length > 0) {
-        BICTransactionResponse *response = [self getBaseResponse:request];
+        BICTransactionResponse *response = [[BICTransactionResponse alloc] init];
+        response.code = 0;
         response.trnApproved = NO;
         response.message = message;
     }
@@ -305,7 +305,6 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     response.ref4 = @"";
     response.ref5 = @"";
     response.trnCardOwner = request.cardOwner;
-    response.isSuccessful = YES;
     
     return response;
 }

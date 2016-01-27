@@ -9,6 +9,7 @@
 #import "BICCreateSessionSimulator.h"
 #import "BICCreateSessionResponse.h"
 #import "BICPreferences.h"
+#import "BICSDKError.h"
 
 @implementation BICCreateSessionSimulator
 
@@ -95,11 +96,10 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
     }
     else {
         if (!error) {
-            failure([[NSError alloc] init]);
+            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
         }
-        else {
-            failure(error);
-        }
+        
+        failure(error);
     }
 }
 
@@ -180,8 +180,6 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
     response.code = 6;
     response.version = CREATE_SESSION_VERSION_NUMBER;
     response.message = @"Invalid login credentials";
-    response.isSuccessful = YES;
-    
     return response;
 }
 
@@ -191,8 +189,6 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
     response.code = 14;
     response.version = CREATE_SESSION_VERSION_NUMBER;
     response.message = @"Your password has expired. An email has been sent to your email address on file to guide you through the steps to reset your password. If not received in the next 30 minutes, please call our support team at 1.888.472.0811";
-    response.isSuccessful = YES;
-    
     return response;
 }
 
@@ -202,8 +198,6 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
     response.code = 10;
     response.version = CREATE_SESSION_VERSION_NUMBER;
     response.message = @"Missing XML Element";
-    response.isSuccessful = YES;
-    
     return response;
 }
 

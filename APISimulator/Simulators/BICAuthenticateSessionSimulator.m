@@ -8,6 +8,7 @@
 
 #import "BICAuthenticateSessionSimulator.h"
 #import "BICAuthenticateSessionResponse.h"
+#import "BICSDKError.h"
 
 @implementation BICAuthenticateSessionSimulator
 
@@ -69,11 +70,10 @@ static BICSimulatorMode *SimulatorModeAuthenticateSessionInvalid = nil;
     }
     else {
         if (!error) {
-            failure([[NSError alloc] init]);
+            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
         }
-        else {
-            failure(error);
-        }
+        
+        failure(error);
     }
 }
 
@@ -86,7 +86,6 @@ static BICSimulatorMode *SimulatorModeAuthenticateSessionInvalid = nil;
     response.version = AUTHENTICATE_SESSION_VERSION_NUMBER;
     response.message = @"Session authenticated";
     response.isSuccessful = YES;
-    
     return response;
 }
 
@@ -96,8 +95,6 @@ static BICSimulatorMode *SimulatorModeAuthenticateSessionInvalid = nil;
     response.code = 7;
     response.version = AUTHENTICATE_SESSION_VERSION_NUMBER;
     response.message = @"Invalid authentication credentials";
-    response.isSuccessful = YES;
-    
     return response;
 }
 

@@ -12,6 +12,7 @@
 #import "BICSearchTransactionsResponse.h"
 #import "BICTransactionDetail.h"
 #import "BICSDKConstants.h"
+#import "BICSDKError.h"
 
 @implementation BICSearchTransactionsSimulator
 
@@ -103,11 +104,10 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
     }
     else {
         if (!error) {
-            failure([[NSError alloc] init]);
+            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
         }
-        else {
-            failure(error);
-        }
+        
+        failure(error);
     }
 }
 
@@ -203,7 +203,6 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
     response.code = ReportApiCodeSessionFailed;
     response.message = @"Authentication failed";
     response.version = SearchTransactionVersion;
-    response.isSuccessful = YES;
     return response;
 }
 
@@ -213,7 +212,6 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
     response.code = 6;
     response.message = @"Data Validation Failed. ";
     response.version = SEARCH_TRANSACTION_VERSION_NUMBER;
-    response.isSuccessful = YES;
     return response;
 }
 
