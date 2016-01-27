@@ -1,13 +1,15 @@
 <img src="http://www.beanstream.com/wp-content/uploads/2015/08/Beanstream-logo.png" />
 # Beanstream iOS SDK API Simulator
-<img align="right" src="http://ingenico.ca/wp-content/uploads/2014/07/ICMP-Main-carte-Updated-2-web-version-e1424706271455.jpg" height=200px /> 
-iOS framework to simulate responses of the Beanstream SDK API.
+<img align="right" src="http://ingenico.ca/wp-content/uploads/2014/07/ICMP-Main-carte-Updated-2-web-version-e1424706271455.jpg" height=200px />
+iOS framework to simulate Beanstream SDK API responses
 
-The Beanstream SDK lets you simply track payments made by cash or cheque and when combined with an [Ingenico iCMP device](http://ingenico.ca/terminals/icmp/) also allows you to process Debit &amp; Credit Card payments as well.
+With the Beanstream SDK, it is easy to track payments made by cash or cheque, and when combined with an [Ingenico iCMP device](http://ingenico.ca/terminals/icmp/), you can also process Debit &amp; Credit Card payments.
 
 The main simulator class, BICBeanstreamAPISimulator, simply extends and overrides all the BICBeanstreamnAPI method calls to allow you to accompolish initial development of your apps without having to connect to any actual Beanstream remote web services nor require that you obtain and use an actual iCMP device. Each Beanstream SDK call is overridden to simulate limited data validation of requests and to provide sample response or error data models. Most each SDK call will also initially result in an alert sheet being displayed to allow a user to pick from a set of potential response types (E.g. Pass, Fail, Error).
 
 As a developer you can simply clone this project and then reference the enclosed APISimulator directory in your project to compile and link the source and header files. Your project however will need to manage including the Beanstream SDK and its depenendencies that include the AFNetworking library or else you can use CocoaPods to help manage this for you. To be able to compile this project as-is you will need to use CocoaPoads. The projects Podfile had a declared dependency on the Beanstream.SDK.
+
+To demonstrate usage of the API Simulator, refer to the Beanstream SDK API Sample App project that acts as a demo app.
 
 Please refer to the Beanstream SDK [API Sample App](https://github.com/Beanstream-DRWP/beanstream-ios-apisample) project that acts as a demo app to demonstrate usage of the API Simulator.
 
