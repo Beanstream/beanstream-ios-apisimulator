@@ -11,6 +11,7 @@
 #import "BICAttachSignatureSimulator.h"
 #import "BICAttachSignatureResponse.h"
 #import "BICSDKConstants.h"
+#import "BICSDKError.h"
 
 @implementation BICAttachSignatureSimulator
 
@@ -91,11 +92,10 @@ static BICSimulatorMode *SimulatorModeAttachSignatureInvalidSignature = nil;
     }
     else {
         if (!error) {
-            failure([[NSError alloc] init]);
+            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
         }
-        else {
-            failure(error);
-        }
+        
+        failure(error);
     }
 }
 
@@ -117,7 +117,6 @@ static BICSimulatorMode *SimulatorModeAttachSignatureInvalidSignature = nil;
     response.code = 6;
     response.version = ATTACH_SIGNATURE_VERSION_NUMBER;
     response.message = @"Invalid transactionId";
-    response.isSuccessful = YES;
     return response;
 }
 
@@ -127,7 +126,6 @@ static BICSimulatorMode *SimulatorModeAttachSignatureInvalidSignature = nil;
     response.code = TransactionUtilitiesCodeAuthenticationFailed;
     response.version = ATTACH_SIGNATURE_VERSION_NUMBER;
     response.message = @"Invalid or expired session";
-    response.isSuccessful = YES;
     return response;
 }
 
@@ -137,7 +135,6 @@ static BICSimulatorMode *SimulatorModeAttachSignatureInvalidSignature = nil;
     response.code = 10;
     response.version = ATTACH_SIGNATURE_VERSION_NUMBER;
     response.message = @"Invalid signature image";
-    response.isSuccessful = YES;
     return response;
 }
 

@@ -9,6 +9,7 @@
 #import "BICReceiptSimulator.h"
 #import "BICReceiptResponse.h"
 #import "BICSDKConstants.h"
+#import "BICSDKError.h"
 
 @implementation BICReceiptSimulator
 
@@ -256,11 +257,10 @@ static BICSimulatorMode *SimulatorModeReceiptErrorGetting = nil;
     }
     else {
         if (!error) {
-            failure([[NSError alloc] init]);
+            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
         }
-        else {
-            failure(error);
-        }
+        
+        failure(error);
     }
 }
 
@@ -282,7 +282,6 @@ static BICSimulatorMode *SimulatorModeReceiptErrorGetting = nil;
     response.code = 6;
     response.version = RECEIPT_VERSION_NUMBER;
     response.message = @"Invalid TransactionId";
-    response.isSuccessful = YES;
     return response;
 }
 
@@ -292,7 +291,6 @@ static BICSimulatorMode *SimulatorModeReceiptErrorGetting = nil;
     response.code = 6;
     response.version = RECEIPT_VERSION_NUMBER;
     response.message = @"Could not find transaction for transactionId: 2000001. Error code (-257). Error Messages: Invalid transaction / receipt";
-    response.isSuccessful = YES;
     return response;
 }
 
@@ -302,7 +300,6 @@ static BICSimulatorMode *SimulatorModeReceiptErrorGetting = nil;
     response.code = 10;
     response.version = RECEIPT_VERSION_NUMBER;
     response.message = @"Invalid Email Address";
-    response.isSuccessful = YES;
     return response;
 }
 
@@ -312,7 +309,6 @@ static BICSimulatorMode *SimulatorModeReceiptErrorGetting = nil;
     response.code = TransactionUtilitiesCodeAuthenticationFailed;
     response.message = @"Authentication failed";
     response.version = RECEIPT_VERSION_NUMBER;
-    response.isSuccessful = YES;
     return response;
 }
 
@@ -322,7 +318,6 @@ static BICSimulatorMode *SimulatorModeReceiptErrorGetting = nil;
     response.code = 2;
     response.message = @"Error while getting receipt.";
     response.version = RECEIPT_VERSION_NUMBER;
-    response.isSuccessful = YES;
     return response;
 }
 

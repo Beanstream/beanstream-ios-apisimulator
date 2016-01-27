@@ -8,8 +8,8 @@
 
 #import "BICAbandonSessionSimulator.h"
 #import "BICAbandonSessionResponse.h"
-
 #import "BICPreferences.h"
+#import "BICSDKError.h"
 
 @implementation BICAbandonSessionSimulator
 
@@ -86,11 +86,10 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
     }
     else {
         if (!error) {
-            failure([[NSError alloc] init]);
+            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
         }
-        else {
-            failure(error);
-        }
+        
+        failure(error);
     }
 }
 
@@ -101,7 +100,6 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
     response.version = ABANDON_SESSION_VERSION_NUMBER;
     response.message = @"Session Abandoned";
     response.isSuccessful = YES;
-    
     return response;
 }
 
@@ -111,8 +109,6 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
     response.code = 4;
     response.version = ABANDON_SESSION_VERSION_NUMBER;
     response.message = @"Invalid Session ID";
-    response.isSuccessful = YES;
-    
     return response;
 }
 
@@ -122,8 +118,6 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
     response.code = 3;
     response.version = ABANDON_SESSION_VERSION_NUMBER;
     response.message = @"Session not found";
-    response.isSuccessful = YES;
-    
     return response;
 }
 

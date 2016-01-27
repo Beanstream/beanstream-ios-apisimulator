@@ -8,6 +8,7 @@
 
 #import "BICUpdatePinPadSimulator.H"
 #import "BICUpdatePinPadResponse.h"
+#import "BICSDKError.h"
 
 @implementation BICUpdatePinPadSimulator
 
@@ -81,11 +82,10 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     }
     else {
         if (!error) {
-            failure([[NSError alloc] init]);
+            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
         }
-        else {
-            failure(error);
-        }
+        
+        failure(error);
     }
 }
 
@@ -105,7 +105,6 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     response.code = 0x02b;
     response.message = @"Error Updating iCMP";
     response.version = UPDATE_PINPAD_VERSION_NUMBER;
-    response.isSuccessful = YES;
     return response;
 }
 
@@ -115,7 +114,6 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     response.code = 0x02b;
     response.message = @"Error Injecting Terminal ID";
     response.version = UPDATE_PINPAD_VERSION_NUMBER;
-    response.isSuccessful = YES;
     return response;
 }
 
@@ -125,7 +123,6 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     response.code = 4;
     response.version = UPDATE_PINPAD_VERSION_NUMBER;
     response.message = @"Invalid Session ID";
-    response.isSuccessful = YES;
     return response;
 }
 

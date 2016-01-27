@@ -8,6 +8,7 @@
 
 #import "BICInitializePinPadSimulator.h"
 #import "BICInitPinPadResponse.h"
+#import "BICSDKError.h"
 
 @implementation BICInitializePinPadSimulator
 
@@ -81,11 +82,10 @@ static BICSimulatorMode *SimulatorModeInitializePinPadInvalidSession = nil;
     }
     else {
         if (!error) {
-            failure([[NSError alloc] init]);
+            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
         }
-        else {
-            failure(error);
-        }
+
+        failure(error);
     }
 }
 
@@ -129,7 +129,6 @@ static BICSimulatorMode *SimulatorModeInitializePinPadInvalidSession = nil;
     response.code = 4;
     response.version = INITIALIZE_PINPAD_VERSION_NUMBER;
     response.message = @"Invalid Session ID";
-    response.isSuccessful = YES;
     return response;
 }
 
