@@ -421,7 +421,7 @@
                                                         handler:^(UIAlertAction * _Nonnull action)
                                   {
                                       if ( failure ) {
-                                          NSDictionary *info = @{ NSLocalizedDescriptionKey: @"Network Error" };
+                                          NSDictionary *info = @{ NSLocalizedDescriptionKey: @"HTTP Error" };
                                           NSError *error = [NSError errorWithDomain:@"BIC SIM HTTP Error"
                                                                                code:404
                                                                            userInfo:info];
@@ -437,7 +437,7 @@
                                           if ( failure ) {
                                               NSDictionary *info = @{ NSLocalizedDescriptionKey: @"Unknown Host Error: Unable to resolve host \"www.beanstream.com\": No address associated with hostname" };
                                               NSError *error = [NSError errorWithDomain:@"BIC SIM Network Error"
-                                                                                   code:404
+                                                                                   code:-1003
                                                                                userInfo:info];
                                               failure(error);
                                           }
