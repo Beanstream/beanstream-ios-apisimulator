@@ -18,7 +18,9 @@ static CBCentralManager *bluetoothManager = nil;
 
 + (void)initialize
 {
-    bluetoothManager = [[CBCentralManager alloc] init];
+    bluetoothManager = [[CBCentralManager alloc] initWithDelegate:nil
+                                                            queue:nil
+                                                          options:@{CBCentralManagerOptionShowPowerAlertKey : @(NO)}];
 }
 
 NSString * const BICSimulatorIsPinPadConnected = @"BICSimulatorIsPinPadConnected";
