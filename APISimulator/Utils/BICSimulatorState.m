@@ -12,11 +12,13 @@
 
 @implementation BICSimulatorState
 
-static CBCentralManager *mgr = nil;
+// We need to hold onto an instance of the manager as it's connection state
+// is updated asynchronously sometime only after initialization.
+static CBCentralManager *bluetoothManager = nil;
 
 + (void)initialize
 {
-    mgr = [[CBCentralManager alloc] init];
+    bluetoothManager = [[CBCentralManager alloc] init];
 }
 
 NSString * const BICSimulatorIsPinPadConnected = @"BICSimulatorIsPinPadConnected";
@@ -30,7 +32,7 @@ NSString * const BICSimulatorIsPinPadConnected = @"BICSimulatorIsPinPadConnected
         // set this itself. Setting this happens auto-magically
         BOOL connected = false;
 
-        connected = (mgr.state == CBCentralManagerStatePoweredOn ? YES : NO);
+        connected = (bluetoothManager.state == CBCentralManagerStatePoweredOn ? YES : NO);
         
         return connected;
     }
