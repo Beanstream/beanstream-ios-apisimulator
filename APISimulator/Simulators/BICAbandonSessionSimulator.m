@@ -60,10 +60,14 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
         response = [self createSuccessfulResponse];
     }
     else if (self.simulatorMode == SimulatorModeAbandonSessionFail) {
-        response = [self createSessionNotFoundResponse];
+        error = [NSError errorWithDomain:BICSDKErrorDomainSession
+                                    code:3
+                                userInfo:@{ NSLocalizedDescriptionKey: @"Session not found" }];
     }
     else if (self.simulatorMode == SimulatorModeAbandonSessionInvalid) {
-        response = [self createInvalidSessionIdResponse];
+        error = [NSError errorWithDomain:BICSDKErrorDomainSession
+                                    code:4
+                                userInfo:@{ NSLocalizedDescriptionKey: @"Invalid Session ID" }];
     }
     else {
         error = [NSError errorWithDomain:@"BIC SIM Usage Error"
@@ -85,10 +89,6 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
         success(response);
     }
     else {
-        if (!error) {
-            error = [BICSDKError getErrorFromResponse:response withErrorDomain:BICSDKErrorDomainSession];
-        }
-        
         failure(error);
     }
 }
@@ -100,24 +100,6 @@ static BICSimulatorMode *SimulatorModeAbandonSessionInvalid = nil;
     response.version = ABANDON_SESSION_VERSION_NUMBER;
     response.message = @"Session Abandoned";
     response.isSuccessful = YES;
-    return response;
-}
-
-- (BICAbandonSessionResponse *)createInvalidSessionIdResponse
-{
-    BICAbandonSessionResponse *response = [[BICAbandonSessionResponse alloc] init];
-    response.code = 4;
-    response.version = ABANDON_SESSION_VERSION_NUMBER;
-    response.message = @"Invalid Session ID";
-    return response;
-}
-
-- (BICAbandonSessionResponse *)createSessionNotFoundResponse
-{
-    BICAbandonSessionResponse *response = [[BICAbandonSessionResponse alloc] init];
-    response.code = 3;
-    response.version = ABANDON_SESSION_VERSION_NUMBER;
-    response.message = @"Session not found";
     return response;
 }
 
