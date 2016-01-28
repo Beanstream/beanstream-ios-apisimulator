@@ -15,8 +15,8 @@
 @implementation BICProcessTransactionSimulator
 
 static NSString *PROCESS_TRANSACTION_VERSION_NUMBER = @"1.0";
-static NSString *SIGNATURE_REQUIRED_FLAG = @"0";
-static NSString *SIGNATURE_NOT_REQUIRED_FLAG = @"1";
+static NSString *PIN_VERIFIED     = @"0";
+static NSString *PIN_NOT_VERIFIED = @"1";
 
 static BICSimulatorMode *SimModeProcessTxnApproved = nil;
 static BICSimulatorMode *SimModeProcessTxnApprovedSigRequired = nil;
@@ -123,10 +123,10 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     if ( !response ) {
         // Validation passed... continue
         if (self.simulatorMode == SimModeProcessTxnApproved) {
-            response = [self getBasicApprovedResponse:request pinVerified:SIGNATURE_NOT_REQUIRED_FLAG];
+            response = [self getBasicApprovedResponse:request pinVerified:PIN_VERIFIED signatureRequired:NO];
         }
         else if (self.simulatorMode == SimModeProcessTxnApprovedSigRequired) {
-            response = [self getBasicApprovedResponse:request pinVerified:SIGNATURE_REQUIRED_FLAG];
+            response = [self getBasicApprovedResponse:request pinVerified:PIN_VERIFIED signatureRequired:YES];
         }
         else if (self.simulatorMode == SimModeProcessTxnDeclined) {
             response = [self getBasicDeclinedResponseWithMessageID:@"693" messageText:@"Declined"];
@@ -244,7 +244,7 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     return response;
 }
 
-- (BICTransactionResponse *)getBasicApprovedResponse:(BICTransactionRequest *)request pinVerified:(NSString *)signatureRequired
+- (BICTransactionResponse *)getBasicApprovedResponse:(BICTransactionRequest *)request pinVerified:(NSString *)pinVerifiedFlag signatureRequired:(BOOL)signatureRequired
 {
     BICTransactionResponse *response = [self getBaseResponse:request];
     
@@ -252,7 +252,8 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     response.trnApproved = YES;
     response.messageId = @"1";
     response.messageText = @"Approved";
-    response.pinVerified = signatureRequired;
+    response.pinVerified = pinVerifiedFlag;
+    response.isSignatureRequired = signatureRequired;
     response.successCode = BIC_TRX_APPROVED;
     response.isSuccessful = YES;
     
