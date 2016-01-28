@@ -21,6 +21,9 @@ static CBCentralManager *bluetoothManager = nil;
     bluetoothManager = [[CBCentralManager alloc] initWithDelegate:nil
                                                             queue:nil
                                                           options:@{CBCentralManagerOptionShowPowerAlertKey : @(NO)}];
+    
+    // Always removed at initial startup in case app does not have ability to set/unset prgramtically
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:BICSimulatorIsPinPadConnected];
 }
 
 NSString * const BICSimulatorIsPinPadConnected = @"BICSimulatorIsPinPadConnected";
