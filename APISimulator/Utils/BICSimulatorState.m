@@ -32,13 +32,17 @@ NSString * const BICSimulatorIsPinPadConnected = @"BICSimulatorIsPinPadConnected
 {
     NSString *testStr = [[NSUserDefaults standardUserDefaults] stringForKey:BICSimulatorIsPinPadConnected];
     if ( !testStr ) {
-        // If the EMV connected state was not set base it on the Bluetooth connected state. Doing so for an iOS
-        // production app is needed as a way to replicate EMV connected states as a production app will never
-        // set this itself. Setting this happens auto-magically
+        // EMV connected states on a production app will never be set programatically as this happens auto-magically
+        // when a external accessory connects via Bluetooth and the related MFi accessory code that is executed.
         BOOL connected = false;
-
-        connected = (bluetoothManager.state == CBCentralManagerStatePoweredOn ? YES : NO);
         
+#if TARGET_IPHONE_SIMULATOR
+        // Always pretent we are connected to an EMV when using the iOS Simulator to test.
+        connected = YES;
+#else
+        // If the EMV connected state was not set base it on the Bluetooth connected state.
+        connected = (bluetoothManager.state == CBCentralManagerStatePoweredOn ? YES : NO);
+#endif
         return connected;
     }
     else {
