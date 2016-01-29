@@ -217,23 +217,25 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
                username:(NSString *)username
                password:(NSString *)password
 {
-    BICPreferences *preferences = [[BICPreferences alloc] init];
-    if (response.isAuthorized) {
-        preferences.merchantId = response.merchantId;
-        preferences.sessionId = response.sessionId;
-        preferences.companyLogin = companyLogin;
-        preferences.username = username;
-        
-        if (preferences.rememberMe) {
-            preferences.password = password;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        BICPreferences *preferences = [[BICPreferences alloc] init];
+        if (response.isAuthorized) {
+            preferences.merchantId = response.merchantId;
+            preferences.sessionId = response.sessionId;
+            preferences.companyLogin = companyLogin;
+            preferences.username = username;
+            
+            if (preferences.rememberMe) {
+                preferences.password = password;
+            }
+            else {
+                preferences.password = @"";
+            }
         }
         else {
-            preferences.password = @"";
+            preferences.sessionId = @"";
         }
-    }
-    else {
-        preferences.sessionId = @"";
-    }
+    });
 }
 
 @end
