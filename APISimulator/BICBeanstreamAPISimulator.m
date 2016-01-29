@@ -58,6 +58,7 @@
 {
     BICAbandonSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AbandonSessionSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"abandonSession"
             checkSession:YES
                withBlock:^() {
                  [simulator abandonSession:^(BICAbandonSessionResponse *response) {
@@ -75,6 +76,7 @@
 {
     BICAuthenticateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AuthenticateSessionSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"authenticateSession"
             checkSession:YES
                withBlock:^() {
                    [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
@@ -95,6 +97,7 @@
 {
     BICCreateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:CreateSessionSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"createSession"
             checkSession:NO
                withBlock:^() {
                  [simulator createSession:companyLogin
@@ -115,6 +118,7 @@
 {
     BICCreateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:CreateSessionSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"createSessionWithSavedCredentials"
             checkSession:NO
                withBlock:^() {
                  [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
@@ -150,6 +154,7 @@
 {
     BICInitializePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:InitializePinPadSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"initializePinPad"
             checkSession:YES
                withBlock:^() {
                  [simulator initializePinPad:^(BICInitPinPadResponse *response) {
@@ -167,6 +172,7 @@
 {
     BICUpdatePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:UpdatePinPadSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"updatePinPad"
             checkSession:YES
                withBlock:^() {
                  [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
@@ -197,6 +203,7 @@
 
     BICProcessTransactionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ProcessTransactionSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"processTransaction"
             checkSession:YES
                withBlock:^() {
                  [simulator processTransaction:(BICTransactionRequest *)request
@@ -229,6 +236,7 @@
 {
     BICSearchTransactionsSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:SearchTransactionsSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"searchTransactions"
             checkSession:YES
                withBlock:^() {
                  [simulator searchTransactions:(BICSearchTransactionsRequest *)request
@@ -261,6 +269,7 @@
 {
     BICReceiptSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ReceiptSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"getPrintReceipt"
             checkSession:YES
                withBlock:^() {
                  [simulator getPrintReceipt:transactionId
@@ -295,6 +304,7 @@
 {
     BICReceiptSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ReceiptSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"sendEmailReceipt"
             checkSession:YES
                withBlock:^() {
                  [simulator sendEmailReceipt:transactionId
@@ -329,6 +339,7 @@
 {
     BICAttachSignatureSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AttachSignatureSimulatorIdentifier];
     [self processRequest:simulator
+               withLabel:@"attachSignatureToTransaction"
             checkSession:YES
                withBlock:^() {
                  [simulator attachSignatureToTransaction:transactionId
@@ -354,6 +365,7 @@
 #pragma mark - Private methods
 
 - (void)processRequest:(id<BICSimulator>)simulator
+             withLabel:(NSString *)label
           checkSession:(BOOL)checkSession
              withBlock:(void (^)())completion
              orFailure:(void (^)(NSError *error))failure
@@ -372,27 +384,7 @@
         return;
     }
     
-    //
-    // Determine the calling method signature
-    // Found on http://stackoverflow.com/questions/1451342/objective-c-find-caller-of-method
-    //
-    NSString *sourceString = [[NSThread callStackSymbols] objectAtIndex:1];
-    // Example: 1   UIKit                               0x00540c89 -[UIApplication _callInitializationDelegatesForURL:payload:suspended:] + 1163
-    NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
-    NSMutableArray *array = [NSMutableArray arrayWithArray:[sourceString  componentsSeparatedByCharactersInSet:separatorSet]];
-    [array removeObject:@""];
-    
-    //    NSLog(@"Stack = %@", [array objectAtIndex:0]);
-    //    NSLog(@"Framework = %@", [array objectAtIndex:1]);
-    //    NSLog(@"Memory address = %@", [array objectAtIndex:2]);
-    //    NSLog(@"Class caller = %@", [array objectAtIndex:3]);
-    //    NSLog(@"Function caller = %@", [array objectAtIndex:4]);
-    
-    NSString *functionName = [array objectAtIndex:4];
-    if ( [functionName hasSuffix:@"success:failure:"] ) {
-        functionName = [functionName substringToIndex:functionName.length - @"success:failure:".length - 1];
-    }
-    functionName = [NSString stringWithFormat:@"Choose Simulator Option\n%@", functionName];
+    NSString *functionName = [NSString stringWithFormat:@"Choose Simulator Option\n%@", label];
     
     // Use an alert sheet to let a user choose a Normal or Forced Error path to execute
     BICAlertController *alert = [BICAlertController alertControllerWithTitle:functionName
