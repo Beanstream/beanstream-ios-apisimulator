@@ -444,18 +444,24 @@
                                       }];
     [alert addAction:networkErrorAction];
 
-    UIViewController *controller = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *controller = self.rootViewController;
+    
+    if ( [controller isKindOfClass:[UIAlertController class]] ) {
+        controller = controller.presentingViewController;
+    }
     if ( [controller isKindOfClass:[UITabBarController class]] ) {
         controller = ((UITabBarController *)controller).selectedViewController;
     }
     if ( [controller isKindOfClass:[UINavigationController class]] ) {
         controller = ((UINavigationController *)controller).topViewController;
     }
-    if ( controller.presentedViewController ) {
+    if ( controller.presentedViewController && ![controller.presentedViewController isKindOfClass:[UIAlertController class]]) {
         controller = controller.presentedViewController;
     }
 
-    dispatch_async(dispatch_get_main_queue(), ^{
+    // Delay 1 second
+    dispatch_time_t delay = dispatch_time( DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC );
+    dispatch_after( delay, dispatch_get_main_queue(), ^{
         [controller presentViewController:alert animated:YES completion:nil];
     });
 }

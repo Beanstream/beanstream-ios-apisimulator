@@ -13,5 +13,7 @@
 @interface BICBeanstreamAPISimulator : BICBeanstreamAPI
 
 // All needed BICBeanstreamAPI methods are reimplemented in this simulator class
+// with exception of setting this property. Needs to be called after initialization.
+@property (nonatomic, weak) UIViewController *rootViewController;
 
 @end
