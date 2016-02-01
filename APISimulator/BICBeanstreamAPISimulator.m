@@ -374,6 +374,8 @@
         failure([BICSDKError getSessionNotFoundError]);
         return;
     }
+    
+    NSAssert(_rootViewController != nil, @"The BICBeanstreamAPISimulator rootViewController must not be nil!");
 
     if ( !simulator.interactive ) {
         // No need for GUI. Execute the completion block with whatever simulator
