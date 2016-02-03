@@ -1,35 +1,47 @@
-Pod::Spec.new do |s|
+#
+# Add repo:
+# pod repo add beanstream-ios-specs https://github.com/Beanstream-DRWP/beanstream-ios-specs.git
+#
+# Validate pod spec:
+# pod spec lint --verbose BeanstreamAPISimulator.podspec --sources='https://github.com/Beanstream-DRWP/beanstream-ios-specs.git,https://github.com/CocoaPods/Specs'
+# 
+# Push to repo:
+# pod repo push beanstream-ios-specs BeanstreamAPISimulator.podspec
+# 
 
-  s.name     = 'BeanstreamAPISimulator'
-  s.version  = '0.0.1'
-  s.license  = 'MIT'
-  s.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
-  s.homepage = 'http://developer.beanstream.com'
-  s.authors  = 'Sven M. Resch', 'David Light'
-  s.source   = { :git => 'https://stash.beanstream.com/scm/ios/beanstreamios.sdk.apisimulator.git', :submodules => true }
-  s.requires_arc = true
+Pod::Spec.new do |spec|
+
+  spec.name     = 'BeanstreamAPISimulator'
+  spec.version  = '1.0.0-alpha.1'
+  spec.license  = 'MIT'
+  spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
+  spec.homepage = 'http://developer.beanstream.com'
+  spec.authors  = 'Sven M. Resch', 'David Light'
+  spec.source   = { :git => 'https://github.com/Beanstream-DRWP/beanstream-ios-apisimulator.git', 
+  					:tag => spec.version.to_s, :submodules => true }
+  spec.requires_arc = true
   
-  s.public_header_files = 'APISimulator/*.h'
-  s.source_files = 'APISimulator/*.{h,m}'
+  spec.public_header_files = 'APISimulator/*.h'
+  spec.source_files = 'APISimulator/*.{h,m}'
   
-  s.ios.deployment_target = '8.0'
+  spec.ios.deployment_target = '8.3'
   
-  s.subspec 'Simulators' do |ss|
+  spec.subspec 'Simulators' do |ss|
     ss.source_files = 'APISimulator/Simulators/*.{h,m}'
     ss.public_header_files = 'APISimulator/Simulators/*.h'
     ss.dependency 'BeanstreamAPISimulator/Utils'
   end
 
-  s.subspec 'Utils' do |ss|
-    ss.source_files = 'APISimulator/Utils/*.{h,m}'
-    ss.public_header_files = 'APISimulator/Utils/*.h'
+  spec.subspec 'Utils' do |su|
+    su.source_files = 'APISimulator/Utils/*.{h,m}'
+    su.public_header_files = 'APISimulator/Utils/*.h'
   end
 
   
-  s.dependency "AFNetworking", "= 2.6.0"
-  s.dependency 'Beanstream.SDK', :podspec => 'http://localhost/Beanstream.SDK.podspec'
-  s.libraries = 'z', 'c++', 'iSMP', 'Beanstream.SDK'
+  spec.dependency "AFNetworking", "= 2.6.0"
+  spec.dependency 'Beanstream.SDK', "= 2.0.0-alpha.1"
+  spec.libraries = 'z', 'c++', 'Beanstream.SDK'
 
-  s.xcconfig  = { "LIBRARY_SEARCH_PATHS" => "$(PODS_ROOT)/Beanstream.SDK/Beanstream.SDK" }
+  spec.xcconfig  = { "LIBRARY_SEARCH_PATHS" => "$(PODS_ROOT)/Beanstream.SDK/Beanstream.SDK" }
 
 end
