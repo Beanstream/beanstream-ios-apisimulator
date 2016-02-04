@@ -3,7 +3,7 @@
 # pod repo add beanstream-ios-specs https://github.com/Beanstream-DRWP/beanstream-ios-specs.git
 #
 # Validate pod spec:
-# pod spec lint --verbose BeanstreamAPISimulator.podspec --sources='https://github.com/Beanstream-DRWP/beanstream-ios-specs.git,https://github.com/CocoaPods/Specs'
+# pod spec lint --use-libraries --verbose BeanstreamAPISimulator.podspec --sources='beanstream-ios-specs,https://github.com/CocoaPods/Specs'
 # 
 # Push to repo:
 # pod repo push beanstream-ios-specs BeanstreamAPISimulator.podspec
