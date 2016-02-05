@@ -6,7 +6,7 @@
 # pod spec lint --use-libraries --verbose BeanstreamAPISimulator.podspec --sources='beanstream-ios-specs,https://github.com/CocoaPods/Specs'
 # 
 # Push to repo:
-# pod repo push beanstream-ios-specs BeanstreamAPISimulator.podspec
+# pod repo push --use-libraries beanstream-ios-specs BeanstreamAPISimulator.podspec
 # 
 
 Pod::Spec.new do |spec|
