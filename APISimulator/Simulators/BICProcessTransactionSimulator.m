@@ -24,14 +24,16 @@ static BICSimulatorMode *SimModeProcessTxnDeclined = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedAmountTooHigh = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedRefundLimitExceeded = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedMissingInvalidAdjutmentId = nil;
-static BICSimulatorMode *SimModeProcessTxnDeclinedSessionExpired = nil;
-static BICSimulatorMode *SimModeProcessTxnDeclinedSessionInvalid = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedCompletionGreaterThanReserve = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedApplicationError = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedReferralResponse = nil;
 //static BICSimulatorMode *SimModeProcessTxnDeclinedCryptoFailure = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedServNotAllowed = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
+
+
+static BICSimulatorMode *SimModeProcessTxnErrorSessionExpired = nil;
+static BICSimulatorMode *SimModeProcessTxnErrorSessionInvalid = nil;
 
 @synthesize simulatorMode, interactive;
 
@@ -45,14 +47,15 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     SimModeProcessTxnDeclinedAmountTooHigh = [[BICSimulatorMode alloc] initWithLabel:@"Amount Too High"];
     SimModeProcessTxnDeclinedRefundLimitExceeded = [[BICSimulatorMode alloc] initWithLabel:@"Refund Limit Exceeded"];
     SimModeProcessTxnDeclinedMissingInvalidAdjutmentId = [[BICSimulatorMode alloc] initWithLabel:@"Missing/Invalid Adjustment Id"];
-    SimModeProcessTxnDeclinedSessionExpired = [[BICSimulatorMode alloc] initWithLabel:@"Session Expired"];
-    SimModeProcessTxnDeclinedSessionInvalid = [[BICSimulatorMode alloc] initWithLabel:@"Session Invalid"];
     SimModeProcessTxnDeclinedCompletionGreaterThanReserve = [[BICSimulatorMode alloc] initWithLabel:@"PAC Completion Greater Than Reserve"];
     SimModeProcessTxnDeclinedApplicationError = [[BICSimulatorMode alloc] initWithLabel:@"Application Error"];
     SimModeProcessTxnDeclinedReferralResponse = [[BICSimulatorMode alloc] initWithLabel:@"Referral"];
     //SimModeProcessTxnDeclinedCryptoFailure = [[BICSimulatorMode alloc] initWithLabel:@"Approved"];
     SimModeProcessTxnDeclinedServNotAllowed = [[BICSimulatorMode alloc] initWithLabel:@"Serv Not Allowed"];
     SimModeProcessTxnDeclinedNotComplete = [[BICSimulatorMode alloc] initWithLabel:@"Transaction Not Complete"];
+    
+    SimModeProcessTxnErrorSessionExpired = [[BICSimulatorMode alloc] initWithLabel:@"Session Expired"];
+    SimModeProcessTxnErrorSessionInvalid = [[BICSimulatorMode alloc] initWithLabel:@"Session Invalid"];
 }
 
 - (id)init
@@ -68,19 +71,21 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
 
 - (NSArray *)supportedModes
 {
-    return @[SimModeProcessTxnApproved,
-             SimModeProcessTxnApprovedSigRequired,
-             SimModeProcessTxnDeclined,
-             SimModeProcessTxnDeclinedAmountTooHigh,
-             SimModeProcessTxnDeclinedRefundLimitExceeded,
-             SimModeProcessTxnDeclinedMissingInvalidAdjutmentId,
-             SimModeProcessTxnDeclinedSessionExpired,
-             SimModeProcessTxnDeclinedSessionInvalid,
-             SimModeProcessTxnDeclinedCompletionGreaterThanReserve,
-             SimModeProcessTxnDeclinedApplicationError,
-             SimModeProcessTxnDeclinedReferralResponse,
-             SimModeProcessTxnDeclinedServNotAllowed,
-             SimModeProcessTxnDeclinedNotComplete];
+    return @[
+        SimModeProcessTxnApproved,
+        SimModeProcessTxnApprovedSigRequired,
+        SimModeProcessTxnDeclined,
+        SimModeProcessTxnDeclinedAmountTooHigh,
+        SimModeProcessTxnDeclinedRefundLimitExceeded,
+        SimModeProcessTxnDeclinedMissingInvalidAdjutmentId,
+        SimModeProcessTxnDeclinedCompletionGreaterThanReserve,
+        SimModeProcessTxnDeclinedApplicationError,
+        SimModeProcessTxnDeclinedReferralResponse,
+        SimModeProcessTxnDeclinedServNotAllowed,
+        SimModeProcessTxnDeclinedNotComplete,
+        SimModeProcessTxnErrorSessionExpired,
+        SimModeProcessTxnErrorSessionInvalid
+    ];
 }
 
 #pragma mark - Public methods
@@ -143,13 +148,13 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
             response.errorType = @"U";
             //response.errorFields = @"adjId";
         }
-        else if (self.simulatorMode == SimModeProcessTxnDeclinedSessionExpired) {
-            response = [self getBasicDeclinedResponseWithMessageID:@"813" messageText:@"User session has expired\n"];
+        else if (self.simulatorMode == SimModeProcessTxnErrorSessionExpired) {
+            response = [self getBasicErrorResponseWithCode:ProcessTransactionCodeSessionExpired messageText:@"User session has expired\n"];
             response.trnId = @"0";
             response.errorType = @"S";
         }
-        else if (self.simulatorMode == SimModeProcessTxnDeclinedSessionInvalid) {
-            response = [self getBasicDeclinedResponseWithMessageID:@"814" messageText:@"User session validation failed"];
+        else if (self.simulatorMode == SimModeProcessTxnErrorSessionInvalid) {
+            response = [self getBasicErrorResponseWithCode:ProcessTransactionCodeSessionValidationFailed messageText:@"User session validation failed"];
             response.trnId = @"0";
             response.errorType = @"S";
         }
@@ -274,6 +279,20 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     response.messageText = messageText;
     response.successCode = BIC_TRX_DECLINED;
     response.isSuccessful = YES;
+    
+    return response;
+}
+
+- (BICTransactionResponse *)getBasicErrorResponseWithCode:(NSInteger *)code messageText:(NSString *)messageText
+{
+    BICTransactionResponse *response = [[BICTransactionResponse alloc] init];
+    
+    response.code = messageID;
+    response.trnApproved = NO;
+    response.messageId = messageID;
+    response.messageText = messageText;
+    response.successCode = BIC_TRX_DECLINED;
+    response.isSuccessful = NO;
     
     return response;
 }
