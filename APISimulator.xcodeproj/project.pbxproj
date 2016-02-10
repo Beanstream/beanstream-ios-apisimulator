@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1791466C1C6A895100B41EB6 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 1791466B1C6A895100B41EB6 /* Podfile */; };
+		1791466D1C6A895100B41EB6 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 1791466B1C6A895100B41EB6 /* Podfile */; };
 		BC0DF5BC1C3DBC7B000528CA /* APISimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5BB1C3DBC7B000528CA /* APISimulator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC0DF5C31C3DBC7B000528CA /* APISimulator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0DF5B81C3DBC7B000528CA /* APISimulator.framework */; };
 		BC0DF5C81C3DBC7B000528CA /* APISimulatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5C71C3DBC7B000528CA /* APISimulatorTests.m */; };
@@ -57,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1791466B1C6A895100B41EB6 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		3F356D5DC2D60C69964F92AC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		79733D5C35EDCFC0675236E3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		BC0DF5B81C3DBC7B000528CA /* APISimulator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APISimulator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -219,6 +222,7 @@
 		C7B9358258DC8ED9898DEC2C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				1791466B1C6A895100B41EB6 /* Podfile */,
 				79733D5C35EDCFC0675236E3 /* Pods.debug.xcconfig */,
 				DF4A125B3B210488FF876436 /* Pods.release.xcconfig */,
 			);
@@ -334,6 +338,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1791466C1C6A895100B41EB6 /* Podfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +346,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1791466D1C6A895100B41EB6 /* Podfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,6 +538,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = APISimulator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -549,6 +556,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = APISimulator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -560,6 +568,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = APISimulatorTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulatorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -570,6 +579,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = APISimulatorTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulatorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

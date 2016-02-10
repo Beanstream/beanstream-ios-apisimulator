@@ -20,12 +20,14 @@ static NSString *PIN_NOT_VERIFIED = @"1";
 
 static BICSimulatorMode *SimModeProcessTxnApproved = nil;
 static BICSimulatorMode *SimModeProcessTxnApprovedSigRequired = nil;
+
+static BICSimulatorMode *SimModeProcessTxnErrorSessionExpired = nil;
+static BICSimulatorMode *SimModeProcessTxnErrorSessionInvalid = nil;
+
 static BICSimulatorMode *SimModeProcessTxnDeclined = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedAmountTooHigh = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedRefundLimitExceeded = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedMissingInvalidAdjutmentId = nil;
-static BICSimulatorMode *SimModeProcessTxnDeclinedSessionExpired = nil;
-static BICSimulatorMode *SimModeProcessTxnDeclinedSessionInvalid = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedCompletionGreaterThanReserve = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedApplicationError = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedReferralResponse = nil;
@@ -41,12 +43,14 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
 {
     SimModeProcessTxnApproved = [[BICSimulatorMode alloc] initWithLabel:@"Approved"];
     SimModeProcessTxnApprovedSigRequired = [[BICSimulatorMode alloc] initWithLabel:@"Approved - Signature"];
+    
+    SimModeProcessTxnErrorSessionExpired = [[BICSimulatorMode alloc] initWithLabel:@"Session Expired"];
+    SimModeProcessTxnErrorSessionInvalid = [[BICSimulatorMode alloc] initWithLabel:@"Session Invalid"];
+    
     SimModeProcessTxnDeclined = [[BICSimulatorMode alloc] initWithLabel:@"Declined"];
     SimModeProcessTxnDeclinedAmountTooHigh = [[BICSimulatorMode alloc] initWithLabel:@"Amount Too High"];
     SimModeProcessTxnDeclinedRefundLimitExceeded = [[BICSimulatorMode alloc] initWithLabel:@"Refund Limit Exceeded"];
     SimModeProcessTxnDeclinedMissingInvalidAdjutmentId = [[BICSimulatorMode alloc] initWithLabel:@"Missing/Invalid Adjustment Id"];
-    SimModeProcessTxnDeclinedSessionExpired = [[BICSimulatorMode alloc] initWithLabel:@"Session Expired"];
-    SimModeProcessTxnDeclinedSessionInvalid = [[BICSimulatorMode alloc] initWithLabel:@"Session Invalid"];
     SimModeProcessTxnDeclinedCompletionGreaterThanReserve = [[BICSimulatorMode alloc] initWithLabel:@"PAC Completion Greater Than Reserve"];
     SimModeProcessTxnDeclinedApplicationError = [[BICSimulatorMode alloc] initWithLabel:@"Application Error"];
     SimModeProcessTxnDeclinedReferralResponse = [[BICSimulatorMode alloc] initWithLabel:@"Referral"];
@@ -68,19 +72,21 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
 
 - (NSArray *)supportedModes
 {
-    return @[SimModeProcessTxnApproved,
+    return @[
+             SimModeProcessTxnApproved,
              SimModeProcessTxnApprovedSigRequired,
+             SimModeProcessTxnErrorSessionExpired,
+             SimModeProcessTxnErrorSessionInvalid,
              SimModeProcessTxnDeclined,
              SimModeProcessTxnDeclinedAmountTooHigh,
              SimModeProcessTxnDeclinedRefundLimitExceeded,
              SimModeProcessTxnDeclinedMissingInvalidAdjutmentId,
-             SimModeProcessTxnDeclinedSessionExpired,
-             SimModeProcessTxnDeclinedSessionInvalid,
              SimModeProcessTxnDeclinedCompletionGreaterThanReserve,
              SimModeProcessTxnDeclinedApplicationError,
              SimModeProcessTxnDeclinedReferralResponse,
              SimModeProcessTxnDeclinedServNotAllowed,
-             SimModeProcessTxnDeclinedNotComplete];
+             SimModeProcessTxnDeclinedNotComplete
+             ];
 }
 
 #pragma mark - Public methods
@@ -143,13 +149,13 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
             response.errorType = @"U";
             //response.errorFields = @"adjId";
         }
-        else if (self.simulatorMode == SimModeProcessTxnDeclinedSessionExpired) {
-            response = [self getBasicDeclinedResponseWithMessageID:@"813" messageText:@"User session has expired\n"];
+        else if (self.simulatorMode == SimModeProcessTxnErrorSessionExpired) {
+            response = [self getBasicErrorResponseWithCode:ProcessTransactionCodeSessionExpired message:@"User session has expired\n"];
             response.trnId = @"0";
             response.errorType = @"S";
         }
-        else if (self.simulatorMode == SimModeProcessTxnDeclinedSessionInvalid) {
-            response = [self getBasicDeclinedResponseWithMessageID:@"814" messageText:@"User session validation failed"];
+        else if (self.simulatorMode == SimModeProcessTxnErrorSessionInvalid) {
+            response = [self getBasicErrorResponseWithCode:ProcessTransactionCodeSessionValidationFailed message:@"User session validation failed"];
             response.trnId = @"0";
             response.errorType = @"S";
         }
@@ -278,6 +284,21 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     return response;
 }
 
+- (BICTransactionResponse *)getBasicErrorResponseWithCode:(NSInteger)code message:(NSString *)message
+{
+    BICTransactionResponse *response = [[BICTransactionResponse alloc] init];
+    
+    response.code = code;
+    response.message = message;
+    response.trnApproved = NO;
+    response.messageId = [NSString stringWithFormat: @"%ld", (long)code];
+    response.messageText = message;
+    response.successCode = BIC_TRX_NOT_PROCESSED;
+    response.isSuccessful = NO;
+    
+    return response;
+}
+
 - (BICTransactionResponse *)getBaseResponse:(BICTransactionRequest *)request
 {
     BICTransactionResponse *response = [[BICTransactionResponse alloc] init];
@@ -327,8 +348,8 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
 - (BOOL)isValidTransactionType:(NSString * )transactionType
 {
     return [transactionType isEqualToString:@"P"] || [transactionType isEqualToString:@"PA"]
-            || [transactionType isEqualToString:@"PAC"] || [transactionType isEqualToString:@"R"]
-            || [transactionType isEqualToString:@"FP"];
+    || [transactionType isEqualToString:@"PAC"] || [transactionType isEqualToString:@"R"]
+    || [transactionType isEqualToString:@"FP"];
 }
 
 - (BOOL)isValidCardExpiryMonth:(NSInteger)month year:(NSInteger)year
