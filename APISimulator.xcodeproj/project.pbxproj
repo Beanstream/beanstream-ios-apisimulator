@@ -60,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		1791466B1C6A895100B41EB6 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		1791466F1C6C00DF00B41EB6 /* BeanstreamAPISimulator.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = BeanstreamAPISimulator.podspec; sourceTree = "<group>"; };
 		3F356D5DC2D60C69964F92AC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		79733D5C35EDCFC0675236E3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		BC0DF5B81C3DBC7B000528CA /* APISimulator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APISimulator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +136,8 @@
 		BC0DF5AE1C3DBC7B000528CA = {
 			isa = PBXGroup;
 			children = (
+				1791466F1C6C00DF00B41EB6 /* BeanstreamAPISimulator.podspec */,
+				1791466B1C6A895100B41EB6 /* Podfile */,
 				BC0DF5BA1C3DBC7B000528CA /* APISimulator */,
 				BC0DF5C61C3DBC7B000528CA /* APISimulatorTests */,
 				BC0DF5B91C3DBC7B000528CA /* Products */,
@@ -222,7 +225,6 @@
 		C7B9358258DC8ED9898DEC2C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1791466B1C6A895100B41EB6 /* Podfile */,
 				79733D5C35EDCFC0675236E3 /* Pods.debug.xcconfig */,
 				DF4A125B3B210488FF876436 /* Pods.release.xcconfig */,
 			);

@@ -12,7 +12,7 @@
 Pod::Spec.new do |spec|
 
   spec.name     = 'BeanstreamAPISimulator'
-  spec.version  = '1.0.0-alpha.1'
+  spec.version  = '1.0.0-alpha.2'
   spec.license  = 'MIT'
   spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
   spec.homepage = 'http://developer.beanstream.com'
@@ -37,9 +37,8 @@ Pod::Spec.new do |spec|
     su.public_header_files = 'APISimulator/Utils/*.h'
   end
 
-  
   spec.dependency "AFNetworking", "= 2.6.0"
-  spec.dependency 'Beanstream.SDK', "= 2.0.0-alpha.1"
+  spec.dependency 'Beanstream.SDK', "~> 2.0.0-alpha.0"
   spec.libraries = 'z', 'c++', 'Beanstream.SDK'
 
   spec.xcconfig  = { "LIBRARY_SEARCH_PATHS" => "$(PODS_ROOT)/Beanstream.SDK/Beanstream.SDK" }
