@@ -12,7 +12,7 @@
 Pod::Spec.new do |spec|
 
   spec.name     = 'BeanstreamAPISimulator'
-  spec.version  = '1.0.0-alpha.2'
+  spec.version  = '1.0.0-alpha.3'
   spec.license  = 'MIT'
   spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
   spec.homepage = 'http://developer.beanstream.com'
