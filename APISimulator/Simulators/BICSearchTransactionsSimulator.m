@@ -368,6 +368,9 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
     NSString *cardType = @"";
 
     switch (rowId % 14) {
+    case 0:
+        cardType = @"CA";
+        break;
     case 1:
         cardType = @"CE";
         break;
@@ -407,7 +410,7 @@ static BICSimulatorMode *SimulatorModeSearchTransactionsInvalidSession = nil;
     case 13:
         cardType = @"DP";
         break;
-    case 14:
+    default:
         cardType = @"CA";
         break;
     }
