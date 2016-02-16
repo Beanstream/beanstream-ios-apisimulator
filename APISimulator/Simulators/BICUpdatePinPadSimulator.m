@@ -105,6 +105,7 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     response.code = 0x02b;
     response.message = @"Error Updating iCMP";
     response.version = UPDATE_PINPAD_VERSION_NUMBER;
+    response.isSuccessful = NO;
     return response;
 }
 

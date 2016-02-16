@@ -12,6 +12,8 @@
 
 @implementation BICInitializePinPadSimulator
 
+static NSInteger const BICCodeDefaultError = -1;
+
 static NSString *INITIALIZE_PINPAD_VERSION_NUMBER = @"1.0";
 
 static BICSimulatorMode *SimulatorModeInitializePinPadPass = nil;
@@ -103,12 +105,11 @@ static BICSimulatorMode *SimulatorModeInitializePinPadInvalidSession = nil;
 - (BICInitPinPadResponse *)createInitializeFailedResponse
 {
     BICInitPinPadResponse *response = [[BICInitPinPadResponse alloc] init];
-    response.code = 1;
+    response.code = BICCodeDefaultError;
     response.terminalId = @"";
-    //initCardReaderResponse.setInitialized(false); // why is there no iOS equivalent????
     response.updateKeyFile = NO;
     response.version = INITIALIZE_PINPAD_VERSION_NUMBER;
-    response.isSuccessful = YES;
+    response.isSuccessful = NO;
     return response;
 }
 
