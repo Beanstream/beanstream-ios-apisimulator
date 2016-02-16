@@ -3,7 +3,7 @@
 //  APISimulator
 //
 //  Created by Sven Resch on 2016-01-11.
-//  Copyright © 2016 Sven Resch. All rights reserved.
+//  Copyright © 2016 Beanstream Internet Commerce, Inc. All rights reserved.
 //
 // Implemenented as a singleton to provide an API for managing instances of
 // every supported Simulator in a way that can support being able to set Headless
