@@ -3,7 +3,7 @@
 //  APISimulatorTests
 //
 //  Created by Sven Resch on 2016-01-06.
-//  Copyright © 2016 Sven Resch. All rights reserved.
+//  Copyright © 2016 Beanstream Internet Commerce, Inc. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

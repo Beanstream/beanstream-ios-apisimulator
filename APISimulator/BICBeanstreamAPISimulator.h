@@ -3,7 +3,7 @@
 //  BICBeanstreamAPISimulator
 //
 //  Created by DLight on 2015-10-20.
-//  Copyright © 2015 Beanstream. All rights reserved.
+//  Copyright © 2016 Beanstream Internet Commerce, Inc. All rights reserved.
 //
 
 @import UIKit;
