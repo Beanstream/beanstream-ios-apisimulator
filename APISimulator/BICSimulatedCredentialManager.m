@@ -19,48 +19,62 @@
 
 @implementation BICSimulatedCredentialManager
 
-- (BICCreateSessionResponse *)createSessionWithSavedCredentials
+
+- (NSURLSessionDataTask *)createSessionWithSavedCredentials:(void (^)(BICCreateSessionResponse *response, NSError *error))completion
 {
     BICCreateSessionSimulator *sim = [[BICCreateSessionSimulator alloc] init];
     sim.interactive = NO;
     
     __block dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    __block BICCreateSessionResponse *response = nil;
 
-    [sim createSessionWithSavedCredentials:^(BICCreateSessionResponse *resp) {
-        response = resp;
+    [sim createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
+        if ( completion ) {
+            completion(response, nil);
+        }
         dispatch_semaphore_signal(semaphore);
     } failure:^(NSError *error) {
         NSLog(@"%s error: %@", __PRETTY_FUNCTION__, error);
+        if ( completion ) {
+            completion(nil, error);
+        }
+        dispatch_semaphore_signal(semaphore);
     }];
+    
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     
-    return response;
+    return nil;
 }
 
-- (BICCreateSessionResponse *)createSession:(NSString *)companyLogin
-                                   username:(NSString *)username
-                                   password:(NSString *)password
+- (NSURLSessionDataTask *)createSession:(NSString *)companyLogin
+                                        username:(NSString *)username
+                                        password:(NSString *)password
+                                      completion:(void (^)(BICCreateSessionResponse *response, NSError *error))completion
 {
     BICCreateSessionSimulator *sim = [[BICCreateSessionSimulator alloc] init];
     sim.interactive = NO;
     
     __block dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    __block BICCreateSessionResponse *response = nil;
     
     [sim createSession:companyLogin
               username:username
               password:password
-               success:^(BICCreateSessionResponse *resp) {
-                   response = resp;
+               success:^(BICCreateSessionResponse *response) {
+                   if ( completion ) {
+                       completion(response, nil);
+                   }
                    dispatch_semaphore_signal(semaphore);
                }
                failure:^(NSError *error) {
                    NSLog(@"%s error: %@", __PRETTY_FUNCTION__, error);
+                   if ( completion ) {
+                       completion(nil, error);
+                   }
+                   dispatch_semaphore_signal(semaphore);
                }];
+    
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     
-    return response;
+    return nil;
 }
 
 - (void)promptForCredentials:(void (^)(NSString *companyLogin, NSString *username, NSString *password))submit

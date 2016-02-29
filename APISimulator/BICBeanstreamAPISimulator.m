@@ -53,8 +53,7 @@
 
 #pragma mark - API methods
 
-- (void)abandonSession:(void (^)(BICAbandonSessionResponse *response))success
-               failure:(void (^)(NSError *error))failure
+- (NSURLSessionDataTask *)abandonSession:(void (^)(BICAbandonSessionResponse *response, NSError *error))completion
 {
     BICAbandonSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AbandonSessionSimulatorIdentifier];
     [self processRequest:simulator
@@ -62,17 +61,17 @@
             checkSession:YES
                withBlock:^() {
                  [simulator abandonSession:^(BICAbandonSessionResponse *response) {
-                     [self handleSuccess:success withResponse:response];
+                     [self handleSuccess:completion withResponse:response];
                  } failure:^(NSError *error) {
-                     [self handleFailure:failure withError:error];
+                     [self handleFailure:completion withError:error];
                  }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
+    return nil;
 }
 
-- (void)authenticateSession:(void (^)(BICAuthenticateSessionResponse *response))success
-                    failure:(void (^)(NSError *error))failure
+- (NSURLSessionDataTask *)authenticateSession:(void (^)(BICAuthenticateSessionResponse  *response, NSError *error))completion
 {
     BICAuthenticateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AuthenticateSessionSimulatorIdentifier];
     [self processRequest:simulator
@@ -80,20 +79,20 @@
             checkSession:YES
                withBlock:^() {
                    [simulator authenticateSession:^(BICAuthenticateSessionResponse *response) {
-                       [self handleSuccess:success withResponse:response];
+                       [self handleSuccess:completion withResponse:response];
                    } failure:^(NSError *error) {
-                       [self handleFailure:failure withError:error];
+                       [self handleFailure:completion withError:error];
                    }];
                } orFailure:^(NSError *error) {
-                   failure(error);
+                   if (completion) completion(nil, error);
                }];
+    return nil;
 }
 
-- (void)createSession:(NSString *)companyLogin
-             username:(NSString *)username
-             password:(NSString *)password
-              success:(void (^)(BICCreateSessionResponse *response))success
-              failure:(void (^)(NSError *error))failure
+- (NSURLSessionDataTask *)createSession:(NSString *)companyLogin
+                               username:(NSString *)username
+                               password:(NSString *)password
+                             completion:(void (^)(BICCreateSessionResponse *response, NSError *error))completion
 {
     BICCreateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:CreateSessionSimulatorIdentifier];
     [self processRequest:simulator
@@ -104,17 +103,17 @@
                                  username:username
                                  password:password
                                   success:^(BICCreateSessionResponse *response) {
-                                      [self handleSuccess:success withResponse:response];
+                                      [self handleSuccess:completion withResponse:response];
                                   } failure:^(NSError *error) {
-                                      [self handleFailure:failure withError:error];
+                                      [self handleFailure:completion withError:error];
                                   }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
+    return nil;
 }
 
-- (void)createSessionWithSavedCredentials:(void (^)(BICCreateSessionResponse *response))success
-                                  failure:(void (^)(NSError *error))failure
+- (NSURLSessionDataTask *)createSessionWithSavedCredentials:(void (^)(BICCreateSessionResponse *response, NSError *error))completion
 {
     BICCreateSessionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:CreateSessionSimulatorIdentifier];
     [self processRequest:simulator
@@ -122,13 +121,14 @@
             checkSession:NO
                withBlock:^() {
                  [simulator createSessionWithSavedCredentials:^(BICCreateSessionResponse *response) {
-                     [self handleSuccess:success withResponse:response];
+                     [self handleSuccess:completion withResponse:response];
                  } failure:^(NSError *error) {
-                     [self handleFailure:failure withError:error];
+                     [self handleFailure:completion withError:error];
                  }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
+    return nil;
 }
 
 - (void)connectToPinPad
@@ -149,8 +149,7 @@
     [simulator closePinPadConnection];
 }
 
-- (void)initializePinPad:(void (^)(BICInitPinPadResponse *response))success
-                 failure:(void (^)(NSError *error))failure
+- (void)initializePinPad:(void (^)(BICInitPinPadResponse *response, NSError *error))completion
 {
     BICInitializePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:InitializePinPadSimulatorIdentifier];
     [self processRequest:simulator
@@ -158,17 +157,16 @@
             checkSession:YES
                withBlock:^() {
                  [simulator initializePinPad:^(BICInitPinPadResponse *response) {
-                     [self handleSuccess:success withResponse:response];
+                     [self handleSuccess:completion withResponse:response];
                  } failure:^(NSError *error) {
-                     [self handleFailure:failure withError:error];
+                     [self handleFailure:completion withError:error];
                  }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
 }
 
-- (void)updatePinPad:(void (^)(BICUpdatePinPadResponse *response))success
-             failure:(void (^)(NSError *error))failure
+- (void)updatePinPad:(void (^)(BICUpdatePinPadResponse *response, NSError *error))completion
 {
     BICUpdatePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:UpdatePinPadSimulatorIdentifier];
     [self processRequest:simulator
@@ -176,18 +174,17 @@
             checkSession:YES
                withBlock:^() {
                  [simulator updatePinPad:^(BICUpdatePinPadResponse *response) {
-                     [self handleSuccess:success withResponse:response];
+                     [self handleSuccess:completion withResponse:response];
                  } failure:^(NSError *error) {
-                     [self handleFailure:failure withError:error];
+                     [self handleFailure:completion withError:error];
                  }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
 }
 
 - (void)processTransaction:(BICTransactionRequest *)request
-                   success:(void (^)(BICTransactionResponse *response))success
-                   failure:(void (^)(NSError *error))failure
+                completion:(void (^)(BICTransactionResponse *response, NSError *error))completion
 {
     if ( request.emvEnabled || (![BIC_CASH_PAYMENT_METHOD isEqualToString:request.paymentMethod] && ![BIC_CHECK_PAYMENT_METHOD isEqualToString:request.paymentMethod]) ) {
         // Check to make sure the Pin Pad is initialized and connected
@@ -196,7 +193,7 @@
             NSError *error = [NSError errorWithDomain:@"BIC SIM Pin Pad Error"
                                                  code:-1
                                              userInfo:info];
-            failure(error);
+            if (completion) completion(nil, error);
             return;
         }
     }
@@ -211,28 +208,27 @@
                                            if ([response.messageId integerValue] == ProcessTransactionCodeSessionExpired || [response.messageId integerValue] == ProcessTransactionCodeSessionValidationFailed) {
                                                [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                    if (sessionResponse.isAuthorized) {
-                                                       [self processTransaction:request success:success failure:failure];
+                                                       [self processTransaction:request completion:completion];
                                                    }
                                                    else {
-                                                       [self handleSuccess:success withResponse:response];
+                                                       [self handleSuccess:completion withResponse:response];
                                                    }
                                                }];
                                            }
                                            else {
-                                               [self handleSuccess:success withResponse:response];
+                                               [self handleSuccess:completion withResponse:response];
                                            }
 
                                        } failure:^(NSError *error) {
-                                           [self handleFailure:failure withError:error];
+                                           [self handleFailure:completion withError:error];
                                        }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
 }
 
-- (void)searchTransactions:(BICSearchTransactionsRequest *)request
-                   success:(void (^)(BICSearchTransactionsResponse *response))success
-                   failure:(void (^)(NSError *error))failure
+- (NSURLSessionDataTask *)searchTransactions:(BICSearchTransactionsRequest *)request
+                                  completion:(void (^)(BICSearchTransactionsResponse *response, NSError *error))completion
 {
     BICSearchTransactionsSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:SearchTransactionsSimulatorIdentifier];
     [self processRequest:simulator
@@ -244,28 +240,28 @@
                                            if (response.code == ReportApiCodeSessionFailed) {
                                                [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                    if (sessionResponse.isAuthorized) {
-                                                       [self searchTransactions:request success:success failure:failure];
+                                                       [self searchTransactions:request completion:completion];
                                                    }
                                                    else {
-                                                       [self handleSuccess:success withResponse:response];
+                                                       [self handleSuccess:completion withResponse:response];
                                                    }
                                                }];
                                            }
                                            else {
-                                               [self handleSuccess:success withResponse:response];
+                                               [self handleSuccess:completion withResponse:response];
                                            }
                                        } failure:^(NSError *error) {
-                                           [self handleFailure:failure withError:error];
+                                           [self handleFailure:completion withError:error];
                                        }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
+    return nil;
 }
 
-- (void)getPrintReceipt:(NSString *)transactionId
-               language:(NSString *)language
-                success:(void (^)(BICReceiptResponse *response))success
-                failure:(void (^)(NSError *error))failure
+- (NSURLSessionDataTask *)getPrintReceipt:(NSString *)transactionId
+                                 language:(NSString *)language
+                               completion:(void (^)(BICReceiptResponse *response, NSError *error))completion
 {
     BICReceiptSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ReceiptSimulatorIdentifier];
     [self processRequest:simulator
@@ -278,29 +274,29 @@
                                         if (response.code == TransactionUtilitiesCodeAuthenticationFailed) {
                                             [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                 if (sessionResponse.isAuthorized) {
-                                                    [self getPrintReceipt:transactionId language:language success:success failure:failure];
+                                                    [self getPrintReceipt:transactionId language:language completion:completion];
                                                 }
                                                 else {
-                                                    [self handleSuccess:success withResponse:response];
+                                                    [self handleSuccess:completion withResponse:response];
                                                 }
                                             }];
                                         }
                                         else {
-                                            [self handleSuccess:success withResponse:response];
+                                            [self handleSuccess:completion withResponse:response];
                                         }
                                     } failure:^(NSError *error) {
-                                        [self handleFailure:failure withError:error];
+                                        [self handleFailure:completion withError:error];
                                     }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
+    return nil;
 }
 
 - (void)sendEmailReceipt:(NSString *)transactionId
                    email:(NSString *)emailAddress
                 language:(NSString *)language
-                 success:(void (^)(BICReceiptResponse *response))success
-                 failure:(void (^)(NSError *error))failure
+              completion:(void (^)(BICReceiptResponse *response, NSError *error))completion
 {
     BICReceiptSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ReceiptSimulatorIdentifier];
     [self processRequest:simulator
@@ -314,28 +310,27 @@
                                          if (response.code == TransactionUtilitiesCodeAuthenticationFailed) {
                                              [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                  if (sessionResponse.isAuthorized) {
-                                                     [self sendEmailReceipt:transactionId email:emailAddress language:language success:success failure:failure];
+                                                     [self sendEmailReceipt:transactionId email:emailAddress language:language completion:completion];
                                                  }
                                                  else {
-                                                     [self handleSuccess:success withResponse:response];
+                                                     [self handleSuccess:completion withResponse:response];
                                                  }
                                              }];
                                          }
                                          else {
-                                             [self handleSuccess:success withResponse:response];
+                                             [self handleSuccess:completion withResponse:response];
                                          }
                                      } failure:^(NSError *error) {
-                                         [self handleFailure:failure withError:error];
+                                         [self handleFailure:completion withError:error];
                                      }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
 }
 
-- (void)attachSignatureToTransaction:(NSString *)transactionId
-                      signatureImage:(UIImage *)image
-                             success:(void (^)(BICAttachSignatureResponse *response))success
-                             failure:(void (^)(NSError *error))failure
+- (NSURLSessionDataTask *)attachSignatureToTransaction:(NSString *)transactionId
+                                        signatureImage:(UIImage *)signatureImage
+                                            completion:(void (^)(BICAttachSignatureResponse *response, NSError *error))completion
 {
     BICAttachSignatureSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:AttachSignatureSimulatorIdentifier];
     [self processRequest:simulator
@@ -343,23 +338,24 @@
             checkSession:YES
                withBlock:^() {
                  [simulator attachSignatureToTransaction:transactionId
-                                          signatureImage:image
+                                          signatureImage:signatureImage
                                                  success:^(BICAttachSignatureResponse *response) {
                                                      if (response.code == TransactionUtilitiesCodeAuthenticationFailed) {
                                                          [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
-                                                             [self attachSignatureToTransaction:transactionId signatureImage:image success:success failure:failure];
+                                                             [self attachSignatureToTransaction:transactionId signatureImage:signatureImage completion:completion];
                                                          }];
                                                      }
                                                      else {
-                                                         [self handleSuccess:success withResponse:response];
+                                                         [self handleSuccess:completion withResponse:response];
                                                      }
                                                  }
                                                  failure:^(NSError *error) {
-                                                     [self handleFailure:failure withError:error];
+                                                     [self handleFailure:completion withError:error];
                                                  }];
              } orFailure:^(NSError *error) {
-                 failure(error);
+                 if (completion) completion(nil, error);
              }];
+    return nil;
 }
 
 #pragma mark - Private methods
@@ -461,19 +457,23 @@
 }
 
 // Ensures failure block is called on main thread.
-- (void)handleFailure:(void (^)(NSError *error))failure withError:(NSError *)error
+- (void)handleFailure:(void (^)(id response, NSError *error))completion withError:(NSError *)error
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        failure(error);
-    });
+    if ( completion ) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(nil, error);
+        });
+    }
 }
 
 // Ensures success block is called on main thread.
-- (void)handleSuccess:(void (^)(id response))success withResponse:(BICResponse *)response
+- (void)handleSuccess:(void (^)(id response, NSError *error))completion withResponse:(BICResponse *)response
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        success(response);
-    });
+    if ( completion ) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(response, nil);
+        });
+    }
 }
 
 @end
