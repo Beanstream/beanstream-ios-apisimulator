@@ -107,9 +107,15 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
                                   failure:(void (^)(NSError *error))failure
 {
     BICPreferences *preferences = [[BICPreferences alloc] init];
-    NSString *companyLogin = preferences.companyLogin;
-    NSString *username = preferences.username;
-    NSString *password = preferences.password;
+    __block NSString *companyLogin = nil;
+    __block NSString *username = nil;
+    __block NSString *password = nil;
+    
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        companyLogin = preferences.companyLogin;
+        username = preferences.username;
+        password = preferences.password;
+    });
     
     NSLog(@"Calling createSession with saved credentials...");
     
