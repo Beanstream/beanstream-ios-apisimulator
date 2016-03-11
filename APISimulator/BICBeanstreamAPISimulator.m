@@ -184,6 +184,8 @@
 }
 
 - (void)processTransaction:(BICTransactionRequest *)request
+             emvEnableTips:(BOOL)emvEnableTips
+             emvTipPresets:(NSArray *)emvTipPresets
                 completion:(void (^)(BICTransactionResponse *response, NSError *error))completion
 {
     if ( request.emvEnabled || (![BIC_CASH_PAYMENT_METHOD isEqualToString:request.paymentMethod] && ![BIC_CHECK_PAYMENT_METHOD isEqualToString:request.paymentMethod]) ) {
@@ -208,7 +210,7 @@
                                            if ([response.messageId integerValue] == ProcessTransactionCodeSessionExpired || [response.messageId integerValue] == ProcessTransactionCodeSessionValidationFailed) {
                                                [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                    if (sessionResponse.isAuthorized) {
-                                                       [self processTransaction:request completion:completion];
+                                                       [self processTransaction:request emvEnableTips:emvEnableTips emvTipPresets:emvTipPresets completion:completion];
                                                    }
                                                    else {
                                                        [self handleSuccess:completion withResponse:response];
