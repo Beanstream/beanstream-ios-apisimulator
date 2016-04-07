@@ -11,7 +11,7 @@ As a developer you can simply clone this project and then reference the enclosed
 
 To demonstrate usage of the API Simulator, refer to the Beanstream SDK API Sample App project that acts as a demo app.
 
-Please refer to the Beanstream SDK [API Sample App](https://github.com/Beanstream-DRWP/beanstream-ios-apisample) project that acts as a demo app to demonstrate usage of the API Simulator.
+Please refer to the Beanstream SDK [API Sample App](https://github.com/Beanstream/beanstream-ios-apisample) project that acts as a demo app to demonstrate usage of the API Simulator.
 
 Note that the Beanstream SDK itself has CocoaPods specified dependencies that include AFNetworking v2.6.0.
 
@@ -20,7 +20,7 @@ To be able to compile this project you can clone the git source repo to a workin
 ## 1.) Setup Beanstream API Simulator
 
 ```
-> git clone https://github.com/Beanstream-DRWP/beanstream-ios-apisimulator.git
+> git clone https://github.com/Beanstream/beanstream-ios-apisimulator.git
 ```
 
 Note that the default resulting directory name "beanstream-ios-apisimulator" should be maintained.
