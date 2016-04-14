@@ -36,6 +36,8 @@
 		BC0DF6011C3DBD60000528CA /* BICAuthenticateSessionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5EA1C3DBD60000528CA /* BICAuthenticateSessionSimulator.m */; };
 		BC0DF60A1C3DCB6B000528CA /* BICSimulatorState.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF6081C3DCB6B000528CA /* BICSimulatorState.h */; };
 		BC0DF60B1C3DCB6B000528CA /* BICSimulatorState.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF6091C3DCB6B000528CA /* BICSimulatorState.m */; };
+		BC268B331CBD682C0070A794 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC268B321CBD682C0070A794 /* ExternalAccessory.framework */; };
+		BC268B341CBD70C50070A794 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F356D5DC2D60C69964F92AC /* libPods.a */; };
 		BC291C2A1C444565008E1E4D /* BICSimulatorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C281C444565008E1E4D /* BICSimulatorManager.h */; };
 		BC291C2B1C444565008E1E4D /* BICSimulatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BC291C291C444565008E1E4D /* BICSimulatorManager.m */; };
 		BC291C2D1C444A95008E1E4D /* BICSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC291C2C1C444A95008E1E4D /* BICSimulator.h */; };
@@ -45,7 +47,6 @@
 		BC291C3B1C46ECD3008E1E4D /* BICSimulatedCredentialManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BC291C391C46ECD3008E1E4D /* BICSimulatedCredentialManager.m */; };
 		BC8F707D1C57F20700A08C56 /* BICAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = BC8F707B1C57F20700A08C56 /* BICAlertController.h */; };
 		BC8F707E1C57F20700A08C56 /* BICAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8F707C1C57F20700A08C56 /* BICAlertController.m */; };
-		D38F9500C641474D5992AB9D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F356D5DC2D60C69964F92AC /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		BC0DF5EA1C3DBD60000528CA /* BICAuthenticateSessionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICAuthenticateSessionSimulator.m; sourceTree = "<group>"; };
 		BC0DF6081C3DCB6B000528CA /* BICSimulatorState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatorState.h; sourceTree = "<group>"; };
 		BC0DF6091C3DCB6B000528CA /* BICSimulatorState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatorState.m; sourceTree = "<group>"; };
+		BC268B321CBD682C0070A794 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		BC291C281C444565008E1E4D /* BICSimulatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulatorManager.h; sourceTree = "<group>"; };
 		BC291C291C444565008E1E4D /* BICSimulatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatorManager.m; sourceTree = "<group>"; };
 		BC291C2C1C444A95008E1E4D /* BICSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICSimulator.h; sourceTree = "<group>"; };
@@ -110,7 +112,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D38F9500C641474D5992AB9D /* libPods.a in Frameworks */,
+				BC268B341CBD70C50070A794 /* libPods.a in Frameworks */,
+				BC268B331CBD682C0070A794 /* ExternalAccessory.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +131,7 @@
 		284ED27259573C2636B28209 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BC268B321CBD682C0070A794 /* ExternalAccessory.framework */,
 				3F356D5DC2D60C69964F92AC /* libPods.a */,
 			);
 			name = Frameworks;
@@ -450,7 +454,6 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -503,7 +506,6 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -538,10 +540,20 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = APISimulator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Beanstream.SDK\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -556,10 +568,20 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = APISimulator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Beanstream.SDK\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.beanstream.APISimulator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

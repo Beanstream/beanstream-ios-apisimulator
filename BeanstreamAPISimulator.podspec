@@ -12,12 +12,12 @@
 Pod::Spec.new do |spec|
 
   spec.name     = 'BeanstreamAPISimulator'
-  spec.version  = '1.0.0-alpha.5'
+  spec.version  = '1.0.0'
   spec.license  = 'MIT'
   spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
   spec.homepage = 'http://developer.beanstream.com'
   spec.authors  = 'Sven M. Resch', 'David Light'
-  spec.source   = { :git => 'https://github.com/Beanstream-DRWP/beanstream-ios-apisimulator.git',
+  spec.source   = { :git => 'https://github.com/Beanstream/beanstream-ios-apisimulator.git',
   					:tag => spec.version.to_s, :submodules => true }
   spec.requires_arc = true
 
@@ -38,8 +38,9 @@ Pod::Spec.new do |spec|
   end
 
   spec.dependency "AFNetworking", "= 2.6.0"
-  spec.dependency 'Beanstream.SDK', "~> 2.0.0-alpha.0"
+  spec.dependency 'Beanstream.SDK', "~> 2.0.0-beta.0"
   spec.libraries = 'z', 'c++', 'Beanstream.SDK'
+  spec.framework = 'ExternalAccessory'
 
   spec.xcconfig  = { "LIBRARY_SEARCH_PATHS" => "$(PODS_ROOT)/Beanstream.SDK/Beanstream.SDK" }
 
