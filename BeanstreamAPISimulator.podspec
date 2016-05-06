@@ -12,7 +12,7 @@
 Pod::Spec.new do |spec|
 
   spec.name     = 'BeanstreamAPISimulator'
-  spec.version  = '1.0.1'
+  spec.version  = '1.0.2'
   spec.license  = 'MIT'
   spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
   spec.homepage = 'http://developer.beanstream.com'
@@ -38,7 +38,7 @@ Pod::Spec.new do |spec|
   end
 
   spec.dependency "AFNetworking", "= 2.6.0"
-  spec.dependency 'Beanstream.SDK', "~> 2.0.0"
+  spec.dependency 'Beanstream.SDK', "~> 2.1.0"
   spec.libraries = 'z', 'c++', 'Beanstream.SDK'
   spec.framework = 'ExternalAccessory'
 
