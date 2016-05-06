@@ -186,7 +186,7 @@
 - (void)processTransaction:(BICTransactionRequest *)request
              emvEnableTips:(BOOL)emvEnableTips
              emvTipPresets:(NSArray *)emvTipPresets
-                completion:(void (^)(BICTransactionResponse *response, NSError *error))completion
+                completion:(void (^)(BICTransactionResponse *response, NSError *error, BOOL updateKeyfile))completion
 {
     if ( request.emvEnabled || (![BIC_CASH_PAYMENT_METHOD isEqualToString:request.paymentMethod] && ![BIC_CHECK_PAYMENT_METHOD isEqualToString:request.paymentMethod]) ) {
         // Check to make sure the Pin Pad is initialized and connected
@@ -195,7 +195,7 @@
             NSError *error = [NSError errorWithDomain:@"BIC SIM Pin Pad Error"
                                                  code:-1
                                              userInfo:info];
-            if (completion) completion(nil, error);
+            if (completion) completion(nil, error, NO);
             return;
         }
     }
@@ -213,19 +213,19 @@
                                                        [self processTransaction:request emvEnableTips:emvEnableTips emvTipPresets:emvTipPresets completion:completion];
                                                    }
                                                    else {
-                                                       [self handleSuccess:completion withResponse:response];
+                                                       [self handleSuccess2:completion withResponse:response];
                                                    }
                                                }];
                                            }
                                            else {
-                                               [self handleSuccess:completion withResponse:response];
+                                               [self handleSuccess2:completion withResponse:response];
                                            }
 
                                        } failure:^(NSError *error) {
-                                           [self handleFailure:completion withError:error];
+                                           [self handleFailure2:completion withError:error];
                                        }];
              } orFailure:^(NSError *error) {
-                 if (completion) completion(nil, error);
+                 if (completion) completion(nil, error, NO);
              }];
 }
 
@@ -474,6 +474,26 @@
     if ( completion ) {
         dispatch_async(dispatch_get_main_queue(), ^{
             completion(response, nil);
+        });
+    }
+}
+
+// Ensures failure block is called on main thread.
+- (void)handleFailure2:(void (^)(id response, NSError *error, BOOL updateKeyfile))completion withError:(NSError *)error
+{
+    if ( completion ) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(nil, error, NO);
+        });
+    }
+}
+
+// Ensures success block is called on main thread.
+- (void)handleSuccess2:(void (^)(id response, NSError *error, BOOL updateKeyfile))completion withResponse:(BICResponse *)response
+{
+    if ( completion ) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(response, nil, NO);
         });
     }
 }
