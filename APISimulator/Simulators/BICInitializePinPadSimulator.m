@@ -95,7 +95,6 @@ static BICSimulatorMode *SimulatorModeInitializePinPadInvalidSession = nil;
 {
     BICInitPinPadResponse *response = [[BICInitPinPadResponse alloc] init];
     response.code = 1;
-    response.terminalId = @"12345678";
     response.updateKeyFile = NO;
     response.version = INITIALIZE_PINPAD_VERSION_NUMBER;
     response.isSuccessful = YES;
@@ -106,7 +105,6 @@ static BICSimulatorMode *SimulatorModeInitializePinPadInvalidSession = nil;
 {
     BICInitPinPadResponse *response = [[BICInitPinPadResponse alloc] init];
     response.code = BICCodeDefaultError;
-    response.terminalId = @"";
     response.updateKeyFile = NO;
     response.version = INITIALIZE_PINPAD_VERSION_NUMBER;
     response.isSuccessful = NO;
@@ -116,8 +114,6 @@ static BICSimulatorMode *SimulatorModeInitializePinPadInvalidSession = nil;
 - (BICInitPinPadResponse *)createInitializedUpdateRequired {
     BICInitPinPadResponse *response = [[BICInitPinPadResponse alloc] init];
     response.code = 1;
-    response.terminalId = @"";
-    //initCardReaderResponse.setInitialized(true);
     response.updateKeyFile = YES;
     response.version = INITIALIZE_PINPAD_VERSION_NUMBER;
     response.isSuccessful = YES;
