@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F0560E5DA8B08FB433A4260 /* libPods-APISimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2653E9CE2A2CA2168CEF56FF /* libPods-APISimulator.a */; };
 		1791466C1C6A895100B41EB6 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 1791466B1C6A895100B41EB6 /* Podfile */; };
 		1791466D1C6A895100B41EB6 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 1791466B1C6A895100B41EB6 /* Podfile */; };
-		88F411FE31EAE854337905EC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A829A25E38A708313B56C550 /* libPods.a */; };
 		BC0DF5BC1C3DBC7B000528CA /* APISimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = BC0DF5BB1C3DBC7B000528CA /* APISimulator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC0DF5C31C3DBC7B000528CA /* APISimulator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0DF5B81C3DBC7B000528CA /* APISimulator.framework */; };
 		BC0DF5C81C3DBC7B000528CA /* APISimulatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0DF5C71C3DBC7B000528CA /* APISimulatorTests.m */; };
@@ -60,11 +60,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0C233C3F7D1BA1A319ABB218 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1791466B1C6A895100B41EB6 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1791466F1C6C00DF00B41EB6 /* BeanstreamAPISimulator.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = BeanstreamAPISimulator.podspec; sourceTree = "<group>"; };
-		A829A25E38A708313B56C550 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC16A366D2718C27C805CC71 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		2653E9CE2A2CA2168CEF56FF /* libPods-APISimulator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-APISimulator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D5D577BBA81042A9D512BE0 /* Pods-APISimulator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APISimulator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-APISimulator/Pods-APISimulator.debug.xcconfig"; sourceTree = "<group>"; };
 		BC0DF5B81C3DBC7B000528CA /* APISimulator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APISimulator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC0DF5BB1C3DBC7B000528CA /* APISimulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APISimulator.h; sourceTree = "<group>"; };
 		BC0DF5BD1C3DBC7B000528CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -105,6 +104,7 @@
 		BC291C391C46ECD3008E1E4D /* BICSimulatedCredentialManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICSimulatedCredentialManager.m; sourceTree = "<group>"; };
 		BC8F707B1C57F20700A08C56 /* BICAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BICAlertController.h; sourceTree = "<group>"; };
 		BC8F707C1C57F20700A08C56 /* BICAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BICAlertController.m; sourceTree = "<group>"; };
+		DDA023CBA251AAAA806977B9 /* Pods-APISimulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APISimulator.release.xcconfig"; path = "Pods/Target Support Files/Pods-APISimulator/Pods-APISimulator.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +113,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC268B331CBD682C0070A794 /* ExternalAccessory.framework in Frameworks */,
-				88F411FE31EAE854337905EC /* libPods.a in Frameworks */,
+				0F0560E5DA8B08FB433A4260 /* libPods-APISimulator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				BC268B321CBD682C0070A794 /* ExternalAccessory.framework */,
-				A829A25E38A708313B56C550 /* libPods.a */,
+				2653E9CE2A2CA2168CEF56FF /* libPods-APISimulator.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -146,7 +146,7 @@
 				BC0DF5C61C3DBC7B000528CA /* APISimulatorTests */,
 				BC0DF5B91C3DBC7B000528CA /* Products */,
 				284ED27259573C2636B28209 /* Frameworks */,
-				FD4DA324FEF5BCFC70E83B27 /* Pods */,
+				F300FBE1F1127D8EC0FE7D83 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -226,11 +226,11 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		FD4DA324FEF5BCFC70E83B27 /* Pods */ = {
+		F300FBE1F1127D8EC0FE7D83 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AC16A366D2718C27C805CC71 /* Pods.debug.xcconfig */,
-				0C233C3F7D1BA1A319ABB218 /* Pods.release.xcconfig */,
+				4D5D577BBA81042A9D512BE0 /* Pods-APISimulator.debug.xcconfig */,
+				DDA023CBA251AAAA806977B9 /* Pods-APISimulator.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -270,12 +270,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BC0DF5CC1C3DBC7B000528CA /* Build configuration list for PBXNativeTarget "APISimulator" */;
 			buildPhases = (
-				CB95A6A2F705D3F87BAD0E73 /* Check Pods Manifest.lock */,
+				A812D3B7FD1252EFF52E3DA8 /* [CP] Check Pods Manifest.lock */,
 				BC0DF5B31C3DBC7B000528CA /* Sources */,
 				BC0DF5B41C3DBC7B000528CA /* Frameworks */,
 				BC0DF5B51C3DBC7B000528CA /* Headers */,
 				BC0DF5B61C3DBC7B000528CA /* Resources */,
-				8C415E0383C6633A6D5A9EF5 /* Copy Pods Resources */,
+				28C667CA37B656F657750314 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -359,29 +359,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8C415E0383C6633A6D5A9EF5 /* Copy Pods Resources */ = {
+		28C667CA37B656F657750314 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-APISimulator/Pods-APISimulator-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CB95A6A2F705D3F87BAD0E73 /* Check Pods Manifest.lock */ = {
+		A812D3B7FD1252EFF52E3DA8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -534,7 +534,7 @@
 		};
 		BC0DF5CD1C3DBC7B000528CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AC16A366D2718C27C805CC71 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 4D5D577BBA81042A9D512BE0 /* Pods-APISimulator.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -562,7 +562,7 @@
 		};
 		BC0DF5CE1C3DBC7B000528CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C233C3F7D1BA1A319ABB218 /* Pods.release.xcconfig */;
+			baseConfigurationReference = DDA023CBA251AAAA806977B9 /* Pods-APISimulator.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
