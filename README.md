@@ -19,14 +19,14 @@ To be able to compile this project you can clone the git source repo to a workin
 
 Prerequisites:
 
-First install [CocoaPods](https://cocoapods.org) and a plug-in to access our Artifactory repository.
+## 1.) First install [CocoaPods](https://cocoapods.org) and a plug-in to access our Artifactory repository.
 
 ```
 > sudo gem install cocoapods
 > sudo gem install cocoapods-art
 ```
 
-Next ensure you have your Artifactory credentials setup by Beanstream Developer Support and apply them to a .netrc file in your $HOME directory.
+## 2.) Next ensure you have your Artifactory credentials setup by Beanstream Developer Support and apply them to a .netrc file in your $HOME directory.
 
 ```
 machine beanstream.artifactoryonline.com
@@ -34,13 +34,13 @@ login <USERNAME>
 password <PASSWORD>
 ```
 
-Add the Beanstream Partner/Artifactory repo.
+## 3.) Add the Beanstream Partner/Artifactory repo.
 
 ```
 > pod repo-art add beanstream-partner "https://beanstream.artifactoryonline.com/beanstream/api/pods/beanstream-partner"
 ```
 
-## 1.) Setup Beanstream API Simulator
+## 4.) Setup Beanstream API Simulator
 
 ```
 > git clone https://github.com/Beanstream/beanstream-ios-apisimulator.git
