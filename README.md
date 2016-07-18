@@ -17,6 +17,29 @@ Note that the Beanstream SDK itself has CocoaPods specified dependencies that in
 
 To be able to compile this project you can clone the git source repo to a working directory. As dependencies you will also need to clone the Beanstream API Simulator repo and then ensure all other dependencies are installed via CocoaPods.
 
+Prerequisites:
+
+First install [CocoaPods](https://cocoapods.org) and a plug-in to access our Artifactory repository.
+
+```
+> sudo gem install cocoapods
+> sudo gem install cocoapods-art
+```
+
+Next ensure you have your Artifactory credentials setup by Beanstream Developer Support and apply them to a .netrc file in your $HOME directory.
+
+```
+machine beanstream.artifactoryonline.com
+login <USERNAME>
+password <PASSWORD>
+```
+
+Add the Beanstream Partner/Artifactory repo.
+
+```
+> pod repo-art add beanstream-partner "https://beanstream.artifactoryonline.com/beanstream/api/pods/beanstream-partner"
+```
+
 ## 1.) Setup Beanstream API Simulator
 
 ```
