@@ -35,6 +35,9 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedReferralResponse = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedServNotAllowed = nil;
 static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
 
+static BICSimulatorMode *SimModeProcessTxnErrorTerminalIdNotFound = nil;
+static BICSimulatorMode *SimModeProcessTxnErrorMultipleTerminalIdFound = nil;
+
 @synthesize simulatorMode, interactive;
 
 #pragma mark - Initialization methods
@@ -57,6 +60,9 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     //SimModeProcessTxnDeclinedCryptoFailure = [[BICSimulatorMode alloc] initWithLabel:@"Approved"];
     SimModeProcessTxnDeclinedServNotAllowed = [[BICSimulatorMode alloc] initWithLabel:@"Serv Not Allowed"];
     SimModeProcessTxnDeclinedNotComplete = [[BICSimulatorMode alloc] initWithLabel:@"Transaction Not Complete"];
+    
+    SimModeProcessTxnErrorTerminalIdNotFound = [[BICSimulatorMode alloc] initWithLabel:@"Terminal ID Not Found"];
+    SimModeProcessTxnErrorMultipleTerminalIdFound = [[BICSimulatorMode alloc] initWithLabel:@"Unconfigured Terminal ID"];
 }
 
 - (id)init
@@ -72,52 +78,35 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
 
 - (NSArray *)supportedModes
 {
-    return @[
-             SimModeProcessTxnApproved,
-             SimModeProcessTxnApprovedSigRequired,
-             SimModeProcessTxnErrorSessionExpired,
-             SimModeProcessTxnErrorSessionInvalid,
-             SimModeProcessTxnDeclined,
-             SimModeProcessTxnDeclinedAmountTooHigh,
-             SimModeProcessTxnDeclinedRefundLimitExceeded,
-             SimModeProcessTxnDeclinedMissingInvalidAdjutmentId,
-             SimModeProcessTxnDeclinedCompletionGreaterThanReserve,
-             SimModeProcessTxnDeclinedApplicationError,
-             SimModeProcessTxnDeclinedReferralResponse,
-             SimModeProcessTxnDeclinedServNotAllowed,
-             SimModeProcessTxnDeclinedNotComplete
-             ];
+    if (self.emvEnabled) {
+        return @[
+                 SimModeProcessTxnApproved,
+                 SimModeProcessTxnApprovedSigRequired,
+                 SimModeProcessTxnErrorSessionExpired,
+                 SimModeProcessTxnErrorSessionInvalid,
+                 SimModeProcessTxnDeclined,
+                 SimModeProcessTxnDeclinedAmountTooHigh,
+                 SimModeProcessTxnDeclinedRefundLimitExceeded,
+                 SimModeProcessTxnDeclinedMissingInvalidAdjutmentId,
+                 SimModeProcessTxnDeclinedCompletionGreaterThanReserve,
+                 SimModeProcessTxnDeclinedApplicationError,
+                 SimModeProcessTxnDeclinedReferralResponse,
+                 SimModeProcessTxnDeclinedServNotAllowed,
+                 SimModeProcessTxnDeclinedNotComplete,
+                 SimModeProcessTxnErrorTerminalIdNotFound,
+                 SimModeProcessTxnErrorMultipleTerminalIdFound
+                 ];
+    }
+    else {
+        return @[
+                 SimModeProcessTxnApproved,
+                 SimModeProcessTxnErrorSessionExpired,
+                 SimModeProcessTxnErrorSessionInvalid,
+                 ];
+    }
 }
 
 #pragma mark - Public methods
-
-/*
- *
- * NOT SURE HOW WE WILL UPDATE THE GUI WITH THE FOLLOWING (FROM ANDROID)
- *
- 
- if (transactionRequest.getPayment_method() == null || !transactionRequest.getPayment_method().equals("C") || transactionRequest.getPayment_method().equals("R")) {
-    approvedWithSignature.setEnabled(false);
- }
- 
- if (!transactionRequest.getPayment_method().equals("PAC")) {
-    pacCompletionGreaterThanReserve.setEnabled(false);
- }
- 
- if (!transactionRequest.getPayment_method().equals("R")) {
-    refundLimitExceeded.setEnabled(false);
- }
- 
- if (!transactionRequest.getPayment_method().equals("PAC") || !transactionRequest.getPayment_method().equals("R")) {
-    missingInvalidAdjustmentId.setEnabled(false);
- }
- 
- if (!transactionRequest.isEmvEnabled()) {
-    servNotAllowed.setEnabled(false);
-    transactionNotComplete.setEnabled(false);
- }
-
- */
 
 - (void)processTransaction:(BICTransactionRequest *)request
                    success:(void (^)(BICTransactionResponse *response))success
@@ -147,7 +136,6 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
             response = [self getBasicDeclinedResponseWithMessageID:@"0" messageText:@"&lt;LI&gt;Missing or invalid adjustment id&lt;br&gt;"];
             response.trnId = @"0";
             response.errorType = @"U";
-            //response.errorFields = @"adjId";
         }
         else if (self.simulatorMode == SimModeProcessTxnErrorSessionExpired) {
             response = [self getBasicErrorResponseWithCode:ProcessTransactionCodeSessionExpired message:@"User session has expired\n"];
@@ -188,6 +176,11 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
             response.messageId = @"12345678";
             response.messageText = @"Transaction Not Completed";
             response.isSuccessful = YES;
+        }
+        else if (self.simulatorMode == SimModeProcessTxnErrorTerminalIdNotFound ||
+                 self.simulatorMode == SimModeProcessTxnErrorMultipleTerminalIdFound)
+        {
+            response = [self createTerminalErrorResponse:self.simulatorMode];
         }
         else {
             error = [NSError errorWithDomain:@"BIC SIM Usage Error"
@@ -331,6 +324,20 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
     return response;
 }
 
+- (BICTransactionResponse *)createTerminalErrorResponse:(BICSimulatorMode *)simMode
+{
+    BICTransactionResponse *response = [[BICTransactionResponse alloc] init];
+    if (simMode == SimModeProcessTxnErrorTerminalIdNotFound) {
+        response.code = 24;
+        response.message = @"Terminal ID not found for selected serial number";
+    }
+    else if (simMode == SimModeProcessTxnErrorMultipleTerminalIdFound) {
+        response.code = 25;
+        response.message = @"This PIN pad has not been configured. Please contact Support.";
+    }
+    return response;
+}
+
 - (BOOL)isRequestCashOrCheque:(BICTransactionRequest *)request
 {
     return ((![request.paymentMethod isEqualToString:@"CA"]) && (![request.paymentMethod isEqualToString:@"CE"]));
@@ -354,13 +361,6 @@ static BICSimulatorMode *SimModeProcessTxnDeclinedNotComplete = nil;
 
 - (BOOL)isValidCardExpiryMonth:(NSInteger)month year:(NSInteger)year
 {
-    //NSCalendar *gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-    //NSInteger year = [gregorian component:NSCalendarUnitYear fromDate:NSDate.date];
-    
-    //NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    //[formatter setDateFormat:@"yy"];
-    //NSString *currentYearStr = [formatter stringFromDate:[NSDate date]];
-    
     return (month < 0 && year < 0) || (month > 0 && month < 13 && year > 10 && year < 100);
 }
 

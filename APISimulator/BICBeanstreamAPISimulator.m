@@ -201,6 +201,7 @@
     }
 
     BICProcessTransactionSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ProcessTransactionSimulatorIdentifier];
+    simulator.emvEnabled = request.emvEnabled;
     [self processRequest:simulator
                withLabel:@"processTransaction"
             checkSession:YES

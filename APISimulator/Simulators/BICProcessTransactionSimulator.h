@@ -15,6 +15,8 @@
 
 @interface BICProcessTransactionSimulator : NSObject <BICSimulator>
 
+@property (nonatomic) BOOL emvEnabled;
+
 - (void)processTransaction:(BICTransactionRequest *)request
                    success:(void (^)(BICTransactionResponse *response))success
                    failure:(void (^)(NSError *error))failure;

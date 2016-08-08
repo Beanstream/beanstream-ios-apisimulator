@@ -19,6 +19,9 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadFail = nil;
 static BICSimulatorMode *SimulatorModeUpdatePinPadFailInjection = nil;
 static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
 
+static BICSimulatorMode *SimModeProcessTxnErrorTerminalIdNotFound = nil;
+static BICSimulatorMode *SimModeProcessTxnErrorMultipleTerminalIdFound = nil;
+
 @synthesize simulatorMode, interactive;
 
 #pragma mark - Initialization methods
@@ -29,6 +32,9 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     SimulatorModeUpdatePinPadFail = [[BICSimulatorMode alloc] initWithLabel:@"Fail"];
     SimulatorModeUpdatePinPadFailInjection = [[BICSimulatorMode alloc] initWithLabel:@"Fail Injection"];
     SimulatorModeUpdatePinPadInvalidSession = [[BICSimulatorMode alloc] initWithLabel:@"Invalid Session"];
+    
+    SimModeProcessTxnErrorTerminalIdNotFound = [[BICSimulatorMode alloc] initWithLabel:@"Terminal ID Not Found"];
+    SimModeProcessTxnErrorMultipleTerminalIdFound = [[BICSimulatorMode alloc] initWithLabel:@"Unconfigured Terminal ID"];
 }
 
 - (id)init
@@ -47,7 +53,10 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     return @[SimulatorModeUpdatePinPadPass,
              SimulatorModeUpdatePinPadFail,
              SimulatorModeUpdatePinPadFailInjection,
-             SimulatorModeUpdatePinPadInvalidSession];
+             SimulatorModeUpdatePinPadInvalidSession,
+             SimModeProcessTxnErrorTerminalIdNotFound,
+             SimModeProcessTxnErrorMultipleTerminalIdFound
+             ];
 }
 
 #pragma mark - Public methods
@@ -69,6 +78,11 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     }
     else if (self.simulatorMode == SimulatorModeUpdatePinPadInvalidSession) {
         response = [self createInvalidSessionResponse];
+    }
+    else if (self.simulatorMode == SimModeProcessTxnErrorTerminalIdNotFound ||
+             self.simulatorMode == SimModeProcessTxnErrorMultipleTerminalIdFound)
+    {
+        response = [self createTerminalErrorResponse:self.simulatorMode];
     }
     else {
         error = [NSError errorWithDomain:@"BIC SIM Usage Error"
@@ -124,6 +138,21 @@ static BICSimulatorMode *SimulatorModeUpdatePinPadInvalidSession = nil;
     response.code = 4;
     response.version = UPDATE_PINPAD_VERSION_NUMBER;
     response.message = @"Invalid Session ID";
+    return response;
+}
+
+- (BICUpdatePinPadResponse *)createTerminalErrorResponse:(BICSimulatorMode *)simMode
+{
+    BICUpdatePinPadResponse *response = [[BICUpdatePinPadResponse alloc] init];
+    response.version = UPDATE_PINPAD_VERSION_NUMBER;
+    if (simMode == SimModeProcessTxnErrorTerminalIdNotFound) {
+        response.code = 24;
+        response.message = @"Terminal ID not found for selected serial number";
+    }
+    else if (simMode == SimModeProcessTxnErrorMultipleTerminalIdFound) {
+        response.code = 25;
+        response.message = @"This PIN pad has not been configured. Please contact Support.";
+    }
     return response;
 }
 
