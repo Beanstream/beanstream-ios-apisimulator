@@ -12,12 +12,12 @@
 Pod::Spec.new do |spec|
 
   spec.name     = 'BeanstreamAPISimulator'
-  spec.version  = '1.0.5'
+  spec.version  = '1.1.0'
   spec.license  = 'MIT'
   spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
   spec.homepage = 'http://developer.beanstream.com'
   spec.authors  = 'Sven M. Resch', 'David Light'
-  spec.source         = { :http => 'https://beanstream.artifactoryonline.com/beanstream/beanstream-partner/BeanstreamAPISimulator-1.0.5.tar.gz' }
+  spec.source         = { :http => 'https://beanstream.artifactoryonline.com/beanstream/beanstream-partner/BeanstreamAPISimulator-1.1.0.tar.gz' }
   spec.requires_arc = true
   spec.public_header_files = 'APISimulator/*.h'
   spec.source_files = 'APISimulator/*.{h,m}'
