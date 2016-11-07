@@ -29,7 +29,7 @@ Pod::Spec.new do |spec|
   end
 
   spec.dependency "AFNetworking", "= 2.6.0"
-  spec.dependency 'Beanstream.SDK', "~> 2.2.1"
+  spec.dependency 'Beanstream.SDK', "~> 2.3.0”
   spec.libraries = 'z', 'c++', 'Beanstream.SDK'
   spec.framework = 'ExternalAccessory'
 
