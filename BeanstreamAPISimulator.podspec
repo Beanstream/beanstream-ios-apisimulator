@@ -1,12 +1,6 @@
 #
 # Add repo:
-# pod repo add beanstream-ios-specs https://github.com/Beanstream-DRWP/beanstream-ios-specs.git
-#
-# Validate pod spec:
-# pod spec lint --use-libraries --verbose BeanstreamAPISimulator.podspec --sources='beanstream-ios-specs,https://github.com/CocoaPods/Specs'
-#
-# Push to repo:
-# pod repo push --use-libraries beanstream-ios-specs BeanstreamAPISimulator.podspec
+# pod repo-art add beanstream-partner "https://beanstream.jfrog.io/beanstream/api/pods/beanstream-partner"
 #
 
 Pod::Spec.new do |spec|
@@ -17,7 +11,7 @@ Pod::Spec.new do |spec|
   spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
   spec.homepage = 'http://developer.beanstream.com'
   spec.authors  = 'Sven M. Resch', 'David Light'
-  spec.source         = { :http => 'https://beanstream.artifactoryonline.com/beanstream/beanstream-private/BeanstreamAPISimulator-1.2.0.tar.gz' }
+  spec.source         = { :http => 'https://beanstream.jfrog.com/beanstream/beanstream-partner/BeanstreamAPISimulator-1.2.0.tar.gz' }
   spec.requires_arc = true
   spec.public_header_files = 'APISimulator/*.h'
   spec.source_files = 'APISimulator/*.{h,m}'
