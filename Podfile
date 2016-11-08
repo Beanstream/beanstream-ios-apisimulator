@@ -6,5 +6,5 @@ plugin 'cocoapods-art', :sources => [
 ]
 
 target 'APISimulator' do
-  pod 'Beanstream.SDK', '~> 2.2.4'
+  pod 'Beanstream.SDK', '~> 2.3.0'
 end

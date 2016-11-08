@@ -298,6 +298,7 @@
 
 - (void)sendEmailReceipt:(NSString *)transactionId
                    email:(NSString *)emailAddress
+             updateEmail:(BOOL)updateEmail
                 language:(NSString *)language
               completion:(void (^)(BICReceiptResponse *response, NSError *error))completion
 {
@@ -308,12 +309,13 @@
                withBlock:^() {
                  [simulator sendEmailReceipt:transactionId
                                        email:emailAddress
+                                 updateEmail:NO
                                     language:language
                                      success:^(BICReceiptResponse *response) {
                                          if (response.code == TransactionUtilitiesCodeAuthenticationFailed) {
                                              [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                  if (sessionResponse.isAuthorized) {
-                                                     [self sendEmailReceipt:transactionId email:emailAddress language:language completion:completion];
+                                                     [self sendEmailReceipt:transactionId email:emailAddress updateEmail:NO language:language completion:completion];
                                                  }
                                                  else {
                                                      [self handleSuccess:completion withResponse:response];

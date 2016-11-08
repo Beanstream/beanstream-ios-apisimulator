@@ -21,6 +21,7 @@
 
 - (void)sendEmailReceipt:(NSString *)transactionId
                    email:emailAddress
+             updateEmail:BOOL
                 language:(NSString *)language
                  success:(void (^)(BICReceiptResponse *response))success
                  failure:(void (^)(NSError *error))failure;
