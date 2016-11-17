@@ -206,7 +206,16 @@ static BICSimulatorMode *SimulatorModeReceiptErrorGetting = nil;
 
 - (void)sendEmailReceipt:(NSString *)transactionId
                    email:emailAddress
-             updateEmail:BOOL
+                language:(NSString *)language
+                 success:(void (^)(BICReceiptResponse *response))success
+                 failure:(void (^)(NSError *error))failure
+{
+    [self sendEmailReceipt:transactionId email:emailAddress updateEmail:NO language:language success:success failure:failure];
+}
+
+- (void)sendEmailReceipt:(NSString *)transactionId
+                   email:emailAddress
+             updateEmail:(BOOL)updateEmail
                 language:(NSString *)language
                  success:(void (^)(BICReceiptResponse *response))success
                  failure:(void (^)(NSError *error))failure

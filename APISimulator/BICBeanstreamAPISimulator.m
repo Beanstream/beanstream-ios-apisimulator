@@ -298,6 +298,14 @@
 
 - (void)sendEmailReceipt:(NSString *)transactionId
                    email:(NSString *)emailAddress
+                language:(NSString *)language
+              completion:(void (^)(BICReceiptResponse *response, NSError *error))completion
+{
+    [self sendEmailReceipt:transactionId email:emailAddress updateEmail:NO language:language completion:completion];
+}
+
+- (void)sendEmailReceipt:(NSString *)transactionId
+                   email:(NSString *)emailAddress
              updateEmail:(BOOL)updateEmail
                 language:(NSString *)language
               completion:(void (^)(BICReceiptResponse *response, NSError *error))completion
