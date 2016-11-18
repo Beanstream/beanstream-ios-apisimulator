@@ -19,11 +19,16 @@ echo "-----------------------------"
 echo "Getting podspec version..."
 echo "-----------------------------"
 
-podspec="$scriptDir/BeanstreamAPISimulator.podspec"
+podspec="BeanstreamAPISimulator.podspec"
 echo "podspec: $podspec"
 
-version=$(grep '\.version.*=' "$podspec" | sed -n "s/.*=[^0-9]*\([0-9]*\.[0-9]*\.[0-9]*[0-9A-Za-z-]*\).*/\1/p")
-echo "version: $version"
+cd "$scriptDir"
+specName=$(grep '\.name.*=' "$podspec" | sed -n "s/.*= *[[:punct:]]\(.*\)[[:punct:]] */\1/p")
+specVersion=$(grep '\.version.*=' "$podspec" | sed -n "s/.*= *[[:punct:]]\(.*\)[[:punct:]] */\1/p")
+cd -
+
+echo "specName: $specName"
+echo "specVersion: $specVersion"
 echo
 
 echo "-----------------------------"
@@ -37,14 +42,24 @@ fi
 echo
 
 echo "-----------------------------"
-echo "Package..."
+echo "Packaging..."
 echo "-----------------------------"
-archiveDir="APISimulator"
-archiveFile="$distDir/BeanstreamAPISimulator-$version.tar.gz"
 
-mkdir -p $distDir/
+archiveFile="$specName-$specVersion.tar.gz"
+echo "Archive file: $archiveFile"
 
+distArchiveDir="APISimulator"
+
+mkdir -p $distDir/$distArchiveDir
+
+cp -r $scriptDir/$distArchiveDir/ $distDir/$distArchiveDir/
+cp $scriptDir/$podspec $scriptDir/$distDir/
+
+cd $scriptDir/$distDir
 export COPYFILE_DISABLE=true
-tar -cvzf --exclude=APISimulator/Info.plist -f $archiveFile $archiveDir/** "$podspec"
+tar -cvzf --exclude=$distArchiveDir/Info.plist -f $archiveFile $distArchiveDir/** $podspec
+cd -
 
 echo "done"
+echo
+
