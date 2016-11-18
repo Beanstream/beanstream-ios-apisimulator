@@ -53,12 +53,16 @@ echo "-----------------------------"
 echo "Getting podspec version..."
 echo "-----------------------------"
 
-podspec="$scriptDir/BeanstreamAPISimulator.podspec"
+podspec="BeanstreamAPISimulator.podspec"
 echo "podspec: $podspec"
 
-version=$(grep '\.version.*=' "$podspec" | sed -n "s/.*=[^0-9]*\([0-9]*\.[0-9]*\.[0-9]*[0-9A-Za-z-]*\).*/\1/p")
+cd "$scriptDir"
+specName=$(grep '\.name.*=' "$podspec" | sed -n "s/.*= *[[:punct:]]\(.*\)[[:punct:]] */\1/p")
+specVersion=$(grep '\.version.*=' "$podspec" | sed -n "s/.*= *[[:punct:]]\(.*\)[[:punct:]] */\1/p")
+cd -
 
-echo "version: $version"
+echo "specName: $specName"
+echo "specVersion: $specVersion"
 echo
 
 # -----------------------------
@@ -78,12 +82,11 @@ echo "-----------------------------"
 echo "Publishing..."
 echo "-----------------------------"
 
-fileToPublish="BeanstreamAPISimulator-$version.tar.gz"
-
-echo "fileToPublish: $fileToPublish"
+archiveFile="$specName-$specVersion.tar.gz"
+echo "Archive file: $archiveFile"
 echo
 
-curl -u$username:$password -X PUT $repoToTarget/$fileToPublish -T dist/$fileToPublish
+curl -u$username:$password -X PUT $repoToTarget/$fileToPublish -T dist/$archiveFile
 
 echo
 
