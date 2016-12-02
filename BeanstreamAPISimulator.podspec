@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
   spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
   spec.homepage = 'http://developer.beanstream.com'
   spec.authors  = 'Sven M. Resch', 'David Light'
-  spec.source   = { :http => 'https://beanstream.jfrog.io/beanstream/beanstream-private/' + spec.name.to_s + '-' + spec.version.to_s + '.tar.gz' }
+  spec.source   = { :http => 'https://beanstream.jfrog.io/beanstream/beanstream-partner/' + spec.name.to_s + '-' + spec.version.to_s + '.tar.gz' }
   spec.requires_arc = true
   spec.public_header_files = 'APISimulator/*.h'
   spec.source_files = 'APISimulator/*.{h,m}'
