@@ -191,7 +191,7 @@
 {
     BICTransactionOptions *transactionOptions = [[BICTransactionOptions alloc]
                                            initWithTransactionMode:emvEnableTips ? BICTransactionModeTipsNoContactless : BICTransactionModeDefault
-                                           emvTipPresets:emvTipPresets];
+                                                     emvTipPresets:emvTipPresets];
     
     [self processTransaction:request transactionOptions:transactionOptions completion:completion];
 }
