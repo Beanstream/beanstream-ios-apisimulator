@@ -20,16 +20,16 @@ PODS:
   - AFNetworking/UIKit (2.6.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Beanstream.SDK (2.3.0):
+  - Beanstream.SDK (2.3.0.beta.5):
     - AFNetworking (= 2.6.0)
 
 DEPENDENCIES:
-  - Beanstream.SDK (~> 2.3.0)
+  - Beanstream.SDK (= 2.3.0.beta.5)
 
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
-  Beanstream.SDK: e8a6d5a6f30c45e94653c4da1485b60380fb6604
+  Beanstream.SDK: 91e90038b2650db4ca2d477288acd902f8acaae2
 
-PODFILE CHECKSUM: 549be02e63bb363892a8bbd4ac641fa605e0ca24
+PODFILE CHECKSUM: aa75069a69ae13082153ee8d36b59f6dbc3fe5d7
 
 COCOAPODS: 1.1.1
