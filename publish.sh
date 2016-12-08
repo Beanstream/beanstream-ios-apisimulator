@@ -49,6 +49,9 @@ while getopts ":dlp --long dev local partner" opt; do
         mode="$modePrivate"
         ;;
     l|-local)
+        pushd "../../beanstreamios.sdk"
+        libraryPath="$(pwd)/dist/Beanstream.SDK"
+        popd
         mode="$modeLocal"
         ;;
     p|-partner)
@@ -80,21 +83,20 @@ if [ ! -f "$archive" ]; then
     exit 1
 fi
 
+# clean directory
+echo "cleaning directory..."
+find . ! -name '*.tar.gz' -delete
+
 # extract archive
 echo "extracting $archive..."
-
-tempDir="temp"
-mkdir -p "$tempDir"
-rm -rvf "./$tempDir/*"
-
-tar --extract -zf $archive -C "$tempDir"
+tar --extract -zf $archive
+rm -f $archive
 echo
-pushd $tempDir
 
 echo
 
 # get podspec
-podspec="BeanstreamAPISimulator.podspec"
+podspec=$(ls $PWD/*.podspec)
 echo "podspec: $podspec"
 
 if [ ! -f "$podspec" ]; then
@@ -110,16 +112,18 @@ echo
 echo "replacing beanstream-partner with beanstream-$mode..."
 sed -i '' -e "s/beanstream-[a-zA-Z]*/beanstream-$mode/g" "$podspec"
 
+# replace LIBRARY_SEARCH_PATHS
+echo "replacing LIBRARY_SEARCH_PATHS with $libraryPath..."
+sed -i '' -e "s;\(.*spec.xcconfig .*LIBRARY_SEARCH_PATHS.*=> *[[:punct:]]\).*\([[:punct:]] *[[:punct:]]\);\1$libraryPath\2;" "$podspec"
+
 echo
 
 # create archive
 echo "rebuilding archive..."
 export COPYFILE_DISABLE=true
-tar -czf $archive ./*
-rm -rf ./*
+tar -czf $archive *
 echo
 
-popd
 echo
 
 if [ "$mode" != "$modeLocal" ]; then
