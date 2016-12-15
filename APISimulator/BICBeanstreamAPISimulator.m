@@ -150,6 +150,14 @@
     [simulator closePinPadConnection];
 }
 
+- (void)closePinPadConnection:(void (^)(void))completion
+{
+    [self closePinPadConnection];
+    if (completion) {
+        completion();
+    }
+}
+
 - (void)initializePinPad:(void (^)(BICInitPinPadResponse *response, NSError *error))completion
 {
     BICInitializePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:InitializePinPadSimulatorIdentifier];

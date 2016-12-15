@@ -18,6 +18,7 @@ static NSString *CREATE_SESSION_VERSION_NUMBER = @"1.0";
 static BICSimulatorMode *SimulatorModeCreateSessionCreated = nil;
 static BICSimulatorMode *SimulatorModeCreateSessionInvalid = nil;
 static BICSimulatorMode *SimulatorModeCreateSessionExpired = nil;
+static BICSimulatorMode *SimulatorModeCreateSessionUnencryptedTerminal = nil;
 static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
 
 @synthesize simulatorMode, interactive;
@@ -29,6 +30,7 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
     SimulatorModeCreateSessionCreated = [[BICSimulatorMode alloc] initWithLabel:@"Authorized"];
     SimulatorModeCreateSessionInvalid = [[BICSimulatorMode alloc] initWithLabel:@"Invalid Credentials"];
     SimulatorModeCreateSessionExpired = [[BICSimulatorMode alloc] initWithLabel:@"Password Expired"];
+    SimulatorModeCreateSessionUnencryptedTerminal = [[BICSimulatorMode alloc] initWithLabel:@"Unencrypted Terminal"];
     SimulatorModeCreateSessionEncryptionFailure = [[BICSimulatorMode alloc] initWithLabel:@"Authorized with Encryption Failure"];
 }
 
@@ -48,6 +50,7 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
     return @[SimulatorModeCreateSessionCreated,
              SimulatorModeCreateSessionInvalid,
              SimulatorModeCreateSessionExpired,
+             SimulatorModeCreateSessionUnencryptedTerminal,
              SimulatorModeCreateSessionEncryptionFailure];
 }
 
@@ -74,6 +77,11 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
         }
         else if (self.simulatorMode == SimulatorModeCreateSessionExpired) {
             response = [self createPasswordExpiredResponse];
+            [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
+        }
+        else if (self.simulatorMode == SimulatorModeCreateSessionUnencryptedTerminal){
+            response = [self createSuccessfulResponse:companyLogin username:username];
+            response.terminalType = @"1";
             [self saveSessionInfo:response companyLogin:companyLogin username:username password:password];
         }
         else if (self.simulatorMode == SimulatorModeCreateSessionEncryptionFailure) {
