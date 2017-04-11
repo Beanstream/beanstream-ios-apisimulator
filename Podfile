@@ -2,7 +2,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 plugin 'cocoapods-art', :sources => [
-'beanstream-partner'
+ 'beanstream-partner'
 ]
 
 target 'APISimulator' do
