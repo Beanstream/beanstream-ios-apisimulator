@@ -183,8 +183,9 @@ static BICSimulatorMode *SimulatorModeCreateSessionEncryptionFailure = nil;
     response.currencyType = @"CAD";
     response.currencyDecimals = @"2";
     response.cardProcessor = @"FD";
+    response.terminalType = @"2";
     response.isSuccessful = YES;
-    
+   
     return response;
 }
 
