@@ -37,6 +37,7 @@
 #import "BICTransactionResponse.h"
 #import "BICReceiptResponse.h"
 #import "BICAttachSignatureResponse.h"
+#import "BICTransactionOptions.h"
 
 @implementation BICBeanstreamAPISimulator
 
@@ -149,6 +150,14 @@
     [simulator closePinPadConnection];
 }
 
+- (void)closePinPadConnection:(void (^)(void))completion
+{
+    [self closePinPadConnection];
+    if (completion) {
+        completion();
+    }
+}
+
 - (void)initializePinPad:(void (^)(BICInitPinPadResponse *response, NSError *error))completion
 {
     BICInitializePinPadSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:InitializePinPadSimulatorIdentifier];
@@ -188,6 +197,17 @@
              emvTipPresets:(NSArray *)emvTipPresets
                 completion:(void (^)(BICTransactionResponse *response, NSError *error, BOOL updateKeyfile))completion
 {
+    BICTransactionOptions *transactionOptions = [[BICTransactionOptions alloc]
+                                           initWithTransactionMode:emvEnableTips ? BICTransactionModeTipsNoContactless : BICTransactionModeDefault
+                                                     emvTipPresets:emvTipPresets];
+    
+    [self processTransaction:request transactionOptions:transactionOptions completion:completion];
+}
+
+- (void)processTransaction:(BICTransactionRequest *)request
+        transactionOptions:(BICTransactionOptions *)transactionOptions
+                completion:(void (^)(BICTransactionResponse *response, NSError *error, BOOL updateKeyfile))completion
+{
     if ( request.emvEnabled || (![BIC_CASH_PAYMENT_METHOD isEqualToString:request.paymentMethod] && ![BIC_CHECK_PAYMENT_METHOD isEqualToString:request.paymentMethod]) ) {
         // Check to make sure the Pin Pad is initialized and connected
         if ( ![self isPinPadConnected] ) {
@@ -211,7 +231,7 @@
                                            if ([response.messageId integerValue] == ProcessTransactionCodeSessionExpired || [response.messageId integerValue] == ProcessTransactionCodeSessionValidationFailed) {
                                                [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                    if (sessionResponse.isAuthorized) {
-                                                       [self processTransaction:request emvEnableTips:emvEnableTips emvTipPresets:emvTipPresets completion:completion];
+                                                       [self processTransaction:request transactionOptions:transactionOptions completion:completion];
                                                    }
                                                    else {
                                                        [self handleSuccess2:completion withResponse:response];
@@ -301,6 +321,15 @@
                 language:(NSString *)language
               completion:(void (^)(BICReceiptResponse *response, NSError *error))completion
 {
+    [self sendEmailReceipt:transactionId email:emailAddress updateEmail:NO language:language completion:completion];
+}
+
+- (void)sendEmailReceipt:(NSString *)transactionId
+                   email:(NSString *)emailAddress
+             updateEmail:(BOOL)updateEmail
+                language:(NSString *)language
+              completion:(void (^)(BICReceiptResponse *response, NSError *error))completion
+{
     BICReceiptSimulator *simulator = [[BICSimulatorManager sharedInstance] simulatorForIdentifier:ReceiptSimulatorIdentifier];
     [self processRequest:simulator
                withLabel:@"sendEmailReceipt"
@@ -308,12 +337,13 @@
                withBlock:^() {
                  [simulator sendEmailReceipt:transactionId
                                        email:emailAddress
+                                 updateEmail:NO
                                     language:language
                                      success:^(BICReceiptResponse *response) {
                                          if (response.code == TransactionUtilitiesCodeAuthenticationFailed) {
                                              [[BICAuthenticationService sharedService] authenticate:^(BICCreateSessionResponse *sessionResponse) {
                                                  if (sessionResponse.isAuthorized) {
-                                                     [self sendEmailReceipt:transactionId email:emailAddress language:language completion:completion];
+                                                     [self sendEmailReceipt:transactionId email:emailAddress updateEmail:NO language:language completion:completion];
                                                  }
                                                  else {
                                                      [self handleSuccess:completion withResponse:response];
@@ -455,6 +485,12 @@
     // Delay 1 second
     dispatch_time_t delay = dispatch_time( DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC );
     dispatch_after( delay, dispatch_get_main_queue(), ^{
+        
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+            alert.popoverPresentationController.sourceView = controller.view;
+            alert.popoverPresentationController.sourceRect = CGRectMake(controller.view.bounds.size.width / 2.0, controller.view.bounds.size.height / 2.0, 1.0, 1.0);
+        }
+
         [controller presentViewController:alert animated:YES completion:nil];
     });
 }

@@ -29,7 +29,7 @@ First install [CocoaPods](https://cocoapods.org) and a plug-in to access our Art
 Next ensure you have your Artifactory credentials setup by Beanstream Developer Support and apply them to a .netrc file in your $HOME directory.
 
 ```
-machine beanstream.artifactoryonline.com
+machine beanstream.jfrog.io
 login <USERNAME>
 password <PASSWORD>
 ```
@@ -37,7 +37,7 @@ password <PASSWORD>
 Add the Beanstream Partner/Artifactory repo.
 
 ```
-> pod repo-art add beanstream-partner "https://beanstream.artifactoryonline.com/beanstream/api/pods/beanstream-partner"
+> pod repo-art add beanstream-partner "https://beanstream.jfrog.io/beanstream/api/pods/beanstream-partner"
 ```
 
 ## 2.) Setup Beanstream API Simulator

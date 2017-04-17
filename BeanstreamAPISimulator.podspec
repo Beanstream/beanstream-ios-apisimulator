@@ -1,23 +1,17 @@
 #
 # Add repo:
-# pod repo add beanstream-ios-specs https://github.com/Beanstream-DRWP/beanstream-ios-specs.git
-#
-# Validate pod spec:
-# pod spec lint --use-libraries --verbose BeanstreamAPISimulator.podspec --sources='beanstream-ios-specs,https://github.com/CocoaPods/Specs'
-#
-# Push to repo:
-# pod repo push --use-libraries beanstream-ios-specs BeanstreamAPISimulator.podspec
+# pod repo-art add beanstream-partner "https://beanstream.jfrog.io/beanstream/api/pods/beanstream-partner"
 #
 
 Pod::Spec.new do |spec|
 
   spec.name     = 'BeanstreamAPISimulator'
-  spec.version  = '1.1.0'
+  spec.version  = '1.2.1'
   spec.license  = 'MIT'
   spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
   spec.homepage = 'http://developer.beanstream.com'
   spec.authors  = 'Sven M. Resch', 'David Light'
-  spec.source         = { :http => 'https://beanstream.artifactoryonline.com/beanstream/beanstream-partner/BeanstreamAPISimulator-1.1.0.tar.gz' }
+  spec.source   = { :http => 'https://beanstream.jfrog.io/beanstream/beanstream-partner/' + spec.name.to_s + '-' + spec.version.to_s + '.tar.gz' }
   spec.requires_arc = true
   spec.public_header_files = 'APISimulator/*.h'
   spec.source_files = 'APISimulator/*.{h,m}'
@@ -35,7 +29,7 @@ Pod::Spec.new do |spec|
   end
 
   spec.dependency "AFNetworking", "= 2.6.0"
-  spec.dependency 'Beanstream.SDK', "~> 2.2.1"
+  spec.dependency 'Beanstream.SDK', "= 2.3.0"
   spec.libraries = 'z', 'c++', 'Beanstream.SDK'
   spec.framework = 'ExternalAccessory'
 

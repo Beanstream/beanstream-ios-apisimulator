@@ -19,8 +19,16 @@
                 success:(void (^)(BICReceiptResponse *response))success
                 failure:(void (^)(NSError *error))failure;
 
+
 - (void)sendEmailReceipt:(NSString *)transactionId
                    email:emailAddress
+                language:(NSString *)language
+                 success:(void (^)(BICReceiptResponse *response))success
+                 failure:(void (^)(NSError *error))failure;
+
+- (void)sendEmailReceipt:(NSString *)transactionId
+                   email:emailAddress
+             updateEmail:(BOOL)updateEmail
                 language:(NSString *)language
                  success:(void (^)(BICReceiptResponse *response))success
                  failure:(void (^)(NSError *error))failure;
