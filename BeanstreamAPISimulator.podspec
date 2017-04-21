@@ -33,6 +33,6 @@ Pod::Spec.new do |spec|
   spec.libraries = 'z', 'c++', 'Beanstream.SDK'
   spec.framework = 'ExternalAccessory'
 
-  spec.xcconfig  = { "HEADER_SEARCH_PATHS" => "$(PODS_ROOT)/BeanstreamAPISimulator/APISimulator", "LIBRARY_SEARCH_PATHS" => "$(PODS_ROOT)/Beanstream.SDK/Beanstream.SDK"}
+  spec.xcconfig  = { "HEADER_SEARCH_PATHS" => "$(PODS_ROOT)/BeanstreamAPISimulator/APISimulator", "LIBRARY_SEARCH_PATHS" => "$(PODS_ROOT)/Beanstream.SDK/Beanstream.SDK" }
 
 end
