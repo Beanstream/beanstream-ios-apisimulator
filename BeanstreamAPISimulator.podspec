@@ -6,7 +6,7 @@
 Pod::Spec.new do |spec|
 
   spec.name     = 'BeanstreamAPISimulator'
-  spec.version  = '1.2.1'
+  spec.version  = '1.2.2'
   spec.license  = 'MIT'
   spec.summary  = 'A delightful iOS simulator framework to be helpful with Beanstream.SDK related development.'
   spec.homepage = 'http://developer.beanstream.com'
@@ -33,6 +33,6 @@ Pod::Spec.new do |spec|
   spec.libraries = 'z', 'c++', 'Beanstream.SDK'
   spec.framework = 'ExternalAccessory'
 
-  spec.xcconfig  = { "LIBRARY_SEARCH_PATHS" => "$(PODS_ROOT)/Beanstream.SDK/Beanstream.SDK" }
+  spec.xcconfig  = { "HEADER_SEARCH_PATHS" => "$(PODS_ROOT)/BeanstreamAPISimulator/APISimulator", "LIBRARY_SEARCH_PATHS" => "$(PODS_ROOT)/Beanstream.SDK/Beanstream.SDK"}
 
 end
